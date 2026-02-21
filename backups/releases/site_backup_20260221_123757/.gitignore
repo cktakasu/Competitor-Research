@@ -1,0 +1,8 @@
+.DS_Store
+._*
+node_modules
+node_modules*
+.next
+out
+npm-debug.log*
+package-lock.bak_*.json
