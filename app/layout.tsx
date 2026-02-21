@@ -59,7 +59,9 @@ export default function RootLayout({
           };
         `}</Script>
       </head>
-      <body className="scandi-gradient text-text-main antialiased h-screen overflow-hidden flex">{children}</body>
+      <body className="scandi-gradient text-text-main antialiased min-h-screen md:h-screen overflow-x-hidden md:overflow-hidden flex flex-col md:flex-row">
+        {children}
+      </body>
     </html>
   );
 }

@@ -58,7 +58,16 @@
 <aside class="w-16 flex flex-col items-center bg-white border-r border-scandi-warm-grey py-8 z-20 shadow-sm flex-shrink-0">
 <div class="mb-10">
 <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-scandi-wood">
-<span class="material-symbols-outlined text-2xl">electric_bolt</span>
+<svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Circuit breaker icon">
+<rect x="6" y="3" width="12" height="18" rx="2"></rect>
+<line x1="9" y1="3" x2="9" y2="1.5"></line>
+<line x1="15" y1="3" x2="15" y2="1.5"></line>
+<line x1="9" y1="22.5" x2="9" y2="21"></line>
+<line x1="15" y1="22.5" x2="15" y2="21"></line>
+<rect x="9.5" y="7.5" width="5" height="7" rx="1"></rect>
+<line x1="12" y1="10.5" x2="12" y2="14.5"></line>
+<line x1="10.5" y1="17" x2="13.5" y2="17"></line>
+</svg>
 </div>
 </div>
 <nav class="flex-1 flex flex-col gap-6 w-full px-2">
@@ -104,11 +113,11 @@
 <div class="max-w-[1800px] mx-auto h-full flex flex-col">
 <div class="grid grid-cols-3 gap-4 h-full min-h-[700px]">
 <div class="group relative -ml-4 bg-white rounded-3xl p-8 shadow-scandi flex flex-col overflow-hidden border border-scandi-warm-grey/50">
-<div class="absolute inset-0 bg-[url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880')] bg-no-repeat opacity-[0.10] grayscale" style="background-size: 330% auto; background-position: center;"></div>
-<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.72; -webkit-mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880'); mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: center; mask-position: center;"></div>
+<div class="absolute inset-0 bg-[url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880')] bg-no-repeat opacity-[0.08] grayscale" style="background-size: 330% auto; background-position: center;"></div>
+<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.48; -webkit-mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880'); mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: center; mask-position: center;"></div>
 
 <div class="relative z-10 flex justify-between items-start mb-4">
-<span class="px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest">Locked</span>
+<span class="px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest">Will Be Updated</span>
 <span class="material-symbols-outlined text-scandi-warm-grey">lock</span>
 </div>
 <div class="relative z-10">
@@ -120,35 +129,46 @@
 <h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Key Specifications</h4>
 <div class="grid grid-cols-2 gap-5">
 <div>
-<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Current</p>
+<p class="text-[11px] text-text-muted font-bold uppercase mb-1">Rated Current</p>
 <p class="text-lg font-bold text-text-main font-mono">630-6300A</p>
 </div>
 <div>
-<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Breaking Capacity</p>
-<p class="text-lg font-bold text-text-main font-mono">up to 150kA</p>
+<p class="text-[11px] text-text-muted font-bold uppercase mb-1">Breaking Capacity</p>
+<p class="text-lg font-bold text-text-main font-mono whitespace-nowrap">up to 150kA</p>
 </div>
 </div>
 </div>
 <div>
-<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Application</h4>
-<ul class="text-base text-text-main space-y-2 font-medium">
-<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Main distribution</li>
-<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Industrial plants</li>
-</ul>
+<div class="flex items-center gap-2 mb-4">
+<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest">Application</h4>
+<span class="material-symbols-outlined text-base text-text-muted cursor-help" title="Application tags are indicative. Final product selection must consider system voltage, rated current, breaking capacity, and the applicable standard (IEC 60947-2 for ACB/MCCB, IEC 60898-1 for MCB).">info</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Building</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Industrial</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Infrastructure</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Data Center</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Energy &amp; Renewables</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Transportation</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Oil &amp; Gas</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Mining</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Healthcare</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Government</span>
+</div>
 </div>
 </div>
 <div class="relative z-10 mt-auto">
 <button class="w-full py-4 rounded-2xl bg-scandi-warm-grey/50 text-text-muted text-sm font-bold border border-dashed border-scandi-warm-grey" disabled="">
-                            Available Q4 2024
+                            Coming Soon
                         </button>
 </div>
 </div>
 <div class="group relative bg-white rounded-3xl p-8 shadow-scandi flex flex-col overflow-hidden border border-scandi-warm-grey/50">
-<div class="absolute inset-0 bg-[url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880')] bg-no-repeat opacity-[0.10] grayscale" style="background-size: 330% auto; background-position: center;"></div>
-<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.72; -webkit-mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880'); mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: center; mask-position: center;"></div>
+<div class="absolute inset-0 bg-[url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880')] bg-no-repeat opacity-[0.08] grayscale" style="background-size: 330% auto; background-position: center;"></div>
+<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.48; -webkit-mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880'); mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: center; mask-position: center;"></div>
 
 <div class="relative z-10 flex justify-between items-start mb-4">
-<span class="px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest">Waitlist</span>
+<span class="px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest">Will Be Updated</span>
 <span class="material-symbols-outlined text-scandi-warm-grey">hourglass_empty</span>
 </div>
 <div class="relative z-10">
@@ -160,21 +180,34 @@
 <h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Key Specifications</h4>
 <div class="grid grid-cols-2 gap-5">
 <div>
-<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Current</p>
+<p class="text-[11px] text-text-muted font-bold uppercase mb-1">Rated Current</p>
 <p class="text-lg font-bold text-text-main font-mono">16-3200A</p>
 </div>
 <div>
-<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Breaking Capacity</p>
-<p class="text-lg font-bold text-text-main font-mono">up to 200kA</p>
+<p class="text-[11px] text-text-muted font-bold uppercase mb-1">Breaking Capacity</p>
+<p class="text-lg font-bold text-text-main font-mono whitespace-nowrap">up to 200kA</p>
 </div>
 </div>
 </div>
 <div>
-<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Application</h4>
-<ul class="text-base text-text-main space-y-2 font-medium">
-<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Sub-distribution</li>
-<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Motor protection</li>
-</ul>
+<div class="flex items-center gap-2 mb-4">
+<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest">Application</h4>
+<span class="material-symbols-outlined text-base text-text-muted cursor-help" title="Application tags are indicative. Final product selection must consider system voltage, rated current, breaking capacity, and the applicable standard (IEC 60947-2 for ACB/MCCB, IEC 60898-1 for MCB).">info</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Building</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Industrial</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Infrastructure</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Data Center</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Energy &amp; Renewables</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Transportation</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Oil &amp; Gas</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Mining</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Healthcare</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Government</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Telecom / ICT</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">OEM / Machine Building</span>
+</div>
 </div>
 </div>
 <div class="relative z-10 mt-auto">
@@ -184,13 +217,13 @@
 </div>
 </div>
 <div class="group relative -mr-4 bg-white rounded-3xl p-8 shadow-2xl flex flex-col overflow-hidden border-4 border-accent ring-4 ring-accent/5">
-<div class="absolute inset-0 bg-[url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png')] bg-no-repeat opacity-[0.10] grayscale mix-blend-multiply" style="background-size: 330% auto; background-position: 48% center;"></div>
-<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.72; -webkit-mask-image: url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png'); mask-image: url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: 48% center; mask-position: 48% center;"></div>
+<div class="absolute inset-0 bg-[url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png')] bg-no-repeat opacity-[0.08] grayscale mix-blend-multiply" style="background-size: 330% auto; background-position: 48% center;"></div>
+<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.48; -webkit-mask-image: url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png'); mask-image: url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: 48% center; mask-position: 48% center;"></div>
 
 <div class="relative z-10 flex justify-between items-start mb-4">
 <span class="px-3 py-1 rounded-full bg-accent text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5">
 <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                            Active Selection
+                            Currently Selected
                         </span>
 <span class="material-symbols-outlined text-accent icon-filled">bolt</span>
 </div>
@@ -199,33 +232,41 @@
 <p class="text-lg text-text-main font-bold">Miniature Circuit Breaker</p>
 </div>
 <div class="relative z-10 mt-8 space-y-7 flex-1">
-<div class="bg-white rounded-2xl overflow-hidden border-2 border-scandi-warm-grey shadow-sm">
-<div class="px-5 py-3 border-b border-scandi-warm-grey bg-scandi-light">
-<h4 class="text-xs font-black text-text-main uppercase tracking-widest">Specifications</h4>
-</div>
-<div class="p-5">
-<div class="grid grid-cols-2 gap-y-5 gap-x-6">
+<div class="bg-scandi-light/80 rounded-2xl p-5 border border-scandi-warm-grey">
+<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Key Specifications</h4>
+<div class="grid grid-cols-2 gap-5">
 <div>
 <p class="text-[11px] text-text-muted font-bold uppercase mb-1">Rated Current</p>
-<p class="text-lg font-black text-text-main font-mono">0.5-125A</p>
+<p class="text-lg font-bold text-text-main font-mono">0.5-125A</p>
 </div>
 <div>
 <p class="text-[11px] text-text-muted font-bold uppercase mb-1">Breaking Capacity</p>
-<p class="text-lg font-black text-text-main font-mono">6-15kA</p>
+<p class="text-lg font-bold text-text-main font-mono whitespace-nowrap">6-15kA</p>
 </div>
-<div class="col-span-2 pt-4 border-t border-scandi-warm-grey">
+<div class="col-span-2 pt-1">
 <p class="text-[11px] text-text-muted font-bold uppercase mb-1">Curve Characteristics</p>
 <p class="text-sm font-bold text-text-main font-mono">Type B, C, D, K, Z</p>
 </div>
 </div>
 </div>
-</div>
 <div>
-<h4 class="text-xs font-black text-text-muted uppercase tracking-widest mb-4">Application</h4>
+<div class="flex items-center gap-2 mb-4">
+<h4 class="text-xs font-black text-text-muted uppercase tracking-widest">Application</h4>
+<span class="material-symbols-outlined text-base text-text-muted cursor-help" title="Application tags are indicative. Final product selection must consider system voltage, rated current, breaking capacity, and the applicable standard (IEC 60947-2 for ACB/MCCB, IEC 60898-1 for MCB).">info</span>
+</div>
 <div class="flex flex-wrap gap-2">
-<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Residential</span>
-<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Commercial</span>
-<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Final Distribution</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Building</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Industrial</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Infrastructure</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Data Center</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Energy &amp; Renewables</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Transportation</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Oil &amp; Gas</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Mining</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Healthcare</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Government</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Telecom / ICT</span>
+<span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">OEM / Machine Building</span>
 </div>
 </div>
 </div>
