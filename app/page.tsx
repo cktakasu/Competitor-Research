@@ -46,8 +46,10 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 <div class="flex-1 overflow-y-auto px-8 pb-10 relative z-10">
 <div class="max-w-[1800px] mx-auto h-full flex flex-col">
 <div class="grid grid-cols-3 gap-4 h-full min-h-[700px]">
-<div class="group relative bg-white rounded-3xl p-8 shadow-scandi flex flex-col overflow-hidden border border-scandi-warm-grey/50">
-<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&amp;w=2070&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-[0.04] grayscale"></div>
+<div class="group relative -ml-4 bg-white rounded-3xl p-8 shadow-scandi flex flex-col overflow-hidden border border-scandi-warm-grey/50">
+<div class="absolute inset-0 bg-[url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880')] bg-no-repeat opacity-[0.10] grayscale" style="background-size: 330% auto; background-position: center;"></div>
+<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.72; -webkit-mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880'); mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&amp;hash=E34D31108240B951A190629259F8D415&amp;la=en&amp;w=880'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: center; mask-position: center;"></div>
+
 <div class="relative z-10 flex justify-between items-start mb-4">
 <span class="px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest">Locked</span>
 <span class="material-symbols-outlined text-scandi-warm-grey">lock</span>
@@ -62,16 +64,16 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 <div class="grid grid-cols-2 gap-5">
 <div>
 <p class="text-[11px] text-text-muted uppercase font-bold mb-1">Current</p>
-<p class="text-lg font-bold text-text-main font-mono">800-6300A</p>
+<p class="text-lg font-bold text-text-main font-mono">630-6300A</p>
 </div>
 <div>
-<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Capacity</p>
-<p class="text-lg font-bold text-text-main font-mono">100kA</p>
+<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Breaking Capacity</p>
+<p class="text-lg font-bold text-text-main font-mono">up to 150kA</p>
 </div>
 </div>
 </div>
 <div>
-<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Industrial Applications</h4>
+<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Application</h4>
 <ul class="text-base text-text-main space-y-2 font-medium">
 <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Main distribution</li>
 <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Industrial plants</li>
@@ -85,7 +87,9 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 </div>
 </div>
 <div class="group relative bg-white rounded-3xl p-8 shadow-scandi flex flex-col overflow-hidden border border-scandi-warm-grey/50">
-<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1563770095-39d46baa2c7c?q=80&amp;w=2070&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-[0.04] grayscale"></div>
+<div class="absolute inset-0 bg-[url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880')] bg-no-repeat opacity-[0.10] grayscale" style="background-size: 330% auto; background-position: center;"></div>
+<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.72; -webkit-mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880'); mask-image: url('https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&amp;hash=968BF4BB4B8C8A3AC661E124672A79F0&amp;la=en&amp;w=880'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: center; mask-position: center;"></div>
+
 <div class="relative z-10 flex justify-between items-start mb-4">
 <span class="px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest">Waitlist</span>
 <span class="material-symbols-outlined text-scandi-warm-grey">hourglass_empty</span>
@@ -100,16 +104,16 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 <div class="grid grid-cols-2 gap-5">
 <div>
 <p class="text-[11px] text-text-muted uppercase font-bold mb-1">Current</p>
-<p class="text-lg font-bold text-text-main font-mono">100-2500A</p>
+<p class="text-lg font-bold text-text-main font-mono">16-3200A</p>
 </div>
 <div>
-<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Capacity</p>
-<p class="text-lg font-bold text-text-main font-mono">85kA</p>
+<p class="text-[11px] text-text-muted uppercase font-bold mb-1">Breaking Capacity</p>
+<p class="text-lg font-bold text-text-main font-mono">up to 200kA</p>
 </div>
 </div>
 </div>
 <div>
-<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Typical Applications</h4>
+<h4 class="text-xs font-bold text-text-muted uppercase tracking-widest mb-4">Application</h4>
 <ul class="text-base text-text-main space-y-2 font-medium">
 <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Sub-distribution</li>
 <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-scandi-warm-grey"></span> Motor protection</li>
@@ -122,8 +126,10 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
                         </button>
 </div>
 </div>
-<div class="group relative bg-white rounded-3xl p-8 shadow-2xl flex flex-col overflow-hidden border-4 border-accent ring-4 ring-accent/5">
-<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&amp;w=2069&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-[0.08] grayscale mix-blend-multiply"></div>
+<div class="group relative -mr-4 bg-white rounded-3xl p-8 shadow-2xl flex flex-col overflow-hidden border-4 border-accent ring-4 ring-accent/5">
+<div class="absolute inset-0 bg-[url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png')] bg-no-repeat opacity-[0.10] grayscale mix-blend-multiply" style="background-size: 330% auto; background-position: 48% center;"></div>
+<div class="absolute inset-0 pointer-events-none" style="background-image: repeating-radial-gradient(circle, rgba(45,42,38,0.30) 0 0.5px, transparent 0.5px 2.4px); background-size: 4.8px 4.8px; mix-blend-mode: multiply; opacity: 0.72; -webkit-mask-image: url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png'); mask-image: url('https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png'); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 330% auto; mask-size: 330% auto; -webkit-mask-position: 48% center; mask-position: 48% center;"></div>
+
 <div class="relative z-10 flex justify-between items-start mb-4">
 <span class="px-3 py-1 rounded-full bg-accent text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5">
 <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
@@ -147,8 +153,8 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 <p class="text-lg font-black text-text-main font-mono">0.5-125A</p>
 </div>
 <div>
-<p class="text-[11px] text-text-muted font-bold uppercase mb-1">Poles</p>
-<p class="text-lg font-black text-text-main font-mono">1P-4P</p>
+<p class="text-[11px] text-text-muted font-bold uppercase mb-1">Breaking Capacity</p>
+<p class="text-lg font-black text-text-main font-mono">6-15kA</p>
 </div>
 <div class="col-span-2 pt-4 border-t border-scandi-warm-grey">
 <p class="text-[11px] text-text-muted font-bold uppercase mb-1">Curve Characteristics</p>
@@ -158,7 +164,7 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 </div>
 </div>
 <div>
-<h4 class="text-xs font-black text-text-muted uppercase tracking-widest mb-4">Supported Use Cases</h4>
+<h4 class="text-xs font-black text-text-muted uppercase tracking-widest mb-4">Application</h4>
 <div class="flex flex-wrap gap-2">
 <span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Residential</span>
 <span class="px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey">Commercial</span>
@@ -183,7 +189,29 @@ const portalMarkup = `<aside class="w-16 flex flex-col items-center bg-white bor
 </footer>
 </div>
 </div>
-</main>`;
+</main>
+<script>
+(() => {
+  const target = location.pathname.endsWith(".html") ? location.pathname : "/index.html";
+  let lastModified = null;
+
+  const check = async () => {
+    try {
+      const response = await fetch(target, { method: "HEAD", cache: "no-store" });
+      const current = response.headers.get("Last-Modified");
+      if (!current) return;
+      if (lastModified && current !== lastModified) {
+        location.reload();
+        return;
+      }
+      lastModified = current;
+    } catch (_) {}
+  };
+
+  check();
+  setInterval(check, 2000);
+})();
+</script>`;
 
 export default function Home() {
   return <div dangerouslySetInnerHTML={{ __html: portalMarkup }} />;
