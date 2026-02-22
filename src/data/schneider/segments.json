@@ -1,0 +1,66 @@
+[
+  {
+    "id": "residential",
+    "manufacturerId": "schneider-electric",
+    "name": "Residential",
+    "icon": "home",
+    "productIds": ["resi9", "easy9"],
+    "rationaleTags": [
+      { "value": "3-6kA", "reason": "Low fault level environment" },
+      { "value": "Curve B, C", "reason": "Resistive load protection" },
+      { "value": "IEC 60898-1", "reason": "Operated by unskilled persons" },
+      { "value": "Up to 40-63A", "reason": "Residential wiring capacity" }
+    ]
+  },
+  {
+    "id": "commercial-building",
+    "manufacturerId": "schneider-electric",
+    "name": "Commercial / Building",
+    "icon": "apartment",
+    "productIds": ["acti9-ic60n", "acti9-ic60h"],
+    "rationaleTags": [
+      { "value": "6-15kA", "reason": "Building-level fault currents" },
+      { "value": "Curve B, C, D", "reason": "Inductive load compatible" },
+      { "value": "IEC 60898-1 + 60947-2", "reason": "Dual standard compliance" },
+      { "value": "DC 250V", "reason": "EV charging compatible" }
+    ]
+  },
+  {
+    "id": "industrial",
+    "manufacturerId": "schneider-electric",
+    "name": "Industrial",
+    "icon": "factory",
+    "productIds": ["acti9-ic60l"],
+    "rationaleTags": [
+      { "value": "25-50kA", "reason": "High fault level environment" },
+      { "value": "Curve B, C, D, K, Z", "reason": "Full curve coverage" },
+      { "value": "IEC 60947-2", "reason": "Industrial-grade standard" },
+      { "value": "Ics = 50% Icu", "reason": "Service continuity ensured" }
+    ]
+  },
+  {
+    "id": "oem-machine-building",
+    "manufacturerId": "schneider-electric",
+    "name": "OEM / Machine Building",
+    "icon": "precision_manufacturing",
+    "productIds": ["multi9-c60bp", "multi9-c60sp", "multi9-c60h-dc"],
+    "rationaleTags": [
+      { "value": "UL489 + CSA + IEC + CCC", "reason": "4-standard compliance" },
+      { "value": "480Y/277V", "reason": "North American voltage system" },
+      { "value": "CCC certified", "reason": "China market ready" },
+      { "value": "1 part number = global", "reason": "Inventory optimization" }
+    ]
+  },
+  {
+    "id": "pv-renewables",
+    "manufacturerId": "schneider-electric",
+    "name": "PV / Renewables",
+    "icon": "solar_power",
+    "productIds": ["acti9-ic60n-dc", "acti9-ic60h-dc"],
+    "rationaleTags": [
+      { "value": "DC 12-250V", "reason": "PV string voltage range" },
+      { "value": "10-15kA DC", "reason": "DC fault current protection" },
+      { "value": "Series pole connection", "reason": "Higher DC voltage coverage" }
+    ]
+  }
+]

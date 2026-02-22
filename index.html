@@ -271,10 +271,10 @@
 </div>
 </div>
 <div class="relative z-10 mt-auto pt-4">
-<button class="w-full py-5 rounded-2xl bg-accent hover:bg-red-600 text-white text-base font-black shadow-xl shadow-accent/20 transition-all flex items-center justify-center gap-3">
+<a aria-label="Proceed to MCB configuration" class="w-full py-5 rounded-2xl bg-accent hover:bg-red-600 text-white text-base font-black shadow-xl shadow-accent/20 transition-all flex items-center justify-center gap-3" href="/mcb" id="mcb-proceed-link">
                             Proceed to Configuration
                             <span class="material-symbols-outlined text-xl font-bold">arrow_forward</span>
-</button>
+</a>
 </div>
 </div>
 </div>
@@ -290,6 +290,16 @@
 </main>
 <script>
 (() => {
+  const mcbLink = document.getElementById("mcb-proceed-link");
+  if (mcbLink) {
+    mcbLink.addEventListener("click", (event) => {
+      if (location.protocol === "file:") {
+        event.preventDefault();
+        location.href = "http://127.0.0.1:8000/mcb";
+      }
+    });
+  }
+
   const target = location.pathname.endsWith(".html") ? location.pathname : "/index.html";
   let lastModified = null;
 

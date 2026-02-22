@@ -1,0 +1,28 @@
+{
+  "id": "acti9-ic60h",
+  "manufacturerId": "schneider-electric",
+  "segmentId": "commercial-building",
+  "series": "Acti9 iC60H",
+  "comparison": {
+    "ratedCurrentIn": "0.5-63A",
+    "breakingCapacity": "Icn: 10kA @230V; Icu: 15kA @240V",
+    "tripCurveCharacteristics": "B, C, D",
+    "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
+    "ratedVoltageUe": "230/400V AC, 12-250V DC",
+    "ratedInsulationVoltageUi": "500V AC",
+    "standardsApprovals": "IEC 60898-1, IEC 60947-2",
+    "widthPerPole": "18mm",
+    "serviceBreakingCapacityIcs": "N/A"
+  },
+  "specifications": [
+    { "label": "Rated Current (In)", "value": "0.5-63A" },
+    { "label": "Breaking Capacity (Icn) @230V", "value": "10kA (IEC 60898-1)" },
+    { "label": "Breaking Capacity (Icu) @240V", "value": "15kA (IEC 60947-2)" },
+    { "label": "Curve", "value": "B, C, D" },
+    { "label": "Standards", "value": "IEC 60898-1, IEC 60947-2" },
+    { "label": "Poles", "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P" },
+    { "label": "Rated Voltage (Ue)", "value": "230/400V AC, 12-250V DC" },
+    { "label": "Rated Insulation Voltage (Ui)", "value": "500V AC" },
+    { "label": "Width per Pole", "value": "18mm" }
+  ]
+}

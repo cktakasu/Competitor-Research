@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 
 const APPLICATION_TOOLTIP =
   "Application tags are indicative. Final product selection must consider system voltage, rated current, breaking capacity, and the applicable standard (IEC 60947-2 for ACB/MCCB, IEC 60898-1 for MCB).";
@@ -28,8 +29,11 @@ type BreakerCardData = {
   icon: string;
   id: string;
   offsetClass?: string;
+  photoClassName: string;
+  photoStyle: CSSProperties;
   specifications: Specifications;
   tags: readonly string[];
+  textureStyle: CSSProperties;
   variant: CardVariant;
 };
 
@@ -58,60 +62,6 @@ const COMMON_APPLICATION_TAGS = [
   "OEM / Machine Building"
 ] as const;
 
-const BREAKER_CARDS: readonly BreakerCardData[] = [
-  {
-    id: "acb",
-    code: "ACB",
-    fullName: "Air Circuit Breaker",
-    variant: "locked",
-    icon: "lock",
-    offsetClass: "xl:-ml-4",
-    headingWeight: "bold",
-    backgroundImage:
-      "https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&hash=E34D31108240B951A190629259F8D415&la=en&w=880",
-    backgroundPosition: "center",
-    specifications: {
-      ratedCurrent: "630-6300A",
-      breakingCapacity: "up to 150kA"
-    },
-    tags: ACB_APPLICATION_TAGS
-  },
-  {
-    id: "mccb",
-    code: "MCCB",
-    fullName: "Molded Case Circuit Breaker",
-    variant: "locked",
-    icon: "hourglass_empty",
-    headingWeight: "bold",
-    backgroundImage:
-      "https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&hash=968BF4BB4B8C8A3AC661E124672A79F0&la=en&w=880",
-    backgroundPosition: "center",
-    specifications: {
-      ratedCurrent: "16-3200A",
-      breakingCapacity: "up to 200kA"
-    },
-    tags: COMMON_APPLICATION_TAGS
-  },
-  {
-    id: "mcb",
-    code: "MCB",
-    fullName: "Miniature Circuit Breaker",
-    variant: "selected",
-    icon: "bolt",
-    offsetClass: "xl:-mr-4",
-    headingWeight: "black",
-    backgroundImage:
-      "https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png",
-    backgroundPosition: "48% center",
-    specifications: {
-      ratedCurrent: "0.5-125A",
-      breakingCapacity: "6-15kA",
-      curveCharacteristics: "Type B, C, D, K, Z"
-    },
-    tags: COMMON_APPLICATION_TAGS
-  }
-];
-
 const NAV_ITEMS: readonly NavItem[] = [
   { title: "Dashboard", icon: "dashboard" },
   { title: "Product Selection", icon: "category", active: true },
@@ -120,18 +70,17 @@ const NAV_ITEMS: readonly NavItem[] = [
 ];
 
 const FOOTER_LINKS = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Service", href: "#" }
+  { label: "Privacy Policy" },
+  { label: "Terms of Service" }
 ] as const;
 
 const cx = (...values: Array<string | false | null | undefined>) => values.filter(Boolean).join(" ");
 
-const createPhotoLayerStyle = (imageUrl: string, position: string, blendMultiply = false): CSSProperties => ({
+const createPhotoLayerStyle = (imageUrl: string, position: string): CSSProperties => ({
   backgroundImage: `url('${imageUrl}')`,
   backgroundPosition: position,
   backgroundRepeat: "no-repeat",
   backgroundSize: "330% auto",
-  mixBlendMode: blendMultiply ? "multiply" : undefined,
   opacity: 0.08
 });
 
@@ -149,6 +98,72 @@ const createTextureLayerStyle = (imageUrl: string, position: string): CSSPropert
   WebkitMaskRepeat: "no-repeat",
   WebkitMaskSize: "330% auto"
 });
+
+const cardWithLayerStyles = (
+  card: Omit<BreakerCardData, "photoClassName" | "photoStyle" | "textureStyle">
+): BreakerCardData => ({
+  ...card,
+  photoClassName:
+    card.variant === "selected"
+      ? "absolute inset-0 grayscale mix-blend-multiply"
+      : "absolute inset-0 grayscale",
+  photoStyle: createPhotoLayerStyle(card.backgroundImage, card.backgroundPosition),
+  textureStyle: createTextureLayerStyle(card.backgroundImage, card.backgroundPosition)
+});
+
+const BREAKER_CARDS: readonly BreakerCardData[] = [
+  cardWithLayerStyles({
+    id: "acb",
+    code: "ACB",
+    fullName: "Air Circuit Breaker",
+    variant: "locked",
+    icon: "lock",
+    offsetClass: "xl:-ml-4",
+    headingWeight: "bold",
+    backgroundImage:
+      "https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/acb/img/air-circuit-breaker-main-banner.ashx?h=496&hash=E34D31108240B951A190629259F8D415&la=en&w=880",
+    backgroundPosition: "center",
+    specifications: {
+      ratedCurrent: "630-6300A",
+      breakingCapacity: "up to 150kA"
+    },
+    tags: ACB_APPLICATION_TAGS
+  }),
+  cardWithLayerStyles({
+    id: "mccb",
+    code: "MCCB",
+    fullName: "Molded Case Circuit Breaker",
+    variant: "locked",
+    icon: "hourglass_empty",
+    headingWeight: "bold",
+    backgroundImage:
+      "https://us.mitsubishielectric.com/fa/en/-/media/images/webredesign/products/lvd/lvcb/items/mccb/img/molded-case-cb-main-banner.ashx?h=496&hash=968BF4BB4B8C8A3AC661E124672A79F0&la=en&w=880",
+    backgroundPosition: "center",
+    specifications: {
+      ratedCurrent: "16-3200A",
+      breakingCapacity: "up to 200kA"
+    },
+    tags: COMMON_APPLICATION_TAGS
+  }),
+  cardWithLayerStyles({
+    id: "mcb",
+    code: "MCB",
+    fullName: "Miniature Circuit Breaker",
+    variant: "selected",
+    icon: "bolt",
+    offsetClass: "xl:-mr-4",
+    headingWeight: "black",
+    backgroundImage:
+      "https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png",
+    backgroundPosition: "48% center",
+    specifications: {
+      ratedCurrent: "0.5-125A",
+      breakingCapacity: "6-15kA",
+      curveCharacteristics: "Type B, C, D, K, Z"
+    },
+    tags: COMMON_APPLICATION_TAGS
+  })
+];
 
 function CircuitBreakerIcon() {
   return (
@@ -256,14 +271,8 @@ function BreakerCard({ card }: { card: BreakerCardData }) {
         card.offsetClass
       )}
     >
-      <div
-        className="absolute inset-0 grayscale"
-        style={createPhotoLayerStyle(card.backgroundImage, card.backgroundPosition, selected)}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={createTextureLayerStyle(card.backgroundImage, card.backgroundPosition)}
-      />
+      <div className={card.photoClassName} style={card.photoStyle} />
+      <div className="absolute inset-0 pointer-events-none" style={card.textureStyle} />
 
       <div className="relative z-10 flex justify-between items-start mb-4">
         <span className={pillClass}>
@@ -286,16 +295,16 @@ function BreakerCard({ card }: { card: BreakerCardData }) {
       </div>
 
       <div className={selected ? "relative z-10 mt-auto pt-4" : "relative z-10 mt-auto"}>
-        <button className={buttonClass} disabled={!selected}>
-          {selected ? (
-            <>
-              Proceed to Configuration
-              <span className="material-symbols-outlined text-xl font-bold">arrow_forward</span>
-            </>
-          ) : (
-            "Coming Soon"
-          )}
-        </button>
+        {selected ? (
+          <Link href="/mcb" className={buttonClass} aria-label="Proceed to MCB configuration">
+            Proceed to Configuration
+            <span className="material-symbols-outlined text-xl font-bold">arrow_forward</span>
+          </Link>
+        ) : (
+          <button className={buttonClass} disabled>
+            Coming Soon
+          </button>
+        )}
       </div>
     </div>
   );
@@ -387,13 +396,14 @@ export default function Home() {
               </p>
               <div className="flex gap-10">
                 {FOOTER_LINKS.map((link) => (
-                  <a
+                  <button
+                    type="button"
                     key={link.label}
                     className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors"
-                    href={link.href}
+                    aria-label={link.label}
                   >
                     {link.label}
-                  </a>
+                  </button>
                 ))}
               </div>
             </footer>
