@@ -6,10 +6,42 @@
     "icon": "home",
     "productIds": ["resi9", "easy9"],
     "rationaleTags": [
-      { "value": "3-6kA", "reason": "Low fault level environment" },
-      { "value": "Curve B, C", "reason": "Resistive load protection" },
-      { "value": "IEC 60898-1", "reason": "Operated by unskilled persons" },
-      { "value": "Up to 40-63A", "reason": "Residential wiring capacity" }
+      {
+        "id": "std-60898",
+        "value": "IEC 60898-1",
+        "reasonJa": "住宅配線を想定した低圧回路保護の主要規格に適合しているため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-4_5-6",
+        "value": "4.5-6kA",
+        "reasonJa": "住宅市場で一般的な短絡電流レンジに合う遮断容量レンジを持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icn)" }
+        ]
+      },
+      {
+        "id": "current-6-63",
+        "value": "6-63A",
+        "reasonJa": "住宅分岐回路で中心となる定格電流レンジをカバーしているため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" },
+          { "source": "specification", "label": "Rated Current (In)" }
+        ]
+      },
+      {
+        "id": "curve-b-c",
+        "value": "Curve B, C",
+        "reasonJa": "住宅負荷で頻出するB/Cカーブの保護特性に対応するため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      }
     ]
   },
   {
@@ -19,10 +51,43 @@
     "icon": "apartment",
     "productIds": ["acti9-ic60n", "acti9-ic60h"],
     "rationaleTags": [
-      { "value": "6-15kA", "reason": "Building-level fault currents" },
-      { "value": "Curve B, C, D", "reason": "Inductive load compatible" },
-      { "value": "IEC 60898-1 + 60947-2", "reason": "Dual standard compliance" },
-      { "value": "DC 250V", "reason": "EV charging compatible" }
+      {
+        "id": "std-dual",
+        "value": "IEC 60898-1 + 60947-2",
+        "reasonJa": "ビル設備と産業寄り回路の両要件を意識した二規格対応のため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-6-15",
+        "value": "6-15kA",
+        "reasonJa": "商業・ビル用途で想定される故障電流レベルに対応するため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icn) @230V" },
+          { "source": "specification", "label": "Breaking Capacity (Icu) @240V" }
+        ]
+      },
+      {
+        "id": "curve-bcd",
+        "value": "Curve B, C, D",
+        "reasonJa": "誘導性負荷を含むビル設備回路までトリップ特性を広げられるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      },
+      {
+        "id": "dc-250",
+        "value": "DC 250V",
+        "reasonJa": "EV関連などDC系統を含む用途に展開しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedVoltageUe" },
+          { "source": "specification", "label": "Rated Voltage (Ue)" }
+        ]
+      }
     ]
   },
   {
@@ -32,10 +97,43 @@
     "icon": "factory",
     "productIds": ["acti9-ic60l"],
     "rationaleTags": [
-      { "value": "25-50kA", "reason": "High fault level environment" },
-      { "value": "Curve B, C, D, K, Z", "reason": "Full curve coverage" },
-      { "value": "IEC 60947-2", "reason": "Industrial-grade standard" },
-      { "value": "Ics = 50% Icu", "reason": "Service continuity ensured" }
+      {
+        "id": "std-60947",
+        "value": "IEC 60947-2",
+        "reasonJa": "産業用途で重視される機器保護規格に基づいた選定が可能なため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-25-50",
+        "value": "25-50kA",
+        "reasonJa": "高故障電流系統を想定した高遮断容量帯をカバーするため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icu) @220-240V" },
+          { "source": "specification", "label": "Breaking Capacity (Icu) @440V" }
+        ]
+      },
+      {
+        "id": "ics-50",
+        "value": "Ics = 50% Icu",
+        "reasonJa": "サービス継続性を考慮したIcs性能を明示して選定できるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "serviceBreakingCapacityIcs" },
+          { "source": "specification", "label": "Service Breaking Capacity (Ics)" }
+        ]
+      },
+      {
+        "id": "curve-full",
+        "value": "Curve B, C, D, K, Z",
+        "reasonJa": "多様な負荷特性へ対応する幅広い曲線バリエーションを持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      }
     ]
   },
   {
@@ -45,10 +143,42 @@
     "icon": "precision_manufacturing",
     "productIds": ["multi9-c60bp", "multi9-c60sp", "multi9-c60h-dc"],
     "rationaleTags": [
-      { "value": "UL489 + CSA + IEC + CCC", "reason": "4-standard compliance" },
-      { "value": "480Y/277V", "reason": "North American voltage system" },
-      { "value": "CCC certified", "reason": "China market ready" },
-      { "value": "1 part number = global", "reason": "Inventory optimization" }
+      {
+        "id": "global-standards",
+        "value": "UL489 / UL1077 + CSA + IEC + CCC",
+        "reasonJa": "多地域の要求規格を跨いだ機械輸出案件に適合しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "na-voltage",
+        "value": "480Y/277V",
+        "reasonJa": "北米系の代表的な機械電圧条件をカバーする構成を持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedVoltageUe" },
+          { "source": "specification", "label": "Breaking Capacity @480Y/277V" }
+        ]
+      },
+      {
+        "id": "ccc-ready",
+        "value": "CCC certified",
+        "reasonJa": "中国向け案件で必要となる認証要件を満たしやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "global-sku",
+        "value": "1 part number = global",
+        "reasonJa": "複数市場の規格・電圧を1シリーズでカバーしやすく在庫統合に有利なため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "comparison", "key": "ratedVoltageUe", "noteJa": "電圧レンジの広さを併せて確認" }
+        ]
+      }
     ]
   },
   {
@@ -58,9 +188,45 @@
     "icon": "solar_power",
     "productIds": ["acti9-ic60n-dc", "acti9-ic60h-dc"],
     "rationaleTags": [
-      { "value": "DC 12-250V", "reason": "PV string voltage range" },
-      { "value": "10-15kA DC", "reason": "DC fault current protection" },
-      { "value": "Series pole connection", "reason": "Higher DC voltage coverage" }
+      {
+        "id": "dc-voltage",
+        "value": "DC 12-250V",
+        "reasonJa": "PVストリングで使うDC電圧レンジを段階的にカバーできるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedVoltageUe" },
+          { "source": "specification", "label": "DC Voltage (1P)" },
+          { "source": "specification", "label": "DC Voltage (2P series)" },
+          { "source": "specification", "label": "DC Voltage (4P series)" }
+        ]
+      },
+      {
+        "id": "dc-breaking",
+        "value": "10-15kA DC",
+        "reasonJa": "DC側短絡電流への保護能力を容量帯で比較しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icu) @60V DC" }
+        ]
+      },
+      {
+        "id": "series-pole",
+        "value": "Series pole connection",
+        "reasonJa": "直列接続で高いDC電圧域まで適用範囲を拡張できるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "numberOfPoles" },
+          { "source": "specification", "label": "DC Voltage (2P series)" },
+          { "source": "specification", "label": "DC Voltage (4P series)" }
+        ]
+      },
+      {
+        "id": "std-dc",
+        "value": "IEC 60947-2 (DC)",
+        "reasonJa": "DC保護用途の規格条件を満たす前提で採用判断できるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      }
     ]
   }
 ]

@@ -292,10 +292,22 @@
 (() => {
   const mcbLink = document.getElementById("mcb-proceed-link");
   if (mcbLink) {
-    mcbLink.addEventListener("click", (event) => {
+    mcbLink.addEventListener("click", async (event) => {
       if (location.protocol === "file:") {
         event.preventDefault();
-        location.href = "http://127.0.0.1:8000/mcb";
+
+        const candidates = ["http://127.0.0.1:8001", "http://127.0.0.1:8000"];
+        for (const baseUrl of candidates) {
+          try {
+            const response = await fetch(baseUrl, { method: "HEAD", mode: "no-cors" });
+            if (response.type === "opaque" || response.ok) {
+              location.href = `${baseUrl}/mcb`;
+              return;
+            }
+          } catch (_) {}
+        }
+
+        location.href = "http://127.0.0.1:8001/mcb";
       }
     });
   }

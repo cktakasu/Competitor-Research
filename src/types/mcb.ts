@@ -19,9 +19,18 @@ export type Manufacturer = {
   statusLabel: string;
 };
 
+export type RationaleEvidenceRef = {
+  source: "comparison" | "specification";
+  key?: ComparisonRowKey;
+  label?: string;
+  noteJa?: string;
+};
+
 export type RationaleTag = {
+  id: string;
   value: string;
-  reason: string;
+  reasonJa: string;
+  evidenceRefs: RationaleEvidenceRef[];
 };
 
 export type McbSegment = {

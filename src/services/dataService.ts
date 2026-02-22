@@ -28,24 +28,63 @@ const products = [
   acti9Ic60hDcData
 ] as McbProduct[];
 
+const EMPTY_PRODUCTS: McbProduct[] = [];
+const EMPTY_SEGMENTS: McbSegment[] = [];
+
+const productsByManufacturer = new Map<ManufacturerId, McbProduct[]>();
+const productsBySegment = new Map<string, McbProduct[]>();
+const productById = new Map<string, McbProduct>();
+const segmentsByManufacturer = new Map<ManufacturerId, McbSegment[]>();
+const segmentById = new Map<string, McbSegment>();
+
+for (const manufacturer of manufacturers) {
+  productsByManufacturer.set(manufacturer.id, []);
+  segmentsByManufacturer.set(manufacturer.id, []);
+}
+
+for (const product of products) {
+  const byMaker = productsByManufacturer.get(product.manufacturerId);
+  if (byMaker) {
+    byMaker.push(product);
+  }
+  const segmentKey = `${product.manufacturerId}::${product.segmentId}`;
+  const bySegment = productsBySegment.get(segmentKey);
+  if (bySegment) {
+    bySegment.push(product);
+  } else {
+    productsBySegment.set(segmentKey, [product]);
+  }
+  productById.set(product.id, product);
+}
+
+for (const segment of segments) {
+  const byMaker = segmentsByManufacturer.get(segment.manufacturerId);
+  if (byMaker) {
+    byMaker.push(segment);
+  }
+  segmentById.set(`${segment.manufacturerId}::${segment.id}`, segment);
+}
+
 export function getManufacturers(): Manufacturer[] {
   return manufacturers;
 }
 
 export function getSegmentsByManufacturer(manufacturerId: ManufacturerId): McbSegment[] {
-  return segments.filter((segment) => segment.manufacturerId === manufacturerId);
+  return segmentsByManufacturer.get(manufacturerId) ?? EMPTY_SEGMENTS;
 }
 
 export function getProductsByManufacturer(manufacturerId: ManufacturerId): McbProduct[] {
-  return products.filter((product) => product.manufacturerId === manufacturerId);
+  return productsByManufacturer.get(manufacturerId) ?? EMPTY_PRODUCTS;
 }
 
 export function getProductsBySegment(manufacturerId: ManufacturerId, segmentId: string): McbProduct[] {
-  return products.filter(
-    (product) => product.manufacturerId === manufacturerId && product.segmentId === segmentId
-  );
+  return productsBySegment.get(`${manufacturerId}::${segmentId}`) ?? EMPTY_PRODUCTS;
+}
+
+export function getSegmentById(manufacturerId: ManufacturerId, segmentId: string): McbSegment | undefined {
+  return segmentById.get(`${manufacturerId}::${segmentId}`);
 }
 
 export function getProductById(productId: string): McbProduct | undefined {
-  return products.find((product) => product.id === productId);
+  return productById.get(productId);
 }

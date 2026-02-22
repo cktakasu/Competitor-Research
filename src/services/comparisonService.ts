@@ -35,14 +35,17 @@ const RANK_RULES: Partial<Record<ComparisonRowKey, RankRule>> = {
   ratedCurrentIn: {
     mode: "higher",
     score: (value) => {
-      const match = value.match(/(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*A/i);
-      if (!match) {
+      const rangeMatch = value.match(/(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*A/i);
+      if (rangeMatch) {
+        return Number.parseFloat(rangeMatch[2]);
+      }
+
+      const singleMatch = value.match(/(\d+(?:\.\d+)?)\s*A/i);
+      if (!singleMatch) {
         return null;
       }
 
-      const min = Number.parseFloat(match[1]);
-      const max = Number.parseFloat(match[2]);
-      return max - min;
+      return Number.parseFloat(singleMatch[1]);
     }
   },
   tripCurveCharacteristics: {
@@ -57,7 +60,7 @@ const RANK_RULES: Partial<Record<ComparisonRowKey, RankRule>> = {
     mode: "higher",
     score: (value) => {
       const tokens = value
-        .split(/[,+/]/)
+        .split(/[,+/;|]/)
         .map((token) => token.trim())
         .filter(Boolean)
         .map((token) => token.toUpperCase());
@@ -68,10 +71,10 @@ const RANK_RULES: Partial<Record<ComparisonRowKey, RankRule>> = {
 };
 
 export function getBestProductsByRow(comparedProducts: McbProduct[]): Record<ComparisonRowKey, Set<string>> {
-  const initial = COMPARISON_ROWS.reduce(
-    (accumulator, row) => ({ ...accumulator, [row.key]: new Set<string>() }),
-    {} as Record<ComparisonRowKey, Set<string>>
-  );
+  const initial = {} as Record<ComparisonRowKey, Set<string>>;
+  for (const row of COMPARISON_ROWS) {
+    initial[row.key] = new Set<string>();
+  }
 
   for (const row of COMPARISON_ROWS) {
     const rule = RANK_RULES[row.key];
@@ -79,21 +82,25 @@ export function getBestProductsByRow(comparedProducts: McbProduct[]): Record<Com
       continue;
     }
 
-    const scored = comparedProducts
-      .map((product) => ({
-        id: product.id,
-        score: rule.score(product.comparison[row.key])
-      }))
-      .filter((item): item is { id: string; score: number } => item.score !== null && Number.isFinite(item.score));
+    const scored: Array<{ id: string; score: number }> = [];
+    for (const product of comparedProducts) {
+      const score = rule.score(product.comparison[row.key]);
+      if (score !== null && Number.isFinite(score)) {
+        scored.push({ id: product.id, score });
+      }
+    }
 
-    if (!scored.length) {
+    if (scored.length === 0) {
       continue;
     }
 
-    const bestScore =
-      rule.mode === "higher"
-        ? Math.max(...scored.map((item) => item.score))
-        : Math.min(...scored.map((item) => item.score));
+    let bestScore = scored[0].score;
+    for (let i = 1; i < scored.length; i += 1) {
+      const current = scored[i].score;
+      if (rule.mode === "higher" ? current > bestScore : current < bestScore) {
+        bestScore = current;
+      }
+    }
 
     for (const item of scored) {
       if (item.score === bestScore) {
