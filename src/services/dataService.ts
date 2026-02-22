@@ -6,6 +6,8 @@ import acti9Ic60lData from "../data/schneider/acti9-ic60l.json";
 import acti9Ic60nData from "../data/schneider/acti9-ic60n.json";
 import acti9Ic60nDcData from "../data/schneider/acti9-ic60n-dc.json";
 import easy9Data from "../data/schneider/easy9.json";
+import easy9ProData from "../data/schneider/easy9-pro.json";
+import domaeData from "../data/schneider/domae.json";
 import multi9C60bpData from "../data/schneider/multi9-c60bp.json";
 import multi9C60hDcData from "../data/schneider/multi9-c60h-dc.json";
 import multi9C60spData from "../data/schneider/multi9-c60sp.json";
@@ -18,6 +20,8 @@ const segments = segmentsData as McbSegment[];
 const products = [
   resi9Data,
   easy9Data,
+  easy9ProData,
+  domaeData,
   acti9Ic60nData,
   acti9Ic60hData,
   acti9Ic60lData,

@@ -4,7 +4,7 @@
     "manufacturerId": "schneider-electric",
     "name": "Residential",
     "icon": "home",
-    "productIds": ["resi9", "easy9"],
+    "productIds": ["resi9", "easy9", "easy9-pro", "domae"],
     "rationaleTags": [
       {
         "id": "std-60898",
@@ -16,18 +16,18 @@
         ]
       },
       {
-        "id": "break-4_5-6",
-        "value": "4.5-6kA",
-        "reasonJa": "住宅市場で一般的な短絡電流レンジに合う遮断容量レンジを持つため。",
+        "id": "break-4_5-10",
+        "value": "4.5-10kA",
+        "reasonJa": "住宅市場を中心に、より高い故障電流条件まで含めた遮断容量レンジを持つため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "breakingCapacity" },
           { "source": "specification", "label": "Breaking Capacity (Icn)" }
         ]
       },
       {
-        "id": "current-6-63",
-        "value": "6-63A",
-        "reasonJa": "住宅分岐回路で中心となる定格電流レンジをカバーしているため。",
+        "id": "current-2-63",
+        "value": "2-63A",
+        "reasonJa": "低容量側を含む住宅分岐回路の定格電流レンジを広くカバーしているため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "ratedCurrentIn" },
           { "source": "specification", "label": "Rated Current (In)" }

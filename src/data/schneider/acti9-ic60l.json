@@ -4,6 +4,7 @@
   "segmentId": "industrial",
   "series": "Acti9 iC60L",
   "comparison": {
+    "capacityClass": "Extra High (25-50kA)",
     "ratedCurrentIn": "0.5-63A",
     "breakingCapacity": "Icu: 50kA @220-240V; 25kA @440V; Icn: 15kA @400V",
     "tripCurveCharacteristics": "B, C, D, K, Z",
@@ -15,7 +16,10 @@
     "serviceBreakingCapacityIcs": "50% of Icu"
   },
   "specifications": [
+    { "label": "Capacity Class", "value": "Extra High" },
     { "label": "Rated Current (In)", "value": "0.5-63A" },
+    { "label": "IEC 60898-1 (Icn)", "value": "N/A" },
+    { "label": "IEC 60947-2 (Icu)", "value": "25-50kA" },
     { "label": "Breaking Capacity (Icu) @220-240V", "value": "50kA (IEC 60947-2)" },
     { "label": "Breaking Capacity (Icu) @440V", "value": "25kA (IEC 60947-2)" },
     { "label": "Breaking Capacity (Icn) @400V", "value": "15kA (IEC 60898-1)" },

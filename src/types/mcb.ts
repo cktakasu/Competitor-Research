@@ -1,6 +1,7 @@
 export type ManufacturerId = "schneider-electric" | "abb" | "siemens" | "eaton" | "ls-electric";
 
 export type ComparisonRowKey =
+  | "capacityClass"
   | "ratedCurrentIn"
   | "breakingCapacity"
   | "tripCurveCharacteristics"
@@ -43,6 +44,7 @@ export type McbSegment = {
 };
 
 export type ProductComparisonSpecs = {
+  capacityClass: string;
   ratedCurrentIn: string;
   breakingCapacity: string;
   tripCurveCharacteristics: string;
@@ -69,6 +71,7 @@ export type McbProduct = {
 };
 
 export const COMPARISON_ROWS: Array<{ key: ComparisonRowKey; label: string }> = [
+  { key: "capacityClass", label: "Capacity Class" },
   { key: "ratedCurrentIn", label: "Rated Current (In)" },
   { key: "breakingCapacity", label: "Breaking Capacity (Icu / Icn)" },
   { key: "tripCurveCharacteristics", label: "Trip Curve Characteristics" },
