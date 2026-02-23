@@ -39,6 +39,14 @@ const MANUFACTURER_NAME_BY_ID = manufacturers.reduce(
   {} as Record<ManufacturerId, string>
 );
 
+const MARKET_LABEL_BY_SEGMENT_ID: Record<string, string> = {
+  residential: "Residential",
+  "commercial-building": "Commercial / Building",
+  industrial: "Industrial",
+  "oem-machine-building": "OEM / Machine Building",
+  "pv-renewables": "PV / Renewables"
+};
+
 type MarketFocus = {
   segmentId: string;
   productId: string;
@@ -46,6 +54,7 @@ type MarketFocus = {
 };
 
 type MarketFocusContext = {
+  segmentId: string;
   marketName: string;
   series: string;
   tagValue: string;
@@ -134,7 +143,7 @@ const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manu
     <img
       src={manufacturer.logoUrl}
       alt={manufacturer.name}
-      className="max-h-9 w-auto object-contain"
+      className="h-7 md:h-8 w-auto max-w-[150px] object-contain"
       loading="lazy"
       decoding="async"
       onError={() => setErrored(true)}
@@ -161,12 +170,14 @@ const ManufacturerCard = memo(function ManufacturerCard({
       title={manufacturer.name}
       aria-label={manufacturer.name}
       className={cx(
-        "h-10 px-2 transition-opacity flex items-center justify-center shrink-0",
-        selected ? "opacity-100" : "opacity-30 hover:opacity-80",
-        disabled && "opacity-30 cursor-not-allowed"
+        "h-12 px-3 rounded-xl border transition-all duration-200 flex items-center justify-center shrink-0 bg-white/85",
+        selected
+          ? "opacity-100 border-scandi-warm-grey shadow-[0_8px_18px_-14px_rgba(45,42,38,0.35)] ring-1 ring-scandi-warm-grey/60"
+          : "opacity-70 border-transparent hover:opacity-95 hover:border-scandi-warm-grey/60",
+        disabled && "opacity-45 cursor-not-allowed grayscale"
       )}
     >
-      <div className="h-8 flex items-center">
+      <div className="h-8 flex items-center justify-center">
         <ManufacturerLogo manufacturer={manufacturer} />
       </div>
     </button>
@@ -233,22 +244,26 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
 }) {
   const visibleSummaryTags = section.summaryTags.slice(0, 4);
   const hiddenSummaryCount = Math.max(0, section.summaryTags.length - visibleSummaryTags.length);
+  const marketLabel = MARKET_LABEL_BY_SEGMENT_ID[section.segmentId] ?? section.segmentId;
 
   return (
-    <article className="rounded-2xl border border-scandi-warm-grey bg-white overflow-hidden">
-      <div className="px-3 md:px-4 py-2.5 border-b border-scandi-warm-grey bg-scandi-light/40 flex items-center justify-between gap-3">
-        <h3 className="text-sm md:text-base font-bold text-text-main whitespace-nowrap">{section.marketName}</h3>
+    <article data-market={section.segmentId} className="market-section-shell rounded-2xl overflow-hidden">
+      <div className="market-section-header px-3 md:px-4 py-2.5 flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] uppercase tracking-[0.16em] text-text-muted font-bold">{marketLabel}</p>
+          <h3 className="text-sm md:text-base font-bold text-text-main whitespace-nowrap">{section.marketName}</h3>
+        </div>
         <div className="flex flex-wrap justify-end gap-1">
           {visibleSummaryTags.map((tag) => (
             <span
               key={`${section.segmentId}-${tag}`}
-              className="inline-flex items-center rounded-full border border-scandi-warm-grey bg-white px-2 py-0.5 text-[10px] font-bold text-text-main"
+              className="market-summary-chip inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold"
             >
               {tag}
             </span>
           ))}
           {hiddenSummaryCount > 0 ? (
-            <span className="inline-flex items-center rounded-full border border-scandi-warm-grey bg-white px-2 py-0.5 text-[10px] font-bold text-text-muted">
+            <span className="market-summary-chip inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-text-muted opacity-80">
               +{hiddenSummaryCount}
             </span>
           ) : null}
@@ -269,10 +284,8 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
               <article
                 key={`${section.segmentId}-${row.productId}`}
                 className={cx(
-                  "rounded-xl border p-3 md:p-4 cursor-pointer transition-colors",
-                  rowIsActive
-                    ? "border-2 border-accent bg-scandi-light/40"
-                    : "border-transparent bg-white hover:bg-scandi-light/20"
+                  "rounded-xl border p-3 md:p-4 cursor-pointer transition-colors duration-200",
+                  rowIsActive ? "market-row-active" : "border-scandi-warm-grey/30 bg-white hover:bg-scandi-light/30"
                 )}
                 onClick={() => {
                   if (defaultTag) {
@@ -337,11 +350,9 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                               onFocus({ segmentId: section.segmentId, productId: row.productId, tagId: tag.tagId });
                             }}
                             className={cx(
-                              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold transition-colors",
+                              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold transition-colors duration-200",
                               !tag.hasEvidence && "opacity-35 cursor-not-allowed",
-                              active
-                                ? "border-accent bg-accent text-white"
-                                : "border-scandi-warm-grey bg-white text-text-main hover:border-text-main"
+                              active ? "market-tag-active" : "border-scandi-warm-grey bg-white text-text-main hover:border-text-main"
                             )}
                             title={tag.tagValue}
                           >
@@ -373,14 +384,19 @@ const RightDetailPanel = memo(function RightDetailPanel({
 }: {
   focusContext: MarketFocusContext | null;
 }) {
+  const marketSegmentId = focusContext?.segmentId ?? "residential";
+
   return (
-    <article className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm">
+    <article data-market={marketSegmentId} className="market-detail-panel rounded-2xl p-4 md:p-5">
       <p className="text-[11px] font-bold tracking-widest uppercase text-text-muted">Rationale Details</p>
       {focusContext ? (
         <>
+          <p className="mt-2 text-[10px] uppercase tracking-[0.16em] text-text-muted font-bold">
+            {MARKET_LABEL_BY_SEGMENT_ID[focusContext.segmentId] ?? focusContext.segmentId}
+          </p>
           <h3 className="mt-2 text-lg font-bold text-text-main leading-tight">{focusContext.marketName}</h3>
           <p className="text-xs font-semibold text-text-main mt-1">{focusContext.series}</p>
-          <div className="mt-2 inline-flex items-center rounded-full border border-scandi-warm-grey bg-scandi-light px-2.5 py-1 text-[11px] font-bold text-text-main">
+          <div className="market-detail-chip mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold">
             {focusContext.tagValue}
           </div>
           <p className="mt-2 text-xs leading-snug text-text-muted">{focusContext.reasonJa}</p>
@@ -579,6 +595,7 @@ export default function McbPage() {
     }
 
     return {
+      segmentId: section.segmentId,
       marketName: section.marketName,
       series: row.series,
       tagValue: group.tagValue,

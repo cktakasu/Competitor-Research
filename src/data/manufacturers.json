@@ -23,14 +23,14 @@
   {
     "id": "eaton",
     "name": "EATON",
-    "logoUrl": "https://www.eaton.com/content/dam/eaton/company/news-insights/logos/eaton-logo-rgb.png",
+    "logoUrl": "/logos/eaton.svg",
     "enabled": false,
     "statusLabel": "Coming Soon"
   },
   {
     "id": "ls-electric",
     "name": "LS Electric",
-    "logoUrl": "https://www.ls-electric.com/og_image.jpg",
+    "logoUrl": "/logos/ls-electric.png",
     "enabled": false,
     "statusLabel": "Coming Soon"
   }
