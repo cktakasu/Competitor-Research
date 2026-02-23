@@ -1,314 +1,56 @@
 "use client";
 
 import Link from "next/link";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { getBestProductsByRow } from "../../src/services/comparisonService";
+import { useRouter } from "next/navigation";
+import { memo, useCallback, useEffect, useMemo } from "react";
 import { buildMarketSections, type MarketSection } from "../../src/services/marketViewService";
 import {
   getManufacturers,
   getProductById,
-  getProductsByManufacturer,
   getProductsBySegment,
   getSegmentsByManufacturer
 } from "../../src/services/dataService";
 import { MAX_COMPARE_PRODUCTS, useMcbStore } from "../../src/stores/mcbStore";
-import { COMPARISON_ROWS, type Manufacturer, type ManufacturerId, type McbProduct } from "../../src/types/mcb";
+import type { Manufacturer, McbProduct } from "../../src/types/mcb";
+import { Sidebar } from "../../src/components/mcb/Sidebar";
+import { TopBar } from "../../src/components/mcb/TopBar";
+import {
+  compareTagLabel,
+  dedupeTags,
+  formatBreakingCapacityValue,
+  formatStandardsValue,
+  formatTagLabel,
+  MARKET_LABEL_BY_SEGMENT_ID,
+  normalizeTagKey,
+  sortBadgeTags,
+  splitSummaryBadgeTag
+} from "../../src/components/mcb/utils";
 import { useShallow } from "zustand/react/shallow";
 
-type NavItem = {
-  title: string;
-  icon: string;
-  active?: boolean;
-};
-
-const NAV_ITEMS: readonly NavItem[] = [
-  { title: "Dashboard", icon: "dashboard" },
-  { title: "Product Selection", icon: "category", active: true },
-  { title: "Status Monitor", icon: "monitoring" },
-  { title: "Analytics", icon: "analytics" }
-] as const;
-
-const cx = (...values: Array<string | false | null | undefined>) => values.filter(Boolean).join(" ");
-
 const manufacturers = getManufacturers();
-const MANUFACTURER_NAME_BY_ID = manufacturers.reduce(
-  (accumulator, manufacturer) => {
-    accumulator[manufacturer.id] = manufacturer.name;
-    return accumulator;
-  },
-  {} as Record<ManufacturerId, string>
-);
-
-const MARKET_LABEL_BY_SEGMENT_ID: Record<string, string> = {
-  residential: "Residential",
-  "commercial-building": "Commercial / Building",
-  industrial: "Industrial",
-  "oem-machine-building": "OEM / Machine Building",
-  "pv-renewables": "PV / Renewables"
-};
-
-const splitSummaryBadgeTag = (tag: string): string[] =>
-  (/^Curve\s+/i.test(tag.trim())
-    ? [tag.trim().replace(/\s*,\s*/g, ", ")]
-    : tag
-    .split(",")
-    .flatMap((part) => part.split("+"))
-    .flatMap((part) => {
-      const trimmed = part.trim();
-      if (!trimmed) {
-        return [];
-      }
-      if (trimmed.includes(" / ") && /^(UL|IEC|EN|CSA|CCC)/.test(trimmed)) {
-        return trimmed.split(" / ").map((item) => item.trim()).filter(Boolean);
-      }
-      return [trimmed];
-    }));
-
-const badgeOrderRank = (tag: string): number => {
-  if (/(IEC|EN|UL|CSA|CCC|Standard)/i.test(tag)) {
-    return 0;
-  }
-  if (/(^|[^0-9])\d+(\.\d+)?-\d+(\.\d+)?A\b|Rated Current|Current/i.test(tag)) {
-    return 1;
-  }
-  if (/(kA|Breaking|Icu|Icn)/i.test(tag)) {
-    return 2;
-  }
-  if (/Curve/i.test(tag)) {
-    return 3;
-  }
-  return 4;
-};
-
-const standardOrderRank = (tag: string): number => {
-  if (/^IEC\b/i.test(tag)) {
-    return 0;
-  }
-  if (/^EN\b/i.test(tag)) {
-    return 1;
-  }
-  if (/^UL\b/i.test(tag)) {
-    return 2;
-  }
-  if (/^CSA\b/i.test(tag)) {
-    return 3;
-  }
-  if (/^CCC\b/i.test(tag)) {
-    return 4;
-  }
-  if (/Standard/i.test(tag)) {
-    return 5;
-  }
-  return 9;
-};
-
-const compareTagLabel = (a: string, b: string): number => {
-  const rankDiff = badgeOrderRank(a) - badgeOrderRank(b);
-  if (rankDiff !== 0) {
-    return rankDiff;
-  }
-  if (badgeOrderRank(a) === 0) {
-    const standardRankDiff = standardOrderRank(a) - standardOrderRank(b);
-    if (standardRankDiff !== 0) {
-      return standardRankDiff;
-    }
-  }
-  return a.localeCompare(b);
-};
-
-const sortBadgeTags = (tags: string[]): string[] => [...tags].sort(compareTagLabel);
-
-const normalizeTagKey = (tag: string): string =>
-  tag
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .replace(/\s*-\s*/g, "-")
-    .trim();
-
-const dedupeTags = (tags: string[]): string[] => {
-  const uniqueByKey = Array.from(
-    new Map(tags.map((tag) => [normalizeTagKey(tag), tag.trim()])).values()
-  ).filter(Boolean);
-
-  // If one tag is fully contained in another (e.g. "CCC" vs "CCC certified"), keep the richer tag.
-  return uniqueByKey.filter((candidate) => {
-    const candidateKey = normalizeTagKey(candidate);
-    return !uniqueByKey.some((other) => {
-      if (other === candidate) {
-        return false;
-      }
-      const otherKey = normalizeTagKey(other);
-      return otherKey.includes(candidateKey) && otherKey.length > candidateKey.length;
-    });
-  });
-};
-
-const formatTagLabel = (tag: string): string => {
-  return tag.trim();
-};
-
-const formatBreakingCapacityValue = (value: string): string => value.replace(/\s*;\s*/g, "\n");
-const formatStandardsValue = (value: string): string => value.replace(/\s*;\s*/g, "\n");
-
-type MarketFocus = {
-  segmentId: string;
-  productId: string;
-  tagId: string;
-};
-
-type MarketFocusContext = {
-  segmentId: string;
-  marketName: string;
-  series: string;
-  tagValue: string;
-  reasonJa: string;
-  entries: Array<{ label: string; value: string; noteJa?: string }>;
-};
-
-function CircuitBreakerIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      role="img"
-      aria-label="Circuit breaker icon"
-    >
-      <rect x="6" y="3" width="12" height="18" rx="2" />
-      <line x1="9" y1="3" x2="9" y2="1.5" />
-      <line x1="15" y1="3" x2="15" y2="1.5" />
-      <line x1="9" y1="22.5" x2="9" y2="21" />
-      <line x1="15" y1="22.5" x2="15" y2="21" />
-      <rect x="9.5" y="7.5" width="5" height="7" rx="1" />
-      <line x1="12" y1="10.5" x2="12" y2="14.5" />
-      <line x1="10.5" y1="17" x2="13.5" y2="17" />
-    </svg>
-  );
-}
-
-const Sidebar = memo(function Sidebar() {
-  return (
-    <aside className="w-full md:w-16 h-16 md:h-auto flex md:flex-col items-center bg-white border-b md:border-b-0 md:border-r border-scandi-warm-grey py-0 md:py-8 px-4 md:px-0 z-20 shadow-sm flex-shrink-0">
-      <Link href="/" className="mr-4 md:mr-0 md:mb-10">
-        <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-scandi-wood">
-          <CircuitBreakerIcon />
-        </div>
-      </Link>
-
-      <nav className="flex-1 flex flex-row md:flex-col gap-3 md:gap-6 w-auto md:w-full px-0 md:px-2 items-center justify-center">
-        {NAV_ITEMS.map((item) => (
-          <button
-            type="button"
-            key={item.title}
-            className={cx(
-              "h-10 w-10 mx-auto flex items-center justify-center rounded-lg transition-all",
-              item.active
-                ? "bg-scandi-wood text-primary relative group"
-                : "text-text-muted hover:bg-scandi-wood hover:text-text-main"
-            )}
-            title={item.title}
-            aria-label={item.title}
-          >
-            <span className={cx("material-symbols-outlined", item.active && "icon-filled")}>{item.icon}</span>
-          </button>
-        ))}
-      </nav>
-
-      <div className="ml-4 md:ml-0 md:mt-auto flex flex-row md:flex-col gap-3 md:gap-6 w-auto md:w-full px-0 md:px-2 items-center">
-        <button
-          type="button"
-          className="h-10 w-10 mx-auto flex items-center justify-center rounded-lg text-text-muted hover:bg-scandi-wood hover:text-text-main transition-all"
-          title="Settings"
-          aria-label="Settings"
-        >
-          <span className="material-symbols-outlined">settings</span>
-        </button>
-        <div className="h-8 w-8 mx-auto rounded-full bg-scandi-warm-grey flex items-center justify-center text-[10px] font-bold text-text-main ring-2 ring-white shadow-sm cursor-pointer hidden sm:flex">
-          JD
-        </div>
-      </div>
-    </aside>
-  );
-});
-
-const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manufacturer: Manufacturer }) {
-  const [errored, setErrored] = useState(false);
-  const logoScaleClass = manufacturer.id === "abb" ? "scale-75" : manufacturer.id === "eaton" ? "scale-75" : "scale-100";
-
-  if (errored) {
-    return <span className="text-sm font-bold tracking-wide text-text-main">{manufacturer.name}</span>;
-  }
-
-  return (
-    <img
-      src={manufacturer.logoUrl}
-      alt={manufacturer.name}
-      className={cx(
-        "h-6 md:h-7 w-auto max-w-[108px] md:max-w-[122px] lg:max-w-[132px] object-contain origin-center",
-        logoScaleClass
-      )}
-      loading="lazy"
-      decoding="async"
-      onError={() => setErrored(true)}
-    />
-  );
-});
-
-const ManufacturerCard = memo(function ManufacturerCard({
-  manufacturer,
-  selected,
-  onSelect
-}: {
-  manufacturer: Manufacturer;
-  onSelect: () => void;
-  selected: boolean;
-}) {
-  const disabled = !manufacturer.enabled;
-
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      disabled={disabled}
-      title={manufacturer.name}
-      aria-label={manufacturer.name}
-      className={cx(
-        "relative h-9 md:h-10 px-1 transition-all duration-200 flex items-center justify-center bg-transparent border-0 rounded-none shadow-none appearance-none focus:outline-none focus:ring-0",
-        selected ? "opacity-100" : "opacity-70 hover:opacity-95",
-        disabled && "opacity-45 cursor-not-allowed grayscale"
-      )}
-    >
-      <div className="h-7 flex items-center justify-center">
-        <ManufacturerLogo manufacturer={manufacturer} />
-      </div>
-      {disabled ? (
-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full border border-scandi-warm-grey bg-white px-1.5 py-0.5 text-[9px] font-bold leading-none tracking-wide text-text-muted whitespace-nowrap">
-          準備中
-        </span>
-      ) : null}
-    </button>
-  );
-});
 
 const ProductCard = memo(function ProductCard({
   isFull,
   isSelected,
-  onAdd,
+  onToggle,
   product
 }: {
   isFull: boolean;
   isSelected: boolean;
-  onAdd: () => void;
+  onToggle: () => void;
   product: McbProduct;
 }) {
-  const disabled = isSelected || isFull;
+  const disabled = !isSelected && isFull;
 
   return (
-    <article className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm flex flex-col transition-all duration-200 hover:border-text-main/20 hover:shadow-md">
+    <article
+      className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm flex flex-col transition-all duration-200 hover:border-text-main/20 hover:shadow-md cursor-pointer"
+      onClick={() => {
+        if (!disabled) {
+          onToggle();
+        }
+      }}
+    >
       <h4 className="text-lg font-bold text-text-main tracking-tight">{product.series}</h4>
 
       <dl className="mt-4 space-y-3 flex-1">
@@ -322,16 +64,21 @@ const ProductCard = memo(function ProductCard({
 
       <button
         type="button"
-        onClick={onAdd}
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggle();
+        }}
         disabled={disabled}
-        className={cx(
+        className={[
           "mt-5 w-full rounded-xl py-2.5 text-sm font-bold border transition-colors",
           disabled
             ? "bg-scandi-warm-grey/40 text-text-muted border-scandi-warm-grey cursor-not-allowed"
-            : "bg-accent text-white border-accent hover:bg-red-600"
-        )}
+            : isSelected
+              ? "bg-scandi-wood text-text-main border-scandi-warm-grey hover:bg-scandi-warm-grey/60"
+              : "bg-accent text-white border-accent hover:bg-red-600"
+        ].join(" ")}
       >
-        {isSelected ? "Added" : isFull ? "Limit" : "Add"}
+        {isSelected ? "Selected" : "Select"}
       </button>
     </article>
   );
@@ -340,14 +87,12 @@ const ProductCard = memo(function ProductCard({
 const MarketSectionBoard = memo(function MarketSectionBoard({
   comparedProductIdSet,
   isCompareFull,
-  onAddProduct,
-  onFocus,
+  onToggleProduct,
   section
 }: {
   comparedProductIdSet: Set<string>;
   isCompareFull: boolean;
-  onAddProduct: (productId: string) => void;
-  onFocus: (focus: MarketFocus) => void;
+  onToggleProduct: (productId: string) => void;
   section: MarketSection;
 }) {
   const summaryBadgeTags = sortBadgeTags(dedupeTags(section.summaryTags.flatMap(splitSummaryBadgeTag)));
@@ -376,19 +121,19 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {section.rows.map((row) => {
             const isSelected = comparedProductIdSet.has(row.productId);
-            const disabled = isSelected || isCompareFull;
+            const disabled = !isSelected && isCompareFull;
             const orderedCompactTags = dedupeTags(row.compactTags.map((tag) => tag.tagValue))
               .map((tagValue) => row.compactTags.find((tag) => normalizeTagKey(tag.tagValue) === normalizeTagKey(tagValue)))
               .filter((tag): tag is NonNullable<typeof tag> => Boolean(tag))
               .sort((a, b) => compareTagLabel(a.tagValue, b.tagValue));
-            const defaultTag = orderedCompactTags.find((tag) => tag.hasEvidence);
+
             return (
               <article
                 key={`${section.segmentId}-${row.productId}`}
-                className="rounded-xl border p-3 md:p-4 cursor-pointer transition-all duration-200 market-row-interactive border-scandi-warm-grey/30 bg-white"
+                className="rounded-xl border p-3 md:p-4 transition-all duration-200 border-scandi-warm-grey/30 bg-white cursor-pointer"
                 onClick={() => {
-                  if (defaultTag) {
-                    onFocus({ segmentId: section.segmentId, productId: row.productId, tagId: defaultTag.tagId });
+                  if (!disabled) {
+                    onToggleProduct(row.productId);
                   }
                 }}
               >
@@ -398,17 +143,19 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                     type="button"
                     onClick={(event) => {
                       event.stopPropagation();
-                      onAddProduct(row.productId);
+                      onToggleProduct(row.productId);
                     }}
                     disabled={disabled}
-                    className={cx(
+                    className={[
                       "inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-[11px] font-bold border shrink-0",
                       disabled
                         ? "bg-scandi-warm-grey/40 text-text-muted border-scandi-warm-grey cursor-not-allowed"
-                        : "bg-accent text-white border-accent hover:bg-red-600"
-                    )}
+                        : isSelected
+                          ? "bg-scandi-wood text-text-main border-scandi-warm-grey hover:bg-scandi-warm-grey/60"
+                          : "bg-accent text-white border-accent hover:bg-red-600"
+                    ].join(" ")}
                   >
-                    {isSelected ? "Added" : isCompareFull ? "Limit" : "Add to Compare"}
+                    {isSelected ? "Selected" : "Select"}
                   </button>
                 </div>
 
@@ -434,29 +181,15 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                 <div className="mt-3">
                   {orderedCompactTags.length ? (
                     <div className="flex items-center flex-wrap gap-1">
-                      {orderedCompactTags.map((tag) => {
-                        return (
-                          <button
-                            key={`${row.productId}-${tag.tagId}`}
-                            type="button"
-                            disabled={!tag.hasEvidence}
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              if (!tag.hasEvidence) {
-                                return;
-                              }
-                              onFocus({ segmentId: section.segmentId, productId: row.productId, tagId: tag.tagId });
-                            }}
-                            className={cx(
-                              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold transition-colors duration-200 market-tag-interactive border-scandi-warm-grey bg-white text-text-main",
-                              !tag.hasEvidence && "opacity-35 cursor-not-allowed"
-                            )}
-                            title={formatTagLabel(tag.tagValue)}
-                          >
-                            {formatTagLabel(tag.tagValue)}
-                          </button>
-                        );
-                      })}
+                      {orderedCompactTags.map((tag) => (
+                        <span
+                          key={`${row.productId}-${tag.tagId}`}
+                          className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold border-scandi-warm-grey bg-white text-text-main"
+                          title={formatTagLabel(tag.tagValue)}
+                        >
+                          {formatTagLabel(tag.tagValue)}
+                        </span>
+                      ))}
                     </div>
                   ) : (
                     <p className="text-[11px] font-semibold text-text-muted">Rationale data in preparation</p>
@@ -471,141 +204,8 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
   );
 });
 
-const RightDetailPanel = memo(function RightDetailPanel({
-  focusContext
-}: {
-  focusContext: MarketFocusContext | null;
-}) {
-  return (
-    <article className="market-detail-panel rounded-2xl p-4 md:p-5">
-      <p className="text-[11px] font-bold tracking-widest uppercase text-text-muted">Rationale Details</p>
-      {focusContext ? (
-        <>
-          <p className="mt-2 text-[10px] uppercase tracking-[0.16em] text-text-muted font-bold">
-            {MARKET_LABEL_BY_SEGMENT_ID[focusContext.segmentId] ?? focusContext.segmentId}
-          </p>
-          <h3 className="mt-2 text-lg font-bold text-text-main leading-tight">{focusContext.marketName}</h3>
-          <p className="text-xs font-semibold text-text-main mt-1">{focusContext.series}</p>
-          <div className="market-detail-chip mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold">
-            {formatTagLabel(focusContext.tagValue)}
-          </div>
-          <p className="mt-2 text-xs leading-snug text-text-muted">{focusContext.reasonJa}</p>
-          <div className="mt-3 space-y-1.5">
-            {focusContext.entries.map((entry, index) => (
-              <p key={`${entry.label}-${index}`} className="text-xs text-text-main leading-snug">
-                <span className="font-bold">{entry.label}:</span> {entry.value}
-                {entry.noteJa ? <span className="text-text-muted"> ({entry.noteJa})</span> : null}
-              </p>
-            ))}
-          </div>
-        </>
-      ) : (
-        <p className="mt-2 text-xs text-text-muted">Select a series row or rationale chip to see details.</p>
-      )}
-    </article>
-  );
-});
-
-const Layer3Comparison = memo(function Layer3Comparison({
-  comparedProducts,
-  onOpenAdd,
-  onRemove
-}: {
-  comparedProducts: McbProduct[];
-  onOpenAdd: () => void;
-  onRemove: (productId: string) => void;
-}) {
-  const bestProductsByRow = useMemo(() => getBestProductsByRow(comparedProducts), [comparedProducts]);
-
-  return (
-    <section className="mt-6 rounded-3xl border border-scandi-warm-grey bg-white shadow-scandi p-5 md:p-6">
-      <div className="flex flex-wrap items-center justify-end gap-3 mb-4">
-        <button
-          type="button"
-          onClick={onOpenAdd}
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-white text-xs font-bold border border-accent hover:bg-red-600"
-        >
-          <span className="material-symbols-outlined text-sm">add</span>
-          Add Product
-        </button>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[920px] border-collapse">
-          <thead>
-            <tr>
-              <th className="text-left text-xs uppercase tracking-widest text-text-muted font-bold py-3 px-3 border-b border-scandi-warm-grey w-[260px]">
-                Comparison Item
-              </th>
-              {comparedProducts.map((product) => (
-                <th
-                  key={`head-${product.id}`}
-                  className="text-left align-top py-3 px-3 border-b border-scandi-warm-grey min-w-[220px]"
-                >
-                  <p className="text-[11px] uppercase tracking-wider text-text-muted font-bold">
-                    {MANUFACTURER_NAME_BY_ID[product.manufacturerId]}
-                  </p>
-                  <p className="text-sm font-bold text-text-main mt-1">{product.series}</p>
-                  <button
-                    type="button"
-                    onClick={() => onRemove(product.id)}
-                    className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-text-muted hover:text-text-main"
-                  >
-                    <span className="material-symbols-outlined text-base">close</span>
-                    Remove
-                  </button>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {COMPARISON_ROWS.map((row) => (
-              <tr key={row.key}>
-                <th className="text-left text-sm font-bold text-text-main py-3 px-3 border-b border-scandi-warm-grey/80 bg-scandi-light/50">
-                  {row.key === "breakingCapacity" ? (
-                    <>
-                      <span>Breaking Capacity</span>
-                      <br />
-                      <span className="text-xs text-text-muted font-semibold">(Icu / Icn)</span>
-                    </>
-                  ) : (
-                    row.label
-                  )}
-                </th>
-                {comparedProducts.map((product) => {
-                  const value = product.comparison[row.key] || "N/A";
-                  const isBest = bestProductsByRow[row.key].has(product.id);
-
-                  return (
-                    <td key={`${row.key}-${product.id}`} className="py-3 px-3 border-b border-scandi-warm-grey/80">
-                      <div className="flex items-start gap-1.5">
-                        {isBest ? <span className="text-green-600 leading-none">★</span> : null}
-                        <span
-                          className={cx(
-                            "text-sm font-medium text-text-main",
-                            (row.key === "breakingCapacity" || row.key === "standardsApprovals") && "whitespace-pre-line"
-                          )}
-                        >
-                          {row.key === "breakingCapacity"
-                            ? formatBreakingCapacityValue(value)
-                            : row.key === "standardsApprovals"
-                              ? formatStandardsValue(value)
-                              : value}
-                        </span>
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-});
-
 export default function McbPage() {
+  const router = useRouter();
   const {
     addComparedProduct,
     comparedProductIds,
@@ -613,6 +213,7 @@ export default function McbPage() {
     removeComparedProduct,
     selectManufacturer,
     selectedManufacturerId,
+    setComparedProducts,
     setExpandedSegments,
     toggleSegment
   } = useMcbStore(
@@ -623,45 +224,39 @@ export default function McbPage() {
       removeComparedProduct: state.removeComparedProduct,
       selectManufacturer: state.selectManufacturer,
       selectedManufacturerId: state.selectedManufacturerId,
+      setComparedProducts: state.setComparedProducts,
       setExpandedSegments: state.setExpandedSegments,
       toggleSegment: state.toggleSegment
     }))
   );
-
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
-  const [isMobileDetailOpen, setIsMobileDetailOpen] = useState(false);
-  const [activeFocus, setActiveFocus] = useState<MarketFocus | null>(null);
-  const [addManufacturerId, setAddManufacturerId] = useState<ManufacturerId>(selectedManufacturerId);
-  const [addProductId, setAddProductId] = useState("");
 
   const selectedManufacturer = useMemo(
     () => manufacturers.find((manufacturer) => manufacturer.id === selectedManufacturerId) ?? manufacturers[0],
     [selectedManufacturerId]
   );
 
-  const segments = useMemo(
-    () => getSegmentsByManufacturer(selectedManufacturerId),
-    [selectedManufacturerId]
-  );
-
-  const comparedProducts = useMemo(
-    () =>
-      comparedProductIds
-        .map((productId) => getProductById(productId))
-        .filter((product): product is McbProduct => Boolean(product)),
-    [comparedProductIds]
-  );
-  const comparedProductIdSet = useMemo(() => new Set(comparedProductIds), [comparedProductIds]);
-
-  const isCompareFull = comparedProductIds.length >= MAX_COMPARE_PRODUCTS;
+  const segments = useMemo(() => getSegmentsByManufacturer(selectedManufacturerId), [selectedManufacturerId]);
+  const normalizedComparedProductIds = useMemo(() => {
+    const seen = new Set<string>();
+    return comparedProductIds
+      .filter((productId) => {
+        if (seen.has(productId)) {
+          return false;
+        }
+        seen.add(productId);
+        return Boolean(getProductById(productId));
+      })
+      .slice(0, MAX_COMPARE_PRODUCTS);
+  }, [comparedProductIds]);
+  const comparedProductIdSet = useMemo(() => new Set(normalizedComparedProductIds), [normalizedComparedProductIds]);
+  const isCompareFull = normalizedComparedProductIds.length >= MAX_COMPARE_PRODUCTS;
   const isSchneiderMarketView = selectedManufacturerId === "schneider-electric";
 
-  const addProducts = useMemo(() => getProductsByManufacturer(addManufacturerId), [addManufacturerId]);
   const marketSections = useMemo(
     () => (isSchneiderMarketView ? buildMarketSections(selectedManufacturerId) : []),
     [isSchneiderMarketView, selectedManufacturerId]
   );
+
   const segmentProductsById = useMemo(
     () =>
       segments.reduce<Record<string, McbProduct[]>>((accumulator, segment) => {
@@ -671,54 +266,6 @@ export default function McbPage() {
     [segments, selectedManufacturerId]
   );
 
-  const canSubmitAdd = useMemo(
-    () => Boolean(addProductId) && !isCompareFull && !comparedProductIdSet.has(addProductId) && addProducts.length > 0,
-    [addProductId, isCompareFull, comparedProductIdSet, addProducts.length]
-  );
-  const activeFocusContext = useMemo<MarketFocusContext | null>(() => {
-    if (!activeFocus) {
-      return null;
-    }
-
-    const section = marketSections.find((candidate) => candidate.segmentId === activeFocus.segmentId);
-    if (!section) {
-      return null;
-    }
-
-    const row = section.rows.find((candidate) => candidate.productId === activeFocus.productId);
-    if (!row) {
-      return null;
-    }
-
-    const group = row.evidenceItems.find((candidate) => candidate.tagId === activeFocus.tagId);
-    if (!group) {
-      return null;
-    }
-
-    return {
-      segmentId: section.segmentId,
-      marketName: section.marketName,
-      series: row.series,
-      tagValue: group.tagValue,
-      reasonJa: group.reasonJa,
-      entries: group.entries
-    };
-  }, [activeFocus, marketSections]);
-
-  const handleOpenAdd = useCallback(() => setIsAddModalOpen(true), []);
-  const handleToggleAdd = useCallback(() => setIsAddModalOpen((open) => !open), []);
-  const handleToggleComparison = useCallback(() => setIsComparisonOpen((open) => !open), []);
-  const handleFocus = useCallback((focus: MarketFocus) => {
-    setActiveFocus(focus);
-    setIsMobileDetailOpen(true);
-  }, []);
-  const handleAddFromModal = useCallback(() => {
-    if (!addProductId) {
-      return;
-    }
-    addComparedProduct(addProductId);
-    setAddProductId("");
-  }, [addComparedProduct, addProductId]);
   const handleSelectManufacturer = useCallback(
     (manufacturer: Manufacturer) => {
       if (manufacturer.enabled) {
@@ -728,6 +275,33 @@ export default function McbPage() {
     [selectManufacturer]
   );
 
+  const handleToggleProduct = useCallback(
+    (productId: string) => {
+      if (comparedProductIdSet.has(productId)) {
+        removeComparedProduct(productId);
+        return;
+      }
+      addComparedProduct(productId);
+    },
+    [addComparedProduct, comparedProductIdSet, removeComparedProduct]
+  );
+
+  const handleGoToSpecs = useCallback(() => {
+    if (!normalizedComparedProductIds.length) {
+      return;
+    }
+    router.push(`/mcb/spec?ids=${encodeURIComponent(normalizedComparedProductIds.join(","))}`);
+  }, [normalizedComparedProductIds, router]);
+
+  useEffect(() => {
+    if (
+      comparedProductIds.length !== normalizedComparedProductIds.length ||
+      comparedProductIds.some((productId, index) => productId !== normalizedComparedProductIds[index])
+    ) {
+      setComparedProducts(normalizedComparedProductIds);
+    }
+  }, [comparedProductIds, normalizedComparedProductIds, setComparedProducts]);
+
   useEffect(() => {
     if (segments.length) {
       setExpandedSegments([segments[0].id]);
@@ -736,92 +310,32 @@ export default function McbPage() {
     }
   }, [segments, setExpandedSegments]);
 
-  useEffect(() => {
-    if (isAddModalOpen) {
-      setAddManufacturerId(selectedManufacturerId);
-      setAddProductId("");
-    }
-  }, [isAddModalOpen, selectedManufacturerId]);
-
-  useEffect(() => {
-    setAddProductId("");
-  }, [addManufacturerId]);
-
-  useEffect(() => {
-    setIsMobileDetailOpen(false);
-  }, [selectedManufacturerId]);
-
-  useEffect(() => {
-    if (!isSchneiderMarketView || !marketSections.length) {
-      if (activeFocus) {
-        setActiveFocus(null);
-      }
-      return;
-    }
-
-    const isCurrentValid = Boolean(
-      activeFocus &&
-        marketSections.some((section) =>
-          section.rows.some(
-            (row) =>
-              row.productId === activeFocus.productId &&
-              section.segmentId === activeFocus.segmentId &&
-              row.evidenceItems.some((group) => group.tagId === activeFocus.tagId)
-          )
-        )
-    );
-
-    if (isCurrentValid) {
-      return;
-    }
-
-    for (const section of marketSections) {
-      if (section.defaultFocus) {
-        setActiveFocus({
-          segmentId: section.segmentId,
-          productId: section.defaultFocus.productId,
-          tagId: section.defaultFocus.tagId
-        });
-        return;
-      }
-    }
-
-    setActiveFocus(null);
-  }, [activeFocus, isSchneiderMarketView, marketSections]);
-
   return (
     <>
       <Sidebar />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-6 md:pb-10 relative z-10">
           <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-2">
-            <section className="sticky top-0 z-20 -mx-1 px-1 py-2 md:py-2.5 bg-scandi-light/95 backdrop-blur supports-[backdrop-filter]:bg-scandi-light/80 border-b border-scandi-warm-grey/70">
-              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 md:gap-4">
-                <span className="inline-flex items-center rounded-full bg-white border border-scandi-warm-grey px-3 py-1.5 text-sm font-bold tracking-wide text-text-main uppercase whitespace-nowrap">
-                  mcb product lineup
-                </span>
-
-                <div className="min-w-0">
-                  <div className="flex items-center justify-center gap-1.5 md:gap-2 w-full">
-                    {manufacturers.map((manufacturer) => (
-                      <ManufacturerCard
-                        key={manufacturer.id}
-                        manufacturer={manufacturer}
-                        selected={manufacturer.id === selectedManufacturerId}
-                        onSelect={() => handleSelectManufacturer(manufacturer)}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
+            <TopBar
+              title="mcb product lineup"
+              manufacturers={manufacturers}
+              selectedManufacturerId={selectedManufacturerId}
+              onSelectManufacturer={handleSelectManufacturer}
+              actions={
+                <>
                   <button
                     type="button"
-                    onClick={handleToggleAdd}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-xs font-bold border border-accent hover:bg-red-600 whitespace-nowrap"
+                    onClick={handleGoToSpecs}
+                    disabled={!comparedProductIds.length}
+                    className={[
+                      "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap",
+                      normalizedComparedProductIds.length
+                        ? "bg-accent text-white border-accent hover:bg-red-600"
+                        : "bg-scandi-warm-grey/40 text-text-muted border-scandi-warm-grey cursor-not-allowed"
+                    ].join(" ")}
                   >
-                    <span className="material-symbols-outlined text-base">add</span>
-                    Add Product
+                    <span className="material-symbols-outlined text-base">visibility</span>
+                    仕様確認 ({normalizedComparedProductIds.length})
                   </button>
                   <Link
                     href="/"
@@ -830,106 +344,24 @@ export default function McbPage() {
                     <span className="material-symbols-outlined text-base">arrow_back</span>
                     Back
                   </Link>
-                </div>
-              </div>
-            </section>
+                </>
+              }
+            />
 
             <section className="rounded-3xl border border-scandi-warm-grey/60 bg-white shadow-scandi p-4 md:p-5">
-              {isAddModalOpen ? (
-                <div className="mb-5 p-4 rounded-2xl border border-scandi-warm-grey bg-scandi-light/70">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-                    <div>
-                      <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Manufacturer</label>
-                      <select
-                        value={addManufacturerId}
-                        onChange={(event) => setAddManufacturerId(event.target.value as ManufacturerId)}
-                        className="mt-1 w-full rounded-xl border border-scandi-warm-grey bg-white px-3 py-2 text-sm font-semibold text-text-main"
-                      >
-                        {manufacturers.map((manufacturer) => (
-                          <option key={`add-maker-${manufacturer.id}`} value={manufacturer.id} disabled={!manufacturer.enabled}>
-                            {manufacturer.enabled ? manufacturer.name : `${manufacturer.name} (Coming Soon)`}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Series</label>
-                      <select
-                        value={addProductId}
-                        onChange={(event) => setAddProductId(event.target.value)}
-                        className="mt-1 w-full rounded-xl border border-scandi-warm-grey bg-white px-3 py-2 text-sm font-semibold text-text-main"
-                        disabled={!addProducts.length}
-                      >
-                        <option value="">Select a product</option>
-                        {addProducts.map((product) => (
-                          <option key={`add-series-${product.id}`} value={product.id}>
-                            {product.series}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="flex items-end">
-                      <button
-                        type="button"
-                        className={cx(
-                          "w-full rounded-xl py-2.5 text-sm font-bold border",
-                          canSubmitAdd
-                            ? "bg-accent text-white border-accent hover:bg-red-600"
-                            : "bg-scandi-warm-grey/50 text-text-muted border-scandi-warm-grey cursor-not-allowed"
-                        )}
-                        disabled={!canSubmitAdd}
-                        onClick={handleAddFromModal}
-                      >
-                        Add to Compare
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
               {selectedManufacturer.enabled ? (
                 isSchneiderMarketView ? (
                   marketSections.length ? (
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_340px] gap-4">
-                        <div className="space-y-3 min-w-0">
-                          {marketSections.map((section) => (
-                            <MarketSectionBoard
-                              key={section.segmentId}
-                              section={section}
-                              comparedProductIdSet={comparedProductIdSet}
-                              isCompareFull={isCompareFull}
-                              onAddProduct={addComparedProduct}
-                              onFocus={handleFocus}
-                            />
-                          ))}
-                        </div>
-                        <aside className="hidden xl:block">
-                          <div className="sticky top-3">
-                            <RightDetailPanel focusContext={activeFocusContext} />
-                          </div>
-                        </aside>
-                      </div>
-
-                      <div className="xl:hidden rounded-xl border border-scandi-warm-grey bg-white">
-                        <button
-                          type="button"
-                          onClick={() => setIsMobileDetailOpen((open) => !open)}
-                          className="w-full px-3 py-2 flex items-center justify-between text-left"
-                        >
-                          <span className="text-xs font-bold tracking-widest uppercase text-text-muted">Rationale Details</span>
-                          <span className="material-symbols-outlined text-base text-text-muted">
-                            {isMobileDetailOpen ? "expand_less" : "expand_more"}
-                          </span>
-                        </button>
-                        {isMobileDetailOpen ? (
-                          <div className="p-3 border-t border-scandi-warm-grey">
-                            <RightDetailPanel focusContext={activeFocusContext} />
-                          </div>
-                        ) : null}
-                      </div>
+                    <div className="space-y-3 min-w-0">
+                      {marketSections.map((section) => (
+                        <MarketSectionBoard
+                          key={section.segmentId}
+                          section={section}
+                          comparedProductIdSet={comparedProductIdSet}
+                          isCompareFull={isCompareFull}
+                          onToggleProduct={handleToggleProduct}
+                        />
+                      ))}
                     </div>
                   ) : (
                     <div className="rounded-2xl border border-dashed border-scandi-warm-grey bg-white p-8 text-center">
@@ -963,14 +395,6 @@ export default function McbPage() {
 
                           {opened ? (
                             <div className="px-4 md:px-5 pb-5">
-                              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2 mb-4">
-                                {segment.rationaleTags.map((tag) => (
-                                  <div key={`${segment.id}-${tag.value}`} className="rounded-xl border border-scandi-warm-grey bg-white p-3">
-                                    <p className="text-sm font-bold text-text-main">{tag.value}</p>
-                                  </div>
-                                ))}
-                              </div>
-
                               <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
                                 {segmentProducts.map((product) => (
                                   <ProductCard
@@ -978,7 +402,7 @@ export default function McbPage() {
                                     product={product}
                                     isSelected={comparedProductIdSet.has(product.id)}
                                     isFull={isCompareFull}
-                                    onAdd={() => addComparedProduct(product.id)}
+                                    onToggle={() => handleToggleProduct(product.id)}
                                   />
                                 ))}
                               </div>
@@ -998,45 +422,6 @@ export default function McbPage() {
                   <p className="text-sm font-bold text-text-muted uppercase tracking-widest">Data in Preparation</p>
                 </div>
               )}
-            </section>
-
-            <section>
-              <div className="mb-3 rounded-xl border border-scandi-warm-grey bg-white">
-                <button
-                  type="button"
-                  onClick={handleToggleComparison}
-                  className="w-full px-4 py-3 flex items-center justify-between text-left"
-                >
-                  <h2 className="text-lg md:text-xl font-bold text-text-main tracking-tight flex items-center gap-2">
-                    <span className="material-symbols-outlined text-xl text-accent">table_chart</span>
-                    Comparison Table ({comparedProducts.length}/{MAX_COMPARE_PRODUCTS})
-                  </h2>
-                  <span className="material-symbols-outlined text-text-muted">
-                    {isComparisonOpen ? "expand_less" : "expand_more"}
-                  </span>
-                </button>
-              </div>
-              {isComparisonOpen ? (
-                comparedProducts.length ? (
-                  <Layer3Comparison
-                    comparedProducts={comparedProducts}
-                    onOpenAdd={handleOpenAdd}
-                    onRemove={removeComparedProduct}
-                  />
-                ) : (
-                  <div className="rounded-3xl border border-dashed border-scandi-warm-grey bg-white p-8 text-center">
-                    <p className="text-sm font-bold text-text-muted uppercase tracking-widest mb-4">No Products Added</p>
-                    <button
-                      type="button"
-                      onClick={handleOpenAdd}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-white text-sm font-bold border border-accent hover:bg-red-600"
-                    >
-                      <span className="material-symbols-outlined text-base">add</span>
-                      Add Product
-                    </button>
-                  </div>
-                )
-              ) : null}
             </section>
 
             <footer className="mt-auto py-8 md:py-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-scandi-warm-grey">

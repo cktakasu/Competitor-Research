@@ -14,6 +14,7 @@ type McbStore = {
   toggleSegment: (segmentId: string) => void;
   setExpandedSegments: (segmentIds: string[]) => void;
   addComparedProduct: (productId: string) => void;
+  setComparedProducts: (productIds: string[]) => void;
   removeComparedProduct: (productId: string) => void;
   clearComparedProducts: () => void;
 };
@@ -53,6 +54,17 @@ export const useMcbStore = create<McbStore>((set) => ({
 
       return { comparedProductIds: [...state.comparedProductIds, productId] };
     });
+  },
+  setComparedProducts: (productIds) => {
+    const normalized = Array.from(
+      new Set(
+        productIds
+          .map((productId) => productId.trim())
+          .filter(Boolean)
+      )
+    ).slice(0, MAX_COMPARE_PRODUCTS);
+
+    set({ comparedProductIds: normalized });
   },
   removeComparedProduct: (productId) => {
     set((state) => ({
