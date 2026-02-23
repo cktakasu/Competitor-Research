@@ -25,121 +25,67 @@ body {
   background: linear-gradient(135deg, #fafaf9 0%, #f4efe6 100%);
 }
 
-.breaker-card {
-  aspect-ratio: 3 / 4;
-}
-
 .market-section-shell,
 .market-detail-panel {
-  --market-soft: #f3f7fb;
-  --market-soft-strong: #e3ecf6;
-  --market-border: #c7d6e8;
-  --market-accent: #466486;
-  --market-chip-bg: #f8fbff;
-  --market-chip-border: #d2deec;
+  --market-soft: #f1efeb;
+  --market-soft-strong: #e7e2db;
+  --market-border: #d3ccc3;
+  --market-accent: #6f665d;
+  --market-chip-bg: #f7f4f0;
+  --market-chip-border: #ddd5cb;
 }
 
 .market-section-shell {
   border: 1px solid var(--market-border);
-  background: color-mix(in srgb, white 90%, var(--market-soft) 10%);
-  box-shadow: 0 10px 26px -18px color-mix(in srgb, var(--market-accent) 55%, transparent);
+  border-left-width: 1px;
+  border-left-color: var(--market-border);
+  background: color-mix(in srgb, white 80%, var(--market-soft) 20%);
+  box-shadow: 0 12px 28px -18px color-mix(in srgb, var(--market-accent) 68%, transparent);
   transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 }
 
 .market-section-header {
   background: linear-gradient(
     120deg,
-    color-mix(in srgb, white 76%, var(--market-soft) 24%) 0%,
-    color-mix(in srgb, white 88%, var(--market-soft-strong) 12%) 100%
+    color-mix(in srgb, white 58%, var(--market-soft) 42%) 0%,
+    color-mix(in srgb, white 72%, var(--market-soft-strong) 28%) 100%
   );
-  border-bottom: 1px solid color-mix(in srgb, var(--market-border) 88%, white 12%);
+  border-bottom: 1px solid color-mix(in srgb, var(--market-border) 94%, white 6%);
 }
 
 .market-summary-chip {
-  border: 1px solid var(--market-chip-border);
+  border: 1px solid color-mix(in srgb, var(--market-chip-border) 86%, var(--market-accent) 14%);
   background: var(--market-chip-bg);
-  color: color-mix(in srgb, #2d2a26 86%, var(--market-accent) 14%);
+  color: color-mix(in srgb, #2d2a26 70%, var(--market-accent) 30%);
 }
 
-.market-row-active {
-  border: 1px solid color-mix(in srgb, var(--market-accent) 46%, white 54%);
-  background: linear-gradient(
-    165deg,
-    color-mix(in srgb, white 85%, var(--market-soft) 15%) 0%,
-    color-mix(in srgb, white 94%, var(--market-soft-strong) 6%) 100%
-  );
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--market-accent) 22%, white 78%);
+.market-row-interactive:hover {
+  border-color: #c5beb6;
+  background: #f4f1ec;
+  box-shadow:
+    inset 0 0 0 1px #ddd6ce,
+    0 10px 20px -14px rgba(45, 42, 38, 0.22);
 }
 
-.market-tag-active {
-  border-color: color-mix(in srgb, var(--market-accent) 62%, white 38%);
-  background: color-mix(in srgb, var(--market-soft) 72%, white 28%);
-  color: color-mix(in srgb, #2d2a26 72%, var(--market-accent) 28%);
+.market-tag-interactive:hover {
+  border-color: #bdb6ae;
+  background: #f2eee8;
+  color: #2d2a26;
 }
 
 .market-detail-panel {
   border: 1px solid var(--market-border);
   background: linear-gradient(
     155deg,
-    color-mix(in srgb, white 96%, var(--market-soft) 4%) 0%,
-    color-mix(in srgb, white 88%, var(--market-soft-strong) 12%) 100%
+    color-mix(in srgb, white 84%, var(--market-soft) 16%) 0%,
+    color-mix(in srgb, white 74%, var(--market-soft-strong) 26%) 100%
   );
-  box-shadow: 0 14px 24px -20px color-mix(in srgb, var(--market-accent) 55%, transparent);
+  box-shadow: 0 16px 28px -20px color-mix(in srgb, var(--market-accent) 62%, transparent);
   transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 }
 
 .market-detail-chip {
-  border: 1px solid color-mix(in srgb, var(--market-accent) 38%, white 62%);
-  background: color-mix(in srgb, var(--market-soft) 80%, white 20%);
-  color: color-mix(in srgb, #2d2a26 72%, var(--market-accent) 28%);
-}
-
-.market-section-shell[data-market="residential"],
-.market-detail-panel[data-market="residential"] {
-  --market-soft: #eff5fb;
-  --market-soft-strong: #dbe9f8;
-  --market-border: #c6d7eb;
-  --market-accent: #4f6d91;
-  --market-chip-bg: #f7fbff;
-  --market-chip-border: #cedff2;
-}
-
-.market-section-shell[data-market="commercial-building"],
-.market-detail-panel[data-market="commercial-building"] {
-  --market-soft: #eff8f6;
-  --market-soft-strong: #dcefeb;
-  --market-border: #c8e0db;
-  --market-accent: #3d746a;
-  --market-chip-bg: #f6fcfa;
-  --market-chip-border: #cfe7e2;
-}
-
-.market-section-shell[data-market="industrial"],
-.market-detail-panel[data-market="industrial"] {
-  --market-soft: #f8f3ee;
-  --market-soft-strong: #efe3d4;
-  --market-border: #e1cdb3;
-  --market-accent: #876447;
-  --market-chip-bg: #fdf8f2;
-  --market-chip-border: #e9d7c1;
-}
-
-.market-section-shell[data-market="oem-machine-building"],
-.market-detail-panel[data-market="oem-machine-building"] {
-  --market-soft: #f2f5f8;
-  --market-soft-strong: #e2e8ef;
-  --market-border: #ced8e4;
-  --market-accent: #556579;
-  --market-chip-bg: #f8fbff;
-  --market-chip-border: #d6dfea;
-}
-
-.market-section-shell[data-market="pv-renewables"],
-.market-detail-panel[data-market="pv-renewables"] {
-  --market-soft: #f4f8ef;
-  --market-soft-strong: #e2ecd7;
-  --market-border: #cfdfba;
-  --market-accent: #647948;
-  --market-chip-bg: #f9fcf4;
-  --market-chip-border: #d8e7c7;
+  border: 1px solid color-mix(in srgb, var(--market-accent) 56%, white 44%);
+  background: color-mix(in srgb, var(--market-soft-strong) 66%, white 34%);
+  color: color-mix(in srgb, #2d2a26 58%, var(--market-accent) 42%);
 }

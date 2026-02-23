@@ -18,7 +18,7 @@
       {
         "id": "break-4_5-10",
         "value": "4.5-10kA",
-        "reasonJa": "住宅市場を中心に、より高い故障電流条件まで含めた遮断容量レンジを持つため。",
+        "reasonJa": "住宅向けシリーズ全体で容量レンジが分かれるため（DomaeはIEC 60898-1で4.5-6kA）。",
         "evidenceRefs": [
           { "source": "comparison", "key": "breakingCapacity" },
           { "source": "specification", "label": "Breaking Capacity (Icn)" }
@@ -53,7 +53,7 @@
     "rationaleTags": [
       {
         "id": "std-dual",
-        "value": "IEC 60898-1 + 60947-2",
+        "value": "IEC 60898-1, IEC 60947-2",
         "reasonJa": "ビル設備と産業寄り回路の両要件を意識した二規格対応のため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "standardsApprovals" },
@@ -145,7 +145,7 @@
     "rationaleTags": [
       {
         "id": "global-standards",
-        "value": "UL489 / UL1077 + CSA + IEC + CCC",
+        "value": "UL489 / UL1077 + CSA + IEC 60947-2 + CCC",
         "reasonJa": "多地域の要求規格を跨いだ機械輸出案件に適合しやすいため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "standardsApprovals" },
@@ -163,7 +163,7 @@
       },
       {
         "id": "ccc-ready",
-        "value": "CCC certified",
+        "value": "CCC",
         "reasonJa": "中国向け案件で必要となる認証要件を満たしやすいため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "standardsApprovals" },
@@ -220,7 +220,7 @@
       },
       {
         "id": "std-dc",
-        "value": "IEC 60947-2 (DC)",
+        "value": "IEC 60947-2",
         "reasonJa": "DC保護用途の規格条件を満たす前提で採用判断できるため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "standardsApprovals" },

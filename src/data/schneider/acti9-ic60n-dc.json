@@ -10,7 +10,7 @@
     "numberOfPoles": "1P, 2P (series), 4P (series)",
     "ratedVoltageUe": "12-250V DC",
     "ratedInsulationVoltageUi": "N/A",
-    "standardsApprovals": "IEC 60947-2 (DC)",
+    "standardsApprovals": "IEC 60947-2",
     "widthPerPole": "N/A",
     "serviceBreakingCapacityIcs": "N/A"
   },
@@ -19,6 +19,6 @@
     { "label": "DC Voltage (2P series)", "value": "Up to 125V DC" },
     { "label": "DC Voltage (4P series)", "value": "Up to 250V DC" },
     { "label": "Breaking Capacity (Icu) @60V DC", "value": "10kA" },
-    { "label": "Standards", "value": "IEC 60947-2 (DC)" }
+    { "label": "Standards", "value": "IEC 60947-2" }
   ]
 }

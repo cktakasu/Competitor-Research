@@ -5,8 +5,8 @@
   "series": "Easy9",
   "comparison": {
     "ratedCurrentIn": "6-63A",
-    "breakingCapacity": "Icn: 4.5kA @400V",
-    "tripCurveCharacteristics": "C",
+    "breakingCapacity": "Icn: 4.5kA @230/400V",
+    "tripCurveCharacteristics": "B, C",
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "230/400V AC",
     "ratedInsulationVoltageUi": "N/A",
@@ -16,8 +16,8 @@
   },
   "specifications": [
     { "label": "Rated Current (In)", "value": "6-63A" },
-    { "label": "Breaking Capacity (Icn)", "value": "4.5kA @400V" },
-    { "label": "Curve", "value": "C" },
+    { "label": "Breaking Capacity (Icn)", "value": "4.5kA @230/400V" },
+    { "label": "Curve", "value": "B, C" },
     { "label": "Standards", "value": "IEC 60898-1" },
     { "label": "Poles", "value": "1P, 2P, 3P, 4P" },
     { "label": "Rated Voltage (Ue)", "value": "230/400V AC" },

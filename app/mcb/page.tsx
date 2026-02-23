@@ -47,6 +47,109 @@ const MARKET_LABEL_BY_SEGMENT_ID: Record<string, string> = {
   "pv-renewables": "PV / Renewables"
 };
 
+const splitSummaryBadgeTag = (tag: string): string[] =>
+  (/^Curve\s+/i.test(tag.trim())
+    ? [tag.trim().replace(/\s*,\s*/g, ", ")]
+    : tag
+    .split(",")
+    .flatMap((part) => part.split("+"))
+    .flatMap((part) => {
+      const trimmed = part.trim();
+      if (!trimmed) {
+        return [];
+      }
+      if (trimmed.includes(" / ") && /^(UL|IEC|EN|CSA|CCC)/.test(trimmed)) {
+        return trimmed.split(" / ").map((item) => item.trim()).filter(Boolean);
+      }
+      return [trimmed];
+    }));
+
+const badgeOrderRank = (tag: string): number => {
+  if (/(IEC|EN|UL|CSA|CCC|Standard)/i.test(tag)) {
+    return 0;
+  }
+  if (/(^|[^0-9])\d+(\.\d+)?-\d+(\.\d+)?A\b|Rated Current|Current/i.test(tag)) {
+    return 1;
+  }
+  if (/(kA|Breaking|Icu|Icn)/i.test(tag)) {
+    return 2;
+  }
+  if (/Curve/i.test(tag)) {
+    return 3;
+  }
+  return 4;
+};
+
+const standardOrderRank = (tag: string): number => {
+  if (/^IEC\b/i.test(tag)) {
+    return 0;
+  }
+  if (/^EN\b/i.test(tag)) {
+    return 1;
+  }
+  if (/^UL\b/i.test(tag)) {
+    return 2;
+  }
+  if (/^CSA\b/i.test(tag)) {
+    return 3;
+  }
+  if (/^CCC\b/i.test(tag)) {
+    return 4;
+  }
+  if (/Standard/i.test(tag)) {
+    return 5;
+  }
+  return 9;
+};
+
+const compareTagLabel = (a: string, b: string): number => {
+  const rankDiff = badgeOrderRank(a) - badgeOrderRank(b);
+  if (rankDiff !== 0) {
+    return rankDiff;
+  }
+  if (badgeOrderRank(a) === 0) {
+    const standardRankDiff = standardOrderRank(a) - standardOrderRank(b);
+    if (standardRankDiff !== 0) {
+      return standardRankDiff;
+    }
+  }
+  return a.localeCompare(b);
+};
+
+const sortBadgeTags = (tags: string[]): string[] => [...tags].sort(compareTagLabel);
+
+const normalizeTagKey = (tag: string): string =>
+  tag
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/\s*-\s*/g, "-")
+    .trim();
+
+const dedupeTags = (tags: string[]): string[] => {
+  const uniqueByKey = Array.from(
+    new Map(tags.map((tag) => [normalizeTagKey(tag), tag.trim()])).values()
+  ).filter(Boolean);
+
+  // If one tag is fully contained in another (e.g. "CCC" vs "CCC certified"), keep the richer tag.
+  return uniqueByKey.filter((candidate) => {
+    const candidateKey = normalizeTagKey(candidate);
+    return !uniqueByKey.some((other) => {
+      if (other === candidate) {
+        return false;
+      }
+      const otherKey = normalizeTagKey(other);
+      return otherKey.includes(candidateKey) && otherKey.length > candidateKey.length;
+    });
+  });
+};
+
+const formatTagLabel = (tag: string): string => {
+  return tag.trim();
+};
+
+const formatBreakingCapacityValue = (value: string): string => value.replace(/\s*;\s*/g, "\n");
+const formatStandardsValue = (value: string): string => value.replace(/\s*;\s*/g, "\n");
+
 type MarketFocus = {
   segmentId: string;
   productId: string;
@@ -134,6 +237,7 @@ const Sidebar = memo(function Sidebar() {
 
 const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manufacturer: Manufacturer }) {
   const [errored, setErrored] = useState(false);
+  const logoScaleClass = manufacturer.id === "abb" ? "scale-75" : manufacturer.id === "eaton" ? "scale-75" : "scale-100";
 
   if (errored) {
     return <span className="text-sm font-bold tracking-wide text-text-main">{manufacturer.name}</span>;
@@ -143,7 +247,10 @@ const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manu
     <img
       src={manufacturer.logoUrl}
       alt={manufacturer.name}
-      className="h-7 md:h-8 w-auto max-w-[150px] object-contain"
+      className={cx(
+        "h-6 md:h-7 w-auto max-w-[108px] md:max-w-[122px] lg:max-w-[132px] object-contain origin-center",
+        logoScaleClass
+      )}
       loading="lazy"
       decoding="async"
       onError={() => setErrored(true)}
@@ -170,16 +277,19 @@ const ManufacturerCard = memo(function ManufacturerCard({
       title={manufacturer.name}
       aria-label={manufacturer.name}
       className={cx(
-        "h-12 px-3 rounded-xl border transition-all duration-200 flex items-center justify-center shrink-0 bg-white/85",
-        selected
-          ? "opacity-100 border-scandi-warm-grey shadow-[0_8px_18px_-14px_rgba(45,42,38,0.35)] ring-1 ring-scandi-warm-grey/60"
-          : "opacity-70 border-transparent hover:opacity-95 hover:border-scandi-warm-grey/60",
+        "relative h-9 md:h-10 px-1 transition-all duration-200 flex items-center justify-center bg-transparent border-0 rounded-none shadow-none appearance-none focus:outline-none focus:ring-0",
+        selected ? "opacity-100" : "opacity-70 hover:opacity-95",
         disabled && "opacity-45 cursor-not-allowed grayscale"
       )}
     >
-      <div className="h-8 flex items-center justify-center">
+      <div className="h-7 flex items-center justify-center">
         <ManufacturerLogo manufacturer={manufacturer} />
       </div>
+      {disabled ? (
+        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full border border-scandi-warm-grey bg-white px-1.5 py-0.5 text-[9px] font-bold leading-none tracking-wide text-text-muted whitespace-nowrap">
+          準備中
+        </span>
+      ) : null}
     </button>
   );
 });
@@ -198,7 +308,7 @@ const ProductCard = memo(function ProductCard({
   const disabled = isSelected || isFull;
 
   return (
-    <article className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm flex flex-col">
+    <article className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm flex flex-col transition-all duration-200 hover:border-text-main/20 hover:shadow-md">
       <h4 className="text-lg font-bold text-text-main tracking-tight">{product.series}</h4>
 
       <dl className="mt-4 space-y-3 flex-1">
@@ -228,45 +338,37 @@ const ProductCard = memo(function ProductCard({
 });
 
 const MarketSectionBoard = memo(function MarketSectionBoard({
-  activeFocus,
   comparedProductIdSet,
   isCompareFull,
   onAddProduct,
   onFocus,
   section
 }: {
-  activeFocus: MarketFocus | null;
   comparedProductIdSet: Set<string>;
   isCompareFull: boolean;
   onAddProduct: (productId: string) => void;
   onFocus: (focus: MarketFocus) => void;
   section: MarketSection;
 }) {
-  const visibleSummaryTags = section.summaryTags.slice(0, 4);
-  const hiddenSummaryCount = Math.max(0, section.summaryTags.length - visibleSummaryTags.length);
+  const summaryBadgeTags = sortBadgeTags(dedupeTags(section.summaryTags.flatMap(splitSummaryBadgeTag)));
   const marketLabel = MARKET_LABEL_BY_SEGMENT_ID[section.segmentId] ?? section.segmentId;
 
   return (
-    <article data-market={section.segmentId} className="market-section-shell rounded-2xl overflow-hidden">
+    <article className="market-section-shell rounded-2xl overflow-hidden">
       <div className="market-section-header px-3 md:px-4 py-2.5 flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.16em] text-text-muted font-bold">{marketLabel}</p>
           <h3 className="text-sm md:text-base font-bold text-text-main whitespace-nowrap">{section.marketName}</h3>
         </div>
         <div className="flex flex-wrap justify-end gap-1">
-          {visibleSummaryTags.map((tag) => (
+          {summaryBadgeTags.map((tag) => (
             <span
               key={`${section.segmentId}-${tag}`}
               className="market-summary-chip inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold"
             >
-              {tag}
+              {formatTagLabel(tag)}
             </span>
           ))}
-          {hiddenSummaryCount > 0 ? (
-            <span className="market-summary-chip inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-text-muted opacity-80">
-              +{hiddenSummaryCount}
-            </span>
-          ) : null}
         </div>
       </div>
 
@@ -275,18 +377,15 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
           {section.rows.map((row) => {
             const isSelected = comparedProductIdSet.has(row.productId);
             const disabled = isSelected || isCompareFull;
-            const defaultTag = row.compactTags.find((tag) => tag.hasEvidence);
-            const visibleTags = row.compactTags.slice(0, 4);
-            const hiddenCount = Math.max(0, row.compactTags.length - visibleTags.length);
-            const rowIsActive = activeFocus?.segmentId === section.segmentId && activeFocus?.productId === row.productId;
-
+            const orderedCompactTags = dedupeTags(row.compactTags.map((tag) => tag.tagValue))
+              .map((tagValue) => row.compactTags.find((tag) => normalizeTagKey(tag.tagValue) === normalizeTagKey(tagValue)))
+              .filter((tag): tag is NonNullable<typeof tag> => Boolean(tag))
+              .sort((a, b) => compareTagLabel(a.tagValue, b.tagValue));
+            const defaultTag = orderedCompactTags.find((tag) => tag.hasEvidence);
             return (
               <article
                 key={`${section.segmentId}-${row.productId}`}
-                className={cx(
-                  "rounded-xl border p-3 md:p-4 cursor-pointer transition-colors duration-200",
-                  rowIsActive ? "market-row-active" : "border-scandi-warm-grey/30 bg-white hover:bg-scandi-light/30"
-                )}
+                className="rounded-xl border p-3 md:p-4 cursor-pointer transition-all duration-200 market-row-interactive border-scandi-warm-grey/30 bg-white"
                 onClick={() => {
                   if (defaultTag) {
                     onFocus({ segmentId: section.segmentId, productId: row.productId, tagId: defaultTag.tagId });
@@ -316,11 +415,15 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <div>
                     <p className="text-[10px] font-bold tracking-widest uppercase text-text-muted">Standards</p>
-                    <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug">{row.standards}</p>
+                    <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug whitespace-pre-line">
+                      {formatStandardsValue(row.standards)}
+                    </p>
                   </div>
                   <div>
                     <p className="text-[10px] font-bold tracking-widest uppercase text-text-muted">Breaking Capacity</p>
-                    <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug">{row.breakingCapacity}</p>
+                    <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug whitespace-pre-line">
+                      {formatBreakingCapacityValue(row.breakingCapacity)}
+                    </p>
                   </div>
                   <div>
                     <p className="text-[10px] font-bold tracking-widest uppercase text-text-muted">Rated Current</p>
@@ -329,14 +432,9 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                 </div>
 
                 <div className="mt-3">
-                  {row.compactTags.length ? (
+                  {orderedCompactTags.length ? (
                     <div className="flex items-center flex-wrap gap-1">
-                      {visibleTags.map((tag) => {
-                        const active =
-                          activeFocus?.segmentId === section.segmentId &&
-                          activeFocus?.productId === row.productId &&
-                          activeFocus?.tagId === tag.tagId;
-
+                      {orderedCompactTags.map((tag) => {
                         return (
                           <button
                             key={`${row.productId}-${tag.tagId}`}
@@ -350,21 +448,15 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                               onFocus({ segmentId: section.segmentId, productId: row.productId, tagId: tag.tagId });
                             }}
                             className={cx(
-                              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold transition-colors duration-200",
-                              !tag.hasEvidence && "opacity-35 cursor-not-allowed",
-                              active ? "market-tag-active" : "border-scandi-warm-grey bg-white text-text-main hover:border-text-main"
+                              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold transition-colors duration-200 market-tag-interactive border-scandi-warm-grey bg-white text-text-main",
+                              !tag.hasEvidence && "opacity-35 cursor-not-allowed"
                             )}
-                            title={tag.tagValue}
+                            title={formatTagLabel(tag.tagValue)}
                           >
-                            {tag.tagValue}
+                            {formatTagLabel(tag.tagValue)}
                           </button>
                         );
                       })}
-                      {hiddenCount > 0 ? (
-                        <span className="inline-flex items-center rounded-full border border-scandi-warm-grey bg-white px-2 py-0.5 text-[10px] font-bold text-text-muted">
-                          +{hiddenCount}
-                        </span>
-                      ) : null}
                     </div>
                   ) : (
                     <p className="text-[11px] font-semibold text-text-muted">Rationale data in preparation</p>
@@ -384,10 +476,8 @@ const RightDetailPanel = memo(function RightDetailPanel({
 }: {
   focusContext: MarketFocusContext | null;
 }) {
-  const marketSegmentId = focusContext?.segmentId ?? "residential";
-
   return (
-    <article data-market={marketSegmentId} className="market-detail-panel rounded-2xl p-4 md:p-5">
+    <article className="market-detail-panel rounded-2xl p-4 md:p-5">
       <p className="text-[11px] font-bold tracking-widest uppercase text-text-muted">Rationale Details</p>
       {focusContext ? (
         <>
@@ -397,7 +487,7 @@ const RightDetailPanel = memo(function RightDetailPanel({
           <h3 className="mt-2 text-lg font-bold text-text-main leading-tight">{focusContext.marketName}</h3>
           <p className="text-xs font-semibold text-text-main mt-1">{focusContext.series}</p>
           <div className="market-detail-chip mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold">
-            {focusContext.tagValue}
+            {formatTagLabel(focusContext.tagValue)}
           </div>
           <p className="mt-2 text-xs leading-snug text-text-muted">{focusContext.reasonJa}</p>
           <div className="mt-3 space-y-1.5">
@@ -490,7 +580,18 @@ const Layer3Comparison = memo(function Layer3Comparison({
                     <td key={`${row.key}-${product.id}`} className="py-3 px-3 border-b border-scandi-warm-grey/80">
                       <div className="flex items-start gap-1.5">
                         {isBest ? <span className="text-green-600 leading-none">★</span> : null}
-                        <span className="text-sm font-medium text-text-main">{value}</span>
+                        <span
+                          className={cx(
+                            "text-sm font-medium text-text-main",
+                            (row.key === "breakingCapacity" || row.key === "standardsApprovals") && "whitespace-pre-line"
+                          )}
+                        >
+                          {row.key === "breakingCapacity"
+                            ? formatBreakingCapacityValue(value)
+                            : row.key === "standardsApprovals"
+                              ? formatStandardsValue(value)
+                              : value}
+                        </span>
                       </div>
                     </td>
                   );
@@ -692,59 +793,48 @@ export default function McbPage() {
     <>
       <Sidebar />
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        <header className="px-4 md:px-8 py-2 md:py-3 relative z-10 flex items-center justify-between gap-3">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white border border-scandi-warm-grey px-3 py-1 text-xs font-bold tracking-wider text-text-main uppercase">
-              <span className="material-symbols-outlined text-sm text-accent">category</span>
-              MCB Product Intelligence
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-scandi-wood border border-scandi-warm-grey text-xs font-bold text-text-main"
-            >
-              <span className="material-symbols-outlined text-base">arrow_back</span>
-              Back to Categories
-            </Link>
-          </div>
-        </header>
-
         <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-6 md:pb-10 relative z-10">
-          <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-3">
-            <section className="py-0">
-              <div className="overflow-x-auto">
-                <div className="flex items-center gap-2 min-w-max">
-                  {manufacturers.map((manufacturer) => (
-                    <ManufacturerCard
-                      key={manufacturer.id}
-                      manufacturer={manufacturer}
-                      selected={manufacturer.id === selectedManufacturerId}
-                      onSelect={() => handleSelectManufacturer(manufacturer)}
-                    />
-                  ))}
+          <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-2">
+            <section className="sticky top-0 z-20 -mx-1 px-1 py-2 md:py-2.5 bg-scandi-light/95 backdrop-blur supports-[backdrop-filter]:bg-scandi-light/80 border-b border-scandi-warm-grey/70">
+              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 md:gap-4">
+                <span className="inline-flex items-center rounded-full bg-white border border-scandi-warm-grey px-3 py-1.5 text-sm font-bold tracking-wide text-text-main uppercase whitespace-nowrap">
+                  mcb product lineup
+                </span>
+
+                <div className="min-w-0">
+                  <div className="flex items-center justify-center gap-1.5 md:gap-2 w-full">
+                    {manufacturers.map((manufacturer) => (
+                      <ManufacturerCard
+                        key={manufacturer.id}
+                        manufacturer={manufacturer}
+                        selected={manufacturer.id === selectedManufacturerId}
+                        onSelect={() => handleSelectManufacturer(manufacturer)}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleToggleAdd}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-xs font-bold border border-accent hover:bg-red-600 whitespace-nowrap"
+                  >
+                    <span className="material-symbols-outlined text-base">add</span>
+                    Add Product
+                  </button>
+                  <Link
+                    href="/"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-scandi-wood border border-scandi-warm-grey text-xs font-bold text-text-main whitespace-nowrap"
+                  >
+                    <span className="material-symbols-outlined text-base">arrow_back</span>
+                    Back
+                  </Link>
                 </div>
               </div>
             </section>
 
             <section className="rounded-3xl border border-scandi-warm-grey/60 bg-white shadow-scandi p-4 md:p-5">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3">
-                <div>
-                  <h2 className="text-xl md:text-2xl font-bold text-text-main tracking-tight flex items-center gap-2">
-                    <span className="material-symbols-outlined text-2xl text-accent">category</span>
-                    Product Lineup
-                  </h2>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleToggleAdd}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-white text-sm font-bold border border-accent hover:bg-red-600"
-                >
-                  <span className="material-symbols-outlined text-base">add</span>
-                  Add Product
-                </button>
-              </div>
-
               {isAddModalOpen ? (
                 <div className="mb-5 p-4 rounded-2xl border border-scandi-warm-grey bg-scandi-light/70">
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
@@ -809,7 +899,6 @@ export default function McbPage() {
                             <MarketSectionBoard
                               key={section.segmentId}
                               section={section}
-                              activeFocus={activeFocus}
                               comparedProductIdSet={comparedProductIdSet}
                               isCompareFull={isCompareFull}
                               onAddProduct={addComparedProduct}
@@ -858,7 +947,7 @@ export default function McbPage() {
                           <button
                             type="button"
                             onClick={() => toggleSegment(segment.id)}
-                            className="w-full text-left p-4 md:p-5 flex items-start justify-between gap-3"
+                            className="w-full text-left p-4 md:p-5 flex items-start justify-between gap-3 transition-colors duration-200 hover:bg-white/70"
                           >
                             <div>
                               <p className="text-base md:text-lg font-bold text-text-main flex items-center gap-2">

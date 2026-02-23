@@ -18,7 +18,7 @@
     { "label": "Rated Current (In)", "value": "0.5-63A" },
     { "label": "Breaking Capacity @480Y/277V", "value": "10kA (UL1077)" },
     { "label": "Breaking Capacity @240V", "value": "14kA (UL1077)" },
-    { "label": "Breaking Capacity (Icu) @415V", "value": "10kA (IEC 60947-2)" },
+    { "label": "Breaking Capacity (Icu) @415V", "value": "10kA" },
     { "label": "DC Voltage", "value": "65V DC (1P), 125V DC (2P)" },
     { "label": "Curve", "value": "B, C, D" },
     { "label": "Standards", "value": "UL1077, CSA, IEC 60947-2, CCC" },
