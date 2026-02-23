@@ -7,7 +7,7 @@ const APPLICATION_TOOLTIP =
 const TAG_CHIP_CLASS =
   "px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey";
 
-const BASE_CARD_CLASS = "group breaker-card relative bg-white rounded-3xl p-8 flex flex-col overflow-hidden";
+const BASE_CARD_CLASS = "group relative bg-white rounded-3xl p-8 flex flex-col overflow-hidden";
 const LOCKED_CARD_CLASS = "shadow-scandi border border-scandi-warm-grey/50";
 const SELECTED_CARD_CLASS = "shadow-2xl border-4 border-accent ring-4 ring-accent/5";
 

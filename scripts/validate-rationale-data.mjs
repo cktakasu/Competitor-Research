@@ -66,7 +66,9 @@ async function main() {
   const segments = await loadJson(segmentsPath);
 
   const files = await readdir(schneiderDir);
-  const productFiles = files.filter((name) => name.endsWith(".json") && name !== "segments.json");
+  const productFiles = files.filter(
+    (name) => name.endsWith(".json") && name !== "segments.json" && !name.startsWith("._")
+  );
 
   const products = [];
   for (const fileName of productFiles) {

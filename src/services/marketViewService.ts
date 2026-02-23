@@ -100,15 +100,33 @@ function resolveEvidenceEntry(product: McbProduct, reference: RationaleEvidenceR
 }
 
 function dedupeEvidenceEntries(entries: MarketEvidenceEntry[]): MarketEvidenceEntry[] {
-  const keySet = new Set<string>();
+  const normalizeValue = (value: string) => value.toLowerCase().replace(/\s+/g, " ").trim();
+  const buckets = new Map<string, MarketEvidenceEntry[]>();
 
-  return entries.filter((entry) => {
-    const key = `${entry.label}::${entry.value}::${entry.noteJa ?? ""}`;
-    if (keySet.has(key)) {
-      return false;
+  for (const entry of entries) {
+    const key = normalizeValue(entry.value);
+    const list = buckets.get(key) ?? [];
+    list.push(entry);
+    buckets.set(key, list);
+  }
+
+  return Array.from(buckets.values()).map((group) => {
+    if (group.length === 1) {
+      return group[0];
     }
-    keySet.add(key);
-    return true;
+
+    // Prefer shorter/canonical labels (e.g. "Curve", "Standards") when values are identical.
+    const preferred = [...group].sort((a, b) => {
+      const aIsVerbose = /\/|Approvals|Characteristics/i.test(a.label);
+      const bIsVerbose = /\/|Approvals|Characteristics/i.test(b.label);
+      if (aIsVerbose !== bIsVerbose) {
+        return aIsVerbose ? 1 : -1;
+      }
+      return a.label.length - b.label.length;
+    })[0];
+
+    const noteJa = group.find((item) => item.noteJa)?.noteJa;
+    return noteJa ? { ...preferred, noteJa } : preferred;
   });
 }
 

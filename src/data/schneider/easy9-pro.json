@@ -10,7 +10,7 @@
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "240/415V AC",
     "ratedInsulationVoltageUi": "500V",
-    "standardsApprovals": "IEC/EN 60898-1, IEC/EN 60947-2 (H variants)",
+    "standardsApprovals": "IEC 60898-1, IEC 60947-2 (H variants)",
     "widthPerPole": "18mm",
     "serviceBreakingCapacityIcs": "Up to 75% Icu (H variants)"
   },
@@ -18,7 +18,7 @@
     { "label": "Rated Current (In)", "value": "2-63A" },
     { "label": "Breaking Capacity (Icn)", "value": "6kA and 10kA @240/415V" },
     { "label": "Curve", "value": "B, C" },
-    { "label": "Standards", "value": "IEC/EN 60898-1, IEC/EN 60947-2 (H variants)" },
+    { "label": "Standards", "value": "IEC 60898-1, IEC 60947-2 (H variants)" },
     { "label": "Poles", "value": "1P, 2P, 3P, 4P" },
     { "label": "Rated Voltage (Ue)", "value": "240/415V AC" },
     { "label": "Rated Insulation Voltage (Ui)", "value": "500V" },

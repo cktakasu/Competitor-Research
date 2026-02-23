@@ -4,8 +4,8 @@
   "segmentId": "residential",
   "series": "Resi9",
   "comparison": {
-    "ratedCurrentIn": "6-40A",
-    "breakingCapacity": "Icn: 6kA @400V",
+    "ratedCurrentIn": "6-63A",
+    "breakingCapacity": "Icn: 4.5-6kA @230/400V",
     "tripCurveCharacteristics": "B, C",
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "230/400V AC",
@@ -15,8 +15,8 @@
     "serviceBreakingCapacityIcs": "N/A"
   },
   "specifications": [
-    { "label": "Rated Current (In)", "value": "6-40A" },
-    { "label": "Breaking Capacity (Icn)", "value": "6kA @400V" },
+    { "label": "Rated Current (In)", "value": "6-63A" },
+    { "label": "Breaking Capacity (Icn)", "value": "4.5-6kA @230/400V" },
     { "label": "Curve", "value": "B, C" },
     { "label": "Standards", "value": "IEC 60898-1" },
     { "label": "Poles", "value": "1P, 2P, 3P, 4P" },
