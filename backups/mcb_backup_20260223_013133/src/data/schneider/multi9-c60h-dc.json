@@ -1,0 +1,27 @@
+{
+  "id": "multi9-c60h-dc",
+  "manufacturerId": "schneider-electric",
+  "segmentId": "oem-machine-building",
+  "series": "Multi9 C60H-DC",
+  "comparison": {
+    "ratedCurrentIn": "0.5-63A",
+    "breakingCapacity": "N/A",
+    "tripCurveCharacteristics": "B, C, K",
+    "numberOfPoles": "1P, 2P",
+    "ratedVoltageUe": "Up to 500V DC",
+    "ratedInsulationVoltageUi": "N/A",
+    "standardsApprovals": "UL1077, IEC 60947-2, CCC",
+    "widthPerPole": "18mm",
+    "serviceBreakingCapacityIcs": "N/A"
+  },
+  "specifications": [
+    { "label": "Rated Current (In)", "value": "0.5-63A" },
+    { "label": "DC Voltage", "value": "Up to 500V DC" },
+    { "label": "Curve", "value": "B, C, K" },
+    { "label": "Standards", "value": "UL1077, IEC 60947-2, CCC" },
+    { "label": "Poles", "value": "1P, 2P" },
+    { "label": "Terminal Type", "value": "Tunnel" },
+    { "label": "Width per Pole", "value": "18mm" },
+    { "label": "Depth", "value": "81mm" }
+  ]
+}
