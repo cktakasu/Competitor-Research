@@ -44,7 +44,7 @@ const ProductCard = memo(function ProductCard({
 
   return (
     <article
-      className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm flex flex-col transition-all duration-200 hover:border-text-main/20 hover:shadow-md cursor-pointer"
+      className="rounded-2xl border border-scandi-warm-grey bg-white p-4 md:p-5 shadow-sm flex flex-col transition-all duration-200 hover:border-scandi-warm-grey/90 hover:bg-scandi-wood/45 cursor-pointer"
       onClick={() => {
         if (!disabled) {
           onToggle();
@@ -130,7 +130,12 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
             return (
               <article
                 key={`${section.segmentId}-${row.productId}`}
-                className="rounded-xl border p-3 md:p-4 transition-all duration-200 border-scandi-warm-grey/30 bg-white cursor-pointer"
+                className={[
+                  "rounded-xl border p-3 md:p-4 transition-all duration-200",
+                  disabled
+                    ? "border-scandi-warm-grey/30 bg-white/90 cursor-not-allowed"
+                    : "border-scandi-warm-grey/30 bg-white cursor-pointer hover:bg-scandi-wood/45 hover:border-scandi-warm-grey/90"
+                ].join(" ")}
                 onClick={() => {
                   if (!disabled) {
                     onToggleProduct(row.productId);
@@ -326,7 +331,7 @@ export default function McbPage() {
                   <button
                     type="button"
                     onClick={handleGoToSpecs}
-                    disabled={!comparedProductIds.length}
+                    disabled={!normalizedComparedProductIds.length}
                     className={[
                       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap",
                       normalizedComparedProductIds.length

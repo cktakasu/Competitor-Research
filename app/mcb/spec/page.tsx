@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildMarketSections } from "../../../src/services/marketViewService";
 import {
   getManufacturers,
@@ -32,13 +32,22 @@ function parseIdsFromQuery(value: string | null): string[] {
   if (!value) {
     return [];
   }
+
+  const safeDecode = (raw: string) => {
+    try {
+      return decodeURIComponent(raw);
+    } catch {
+      return raw;
+    }
+  };
+
   return value
     .split(",")
-    .map((id) => decodeURIComponent(id).trim())
+    .map((id) => safeDecode(id).trim())
     .filter(Boolean);
 }
 
-export default function McbSpecPage() {
+function McbSpecPageContent() {
   const searchParams = useSearchParams();
   const {
     addComparedProduct,
@@ -61,8 +70,13 @@ export default function McbSpecPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [addManufacturerId, setAddManufacturerId] = useState<ManufacturerId>(selectedManufacturerId);
   const [addProductId, setAddProductId] = useState("");
+  const lastAppliedIdsQueryRef = useRef<string | null>(null);
 
-  const selectedIdsFromQuery = useMemo(() => parseIdsFromQuery(searchParams?.get("ids") ?? null), [searchParams]);
+  const idsQueryValue = searchParams?.get("ids") ?? "";
+  const selectedIdsFromQuery = useMemo(
+    () => parseIdsFromQuery(idsQueryValue).filter((productId) => Boolean(getProductById(productId))),
+    [idsQueryValue]
+  );
 
   const comparedProducts = useMemo(
     () =>
@@ -124,9 +138,26 @@ export default function McbSpecPage() {
   }, [addComparedProduct, addProductId]);
 
   useEffect(() => {
-    if (selectedIdsFromQuery.length) {
-      setComparedProducts(selectedIdsFromQuery);
+    if (idsQueryValue) {
+      if (!selectedIdsFromQuery.length) {
+        if (!normalizedComparedProductIds.length) {
+          const firstProduct = getProductsByManufacturer(selectedManufacturerId)[0];
+          if (firstProduct) {
+            setComparedProducts([firstProduct.id]);
+          }
+        }
+        return;
+      }
+
+      if (lastAppliedIdsQueryRef.current !== idsQueryValue) {
+        setComparedProducts(selectedIdsFromQuery);
+        lastAppliedIdsQueryRef.current = idsQueryValue;
+      }
       return;
+    }
+
+    if (lastAppliedIdsQueryRef.current !== null) {
+      lastAppliedIdsQueryRef.current = null;
     }
 
     if (normalizedComparedProductIds.length) {
@@ -137,7 +168,13 @@ export default function McbSpecPage() {
     if (firstProduct) {
       setComparedProducts([firstProduct.id]);
     }
-  }, [normalizedComparedProductIds.length, selectedIdsFromQuery, selectedManufacturerId, setComparedProducts]);
+  }, [
+    idsQueryValue,
+    normalizedComparedProductIds.length,
+    selectedIdsFromQuery,
+    selectedManufacturerId,
+    setComparedProducts
+  ]);
 
   useEffect(() => {
     if (
@@ -321,5 +358,26 @@ export default function McbSpecPage() {
         </div>
       </main>
     </>
+  );
+}
+
+export default function McbSpecPage() {
+  return (
+    <Suspense
+      fallback={
+        <>
+          <Sidebar />
+          <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+            <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-6 md:pb-10 relative z-10">
+              <div className="max-w-[1800px] mx-auto h-full flex items-center justify-center">
+                <p className="text-sm font-bold uppercase tracking-widest text-text-muted">Loading specifications...</p>
+              </div>
+            </div>
+          </main>
+        </>
+      }
+    >
+      <McbSpecPageContent />
+    </Suspense>
   );
 }
