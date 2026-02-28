@@ -1,0 +1,27 @@
+{
+  "id": "domae",
+  "manufacturerId": "schneider-electric",
+  "segmentId": "residential",
+  "series": "Domae",
+  "comparison": {
+    "ratedCurrentIn": "6-63A",
+    "breakingCapacity": "Icn: 6kA @230/400V",
+    "tripCurveCharacteristics": "C",
+    "numberOfPoles": "1P, 2P, 3P",
+    "ratedVoltageUe": "230/400V AC",
+    "ratedInsulationVoltageUi": "N/A",
+    "standardsApprovals": "IEC/EN 60898-1",
+    "widthPerPole": "18mm",
+    "serviceBreakingCapacityIcs": "N/A"
+  },
+  "specifications": [
+    { "label": "Rated Current (In)", "value": "6-63A" },
+    { "label": "Breaking Capacity (Icn)", "value": "6kA @230/400V" },
+    { "label": "Curve", "value": "C" },
+    { "label": "Standards", "value": "IEC/EN 60898-1" },
+    { "label": "Poles", "value": "1P, 2P, 3P" },
+    { "label": "Rated Voltage (Ue)", "value": "230/400V AC" },
+    { "label": "Width per Pole", "value": "18mm (2 pitches of 9mm for 1P, 6 pitches for 3P)" },
+    { "label": "Operating Frequency", "value": "50/60Hz" }
+  ]
+}

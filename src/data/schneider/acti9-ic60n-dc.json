@@ -1,0 +1,24 @@
+{
+  "id": "acti9-ic60n-dc",
+  "manufacturerId": "schneider-electric",
+  "segmentId": "pv-renewables",
+  "series": "Acti9 iC60N (DC)",
+  "comparison": {
+    "ratedCurrentIn": "N/A",
+    "breakingCapacity": "Icu: 10kA @60V DC",
+    "tripCurveCharacteristics": "N/A",
+    "numberOfPoles": "1P, 2P (series), 4P (series)",
+    "ratedVoltageUe": "12-250V DC",
+    "ratedInsulationVoltageUi": "N/A",
+    "standardsApprovals": "IEC 60947-2",
+    "widthPerPole": "N/A",
+    "serviceBreakingCapacityIcs": "N/A"
+  },
+  "specifications": [
+    { "label": "DC Voltage (1P)", "value": "12-60V DC" },
+    { "label": "DC Voltage (2P series)", "value": "Up to 125V DC" },
+    { "label": "DC Voltage (4P series)", "value": "Up to 250V DC" },
+    { "label": "Breaking Capacity (Icu) @60V DC", "value": "10kA" },
+    { "label": "Standards", "value": "IEC 60947-2" }
+  ]
+}

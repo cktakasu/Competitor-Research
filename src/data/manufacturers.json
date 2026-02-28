@@ -1,0 +1,37 @@
+[
+  {
+    "id": "schneider-electric",
+    "name": "Schneider Electric",
+    "logoUrl": "/logos/schneider-electric.svg",
+    "enabled": true,
+    "statusLabel": "Available"
+  },
+  {
+    "id": "abb",
+    "name": "ABB",
+    "logoUrl": "/logos/abb.png",
+    "enabled": false,
+    "statusLabel": "Coming Soon"
+  },
+  {
+    "id": "siemens",
+    "name": "SIEMENS",
+    "logoUrl": "/logos/siemens.png",
+    "enabled": false,
+    "statusLabel": "Coming Soon"
+  },
+  {
+    "id": "eaton",
+    "name": "EATON",
+    "logoUrl": "/logos/eaton.svg",
+    "enabled": false,
+    "statusLabel": "Coming Soon"
+  },
+  {
+    "id": "ls-electric",
+    "name": "LS Electric",
+    "logoUrl": "/logos/ls-electric.png",
+    "enabled": false,
+    "statusLabel": "Coming Soon"
+  }
+]

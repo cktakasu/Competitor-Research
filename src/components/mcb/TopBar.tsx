@@ -1,0 +1,39 @@
+"use client";
+
+import type { ReactNode } from "react";
+import type { Manufacturer } from "../../types/mcb";
+import { ManufacturerSelector } from "./ManufacturerSelector";
+
+export function TopBar({
+  actions,
+  manufacturers,
+  onSelectManufacturer,
+  selectedManufacturerId,
+  title
+}: {
+  actions: ReactNode;
+  manufacturers: Manufacturer[];
+  onSelectManufacturer: (manufacturer: Manufacturer) => void;
+  selectedManufacturerId: Manufacturer["id"];
+  title: string;
+}) {
+  return (
+    <section className="sticky top-0 z-20 -mx-1 px-1 py-2 md:py-2.5 bg-scandi-light/95 backdrop-blur supports-[backdrop-filter]:bg-scandi-light/80 border-b border-scandi-warm-grey/70">
+      <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 md:gap-4">
+        <span className="inline-flex items-center rounded-full bg-white border border-scandi-warm-grey px-3 py-1.5 text-sm font-bold tracking-wide text-text-main uppercase whitespace-nowrap">
+          {title}
+        </span>
+
+        <div className="min-w-0">
+          <ManufacturerSelector
+            manufacturers={manufacturers}
+            selectedManufacturerId={selectedManufacturerId}
+            onSelect={onSelectManufacturer}
+          />
+        </div>
+
+        <div className="flex items-center gap-2">{actions}</div>
+      </div>
+    </section>
+  );
+}

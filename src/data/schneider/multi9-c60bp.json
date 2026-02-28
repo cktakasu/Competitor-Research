@@ -1,0 +1,30 @@
+{
+  "id": "multi9-c60bp",
+  "manufacturerId": "schneider-electric",
+  "segmentId": "oem-machine-building",
+  "series": "Multi9 C60BP (UL489)",
+  "comparison": {
+    "ratedCurrentIn": "0.5-63A",
+    "breakingCapacity": "10kA @480Y/277V; 14kA @240V; Icu: 10kA @415V",
+    "tripCurveCharacteristics": "Z, C, D",
+    "numberOfPoles": "1P, 2P, 3P",
+    "ratedVoltageUe": "480Y/277V AC, 240V AC, 60-125V DC",
+    "ratedInsulationVoltageUi": "N/A",
+    "standardsApprovals": "UL489, CSA, IEC 60947-2, CCC",
+    "widthPerPole": "18mm",
+    "serviceBreakingCapacityIcs": "N/A"
+  },
+  "specifications": [
+    { "label": "Rated Current (In)", "value": "0.5-63A" },
+    { "label": "Breaking Capacity @480Y/277V", "value": "10kA (UL489)" },
+    { "label": "Breaking Capacity @240V", "value": "14kA (UL489)" },
+    { "label": "Breaking Capacity (Icu) @415V", "value": "10kA" },
+    { "label": "DC Voltage", "value": "60V DC (1P), 125V DC (2P)" },
+    { "label": "Curve", "value": "Z, C, D" },
+    { "label": "Standards", "value": "UL489, CSA, IEC 60947-2, CCC" },
+    { "label": "Poles", "value": "1P, 2P, 3P" },
+    { "label": "Terminal Type", "value": "Tunnel" },
+    { "label": "Width per Pole", "value": "18mm" },
+    { "label": "Depth", "value": "103mm" }
+  ]
+}
