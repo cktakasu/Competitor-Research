@@ -4,23 +4,161 @@
   "segmentId": "residential",
   "series": "Easy9 Pro",
   "comparison": {
-    "capacityClass": "Standard (10kA)",
+    "capacityClass": "Standard / High / Premium (6kA-10kA)",
     "ratedCurrentIn": "6-63A",
-    "breakingCapacity": "Icn: 10kA @240/415V",
+    "breakingCapacity": "Icn: 6kA / 10kA @240/415V",
     "tripCurveCharacteristics": "B, C",
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "240/415V AC",
     "ratedInsulationVoltageUi": "500V AC",
-    "standardsApprovals": "IEC 60898-1",
+    "standardsApprovals": "IEC 60898-1, IEC 60947-2",
     "mechanicalEndurance": "20,000回",
     "electricalEndurance": "10,000回",
     "widthPerPole": "18mm",
-    "serviceBreakingCapacityIcs": "75% Icu"
+    "serviceBreakingCapacityIcs": "75% Icu (Pro H)"
   },
+  "variants": [
+    {
+      "variantId": "easy9-pro-6ka",
+      "variantLabel": "Easy9 Pro (6kA)",
+      "comparison": {
+        "capacityClass": "Standard (6kA)",
+        "ratedCurrentIn": "6-63A",
+        "breakingCapacity": "Icn: 6kA @240/415V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "240/415V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "20,000回",
+        "electricalEndurance": "10,000回",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "-"
+      },
+      "specifications": [
+        {
+          "label": "Capacity Class",
+          "value": "Standard (6kA)"
+        },
+        {
+          "label": "Rated Current (In)",
+          "value": "6-63A"
+        },
+        {
+          "label": "Breaking Capacity (Icn)",
+          "value": "6kA @240/415V"
+        },
+        {
+          "label": "Curve",
+          "value": "B, C"
+        },
+        {
+          "label": "Standards",
+          "value": "IEC 60898-1"
+        },
+        {
+          "label": "Poles",
+          "value": "1P, 2P, 3P, 4P"
+        }
+      ]
+    },
+    {
+      "variantId": "easy9-pro-10ka",
+      "variantLabel": "Easy9 Pro (10kA)",
+      "comparison": {
+        "capacityClass": "High (10kA)",
+        "ratedCurrentIn": "6-63A",
+        "breakingCapacity": "Icn: 10kA @240/415V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "240/415V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "20,000回",
+        "electricalEndurance": "10,000回",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "-"
+      },
+      "specifications": [
+        {
+          "label": "Capacity Class",
+          "value": "High (10kA)"
+        },
+        {
+          "label": "Rated Current (In)",
+          "value": "6-63A"
+        },
+        {
+          "label": "Breaking Capacity (Icn)",
+          "value": "10kA @240/415V"
+        },
+        {
+          "label": "Curve",
+          "value": "B, C"
+        },
+        {
+          "label": "Standards",
+          "value": "IEC 60898-1"
+        },
+        {
+          "label": "Poles",
+          "value": "1P, 2P, 3P, 4P"
+        }
+      ]
+    },
+    {
+      "variantId": "easy9-pro-h",
+      "variantLabel": "Easy9 Pro H (10kA)",
+      "comparison": {
+        "capacityClass": "Premium (10kA)",
+        "ratedCurrentIn": "6-63A",
+        "breakingCapacity": "Icn: 10kA, Icu: 10kA @240/415V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "240/415V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "standardsApprovals": "IEC 60898-1, IEC 60947-2",
+        "mechanicalEndurance": "20,000回",
+        "electricalEndurance": "10,000回",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "75% Icu"
+      },
+      "specifications": [
+        {
+          "label": "Capacity Class",
+          "value": "Premium (10kA)"
+        },
+        {
+          "label": "Rated Current (In)",
+          "value": "6-63A"
+        },
+        {
+          "label": "Breaking Capacity",
+          "value": "Icn: 10kA, Icu: 10kA"
+        },
+        {
+          "label": "Service Breaking Capacity",
+          "value": "75% Icu"
+        },
+        {
+          "label": "Curve",
+          "value": "B, C"
+        },
+        {
+          "label": "Standards",
+          "value": "IEC 60898-1, IEC 60947-2"
+        },
+        {
+          "label": "Poles",
+          "value": "1P, 2P, 3P, 4P"
+        }
+      ]
+    }
+  ],
   "specifications": [
     {
       "label": "Capacity Class",
-      "value": "Standard"
+      "value": "Standard / High / Premium"
     },
     {
       "label": "Rated Current (In)",
@@ -28,7 +166,7 @@
     },
     {
       "label": "Breaking Capacity (Icn)",
-      "value": "10kA @240/415V"
+      "value": "6kA / 10kA @240/415V"
     },
     {
       "label": "Curve",
@@ -36,7 +174,7 @@
     },
     {
       "label": "Standards",
-      "value": "IEC 60898-1"
+      "value": "IEC 60898-1, IEC 60947-2"
     },
     {
       "label": "Poles",
