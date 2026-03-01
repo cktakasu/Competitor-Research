@@ -46,7 +46,7 @@ export const ManufacturerCard = memo(function ManufacturerCard({
       title={manufacturer.name}
       aria-label={manufacturer.name}
       className={cx(
-        "relative h-9 md:h-10 px-1 transition-all duration-200 flex items-center justify-center bg-transparent border-0 rounded-none shadow-none appearance-none focus:outline-none focus:ring-0",
+        "relative h-9 md:h-10 px-1 transition-all duration-200 flex items-center justify-center bg-transparent border-0 rounded-none shadow-none appearance-none focus:outline-none focus:ring-0 shrink-0",
         selected ? "opacity-100" : "opacity-70 hover:opacity-95",
         disabled && "opacity-45 cursor-not-allowed grayscale"
       )}
@@ -73,7 +73,7 @@ export const ManufacturerSelector = memo(function ManufacturerSelector({
   onSelect: (manufacturer: Manufacturer) => void;
 }) {
   return (
-    <div className="flex items-center justify-center gap-1.5 md:gap-2 w-full">
+    <div className="flex items-center justify-start md:justify-center gap-1.5 md:gap-2 w-full">
       {manufacturers.map((manufacturer) => (
         <ManufacturerCard
           key={manufacturer.id}

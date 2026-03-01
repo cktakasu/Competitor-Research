@@ -4,24 +4,55 @@
   "segmentId": "residential",
   "series": "Easy9 Pro",
   "comparison": {
-    "ratedCurrentIn": "2-63A",
-    "breakingCapacity": "Icn: 6-10kA @240/415V",
+    "capacityClass": "Standard (10kA)",
+    "ratedCurrentIn": "6-63A",
+    "breakingCapacity": "Icn: 10kA @240/415V",
     "tripCurveCharacteristics": "B, C",
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "240/415V AC",
-    "ratedInsulationVoltageUi": "500V",
-    "standardsApprovals": "IEC 60898-1, IEC 60947-2 (H variants)",
+    "ratedInsulationVoltageUi": "500V AC",
+    "standardsApprovals": "IEC 60898-1",
+    "mechanicalEndurance": "20,000回",
+    "electricalEndurance": "10,000回",
     "widthPerPole": "18mm",
-    "serviceBreakingCapacityIcs": "Up to 75% Icu (H variants)"
+    "serviceBreakingCapacityIcs": "75% Icu"
   },
   "specifications": [
-    { "label": "Rated Current (In)", "value": "2-63A" },
-    { "label": "Breaking Capacity (Icn)", "value": "6kA and 10kA @240/415V" },
-    { "label": "Curve", "value": "B, C" },
-    { "label": "Standards", "value": "IEC 60898-1, IEC 60947-2 (H variants)" },
-    { "label": "Poles", "value": "1P, 2P, 3P, 4P" },
-    { "label": "Rated Voltage (Ue)", "value": "240/415V AC" },
-    { "label": "Rated Insulation Voltage (Ui)", "value": "500V" },
-    { "label": "Width per Pole", "value": "18mm (2/4/6/8 modules for 1P/2P/3P/4P)" }
+    {
+      "label": "Capacity Class",
+      "value": "Standard"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "6-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icn)",
+      "value": "10kA @240/415V"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC 60898-1"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 2P, 3P, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "240/415V AC"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "500V AC"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "18mm"
+    }
   ]
 }

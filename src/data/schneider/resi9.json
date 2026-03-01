@@ -4,24 +4,97 @@
   "segmentId": "residential",
   "series": "Resi9",
   "comparison": {
+    "capacityClass": "Standard (4.5kA / 6kA)",
     "ratedCurrentIn": "6-63A",
-    "breakingCapacity": "Icn: 4.5-6kA @230/400V",
+    "breakingCapacity": "Icn: 4.5kA (1P+N) / 6kA (1P, 2P) @230/400V",
     "tripCurveCharacteristics": "B, C",
-    "numberOfPoles": "1P, 2P, 3P, 4P",
+    "numberOfPoles": "1P, 1P+N, 2P",
     "ratedVoltageUe": "230/400V AC",
-    "ratedInsulationVoltageUi": "N/A",
+    "ratedInsulationVoltageUi": "400V AC",
     "standardsApprovals": "IEC 60898-1",
+    "mechanicalEndurance": "20,000回",
+    "electricalEndurance": "10,000回",
     "widthPerPole": "18mm",
-    "serviceBreakingCapacityIcs": "N/A"
+    "serviceBreakingCapacityIcs": "100% Icn"
   },
+  "variants": [
+    {
+      "variantId": "resi9-1p-2p",
+      "variantLabel": "1P / 2P",
+      "comparison": {
+        "capacityClass": "Standard (6kA)",
+        "ratedCurrentIn": "6-63A",
+        "breakingCapacity": "Icn: 6kA @230/400V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 2P",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "400V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "20,000回",
+        "electricalEndurance": "10,000回",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "100% Icn (6kA)"
+      }
+    },
+    {
+      "variantId": "resi9-1pn",
+      "variantLabel": "1P+N",
+      "comparison": {
+        "capacityClass": "Standard (4.5kA)",
+        "ratedCurrentIn": "6-40A",
+        "breakingCapacity": "Icn: 4.5kA @230/400V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P+N",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "400V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "20,000回",
+        "electricalEndurance": "10,000回",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "100% Icn (4.5kA)"
+      }
+    }
+  ],
   "specifications": [
-    { "label": "Rated Current (In)", "value": "6-63A" },
-    { "label": "Breaking Capacity (Icn)", "value": "4.5-6kA @230/400V" },
-    { "label": "Curve", "value": "B, C" },
-    { "label": "Standards", "value": "IEC 60898-1" },
-    { "label": "Poles", "value": "1P, 2P, 3P, 4P" },
-    { "label": "Rated Voltage (Ue)", "value": "230/400V AC" },
-    { "label": "Width per Pole", "value": "18mm" },
-    { "label": "Busbar System", "value": "Plug-on" }
+    {
+      "label": "Capacity Class",
+      "value": "Standard"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "6-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icn)",
+      "value": "4.5kA (1P+N) / 6kA (1P, 2P) @230/400V"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC 60898-1"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 1P+N, 2P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230/400V AC"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "400V AC"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "18mm"
+    },
+    {
+      "label": "Busbar System",
+      "value": "Plug-on"
+    }
   ]
 }

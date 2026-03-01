@@ -70,10 +70,33 @@ const RANK_RULES: Partial<Record<ComparisonRowKey, RankRule>> = {
   }
 };
 
+export type ComparisonEntry = {
+  id: string; // unique ID for the column (variantId or productId)
+  comparison: McbProduct["comparison"];
+};
+
 export function getBestProductsByRow(comparedProducts: McbProduct[]): Record<ComparisonRowKey, Set<string>> {
   const initial = {} as Record<ComparisonRowKey, Set<string>>;
   for (const row of COMPARISON_ROWS) {
     initial[row.key] = new Set<string>();
+  }
+
+  // Flatten products and variants into entries
+  const entries: ComparisonEntry[] = [];
+  for (const product of comparedProducts) {
+    if (product.variants?.length) {
+      for (const variant of product.variants) {
+        entries.push({
+          id: variant.variantId,
+          comparison: variant.comparison,
+        });
+      }
+    } else {
+      entries.push({
+        id: product.id,
+        comparison: product.comparison,
+      });
+    }
   }
 
   for (const row of COMPARISON_ROWS) {
@@ -83,10 +106,14 @@ export function getBestProductsByRow(comparedProducts: McbProduct[]): Record<Com
     }
 
     const scored: Array<{ id: string; score: number }> = [];
-    for (const product of comparedProducts) {
-      const score = rule.score(product.comparison[row.key]);
+    for (const entry of entries) {
+      const rawValue = entry.comparison[row.key];
+      if (!rawValue) {
+        continue;
+      }
+      const score = rule.score(rawValue);
       if (score !== null && Number.isFinite(score)) {
-        scored.push({ id: product.id, score });
+        scored.push({ id: entry.id, score });
       }
     }
 

@@ -2,8 +2,43 @@
 
 import { memo, useMemo } from "react";
 import { getBestProductsByRow } from "../../services/comparisonService";
-import { COMPARISON_ROWS, type ManufacturerId, type McbProduct } from "../../types/mcb";
+import { COMPARISON_ROWS, type ManufacturerId, type McbProduct, type ProductVariant } from "../../types/mcb";
 import { cx, formatBreakingCapacityValue, formatStandardsValue } from "./utils";
+
+type ComparisonColumn = {
+  productId: string;
+  variantId?: string;
+  manufacturerId: ManufacturerId;
+  series: string;
+  variantLabel?: string;
+  comparison: McbProduct["comparison"];
+};
+
+function buildColumns(products: McbProduct[]): ComparisonColumn[] {
+  const columns: ComparisonColumn[] = [];
+  for (const product of products) {
+    if (product.variants?.length) {
+      for (const variant of product.variants) {
+        columns.push({
+          productId: product.id,
+          variantId: variant.variantId,
+          manufacturerId: product.manufacturerId,
+          series: product.series,
+          variantLabel: variant.variantLabel,
+          comparison: variant.comparison,
+        });
+      }
+    } else {
+      columns.push({
+        productId: product.id,
+        manufacturerId: product.manufacturerId,
+        series: product.series,
+        comparison: product.comparison,
+      });
+    }
+  }
+  return columns;
+}
 
 export const SpecComparisonTable = memo(function SpecComparisonTable({
   comparedProducts,
@@ -16,6 +51,7 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
   onOpenAdd: () => void;
   onRemove: (productId: string) => void;
 }) {
+  const columns = useMemo(() => buildColumns(comparedProducts), [comparedProducts]);
   const bestProductsByRow = useMemo(() => getBestProductsByRow(comparedProducts), [comparedProducts]);
 
   return (
@@ -38,18 +74,21 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
               <th className="text-left text-xs uppercase tracking-widest text-text-muted font-bold py-3 px-3 border-b border-scandi-warm-grey w-[160px]">
                 Comparison Item
               </th>
-              {comparedProducts.map((product) => (
+              {columns.map((col, colIndex) => (
                 <th
-                  key={`head-${product.id}`}
+                  key={`head-${col.productId}-${col.variantLabel ?? colIndex}`}
                   className="text-left align-top py-3 px-3 border-b border-scandi-warm-grey w-[140px]"
                 >
                   <p className="text-[11px] uppercase tracking-wider text-text-muted font-bold">
-                    {manufacturerNameById[product.manufacturerId]}
+                    {manufacturerNameById[col.manufacturerId]}
                   </p>
-                  <p className="text-sm font-bold text-text-main mt-1">{product.series}</p>
+                  <p className="text-sm font-bold text-text-main mt-1">{col.series}</p>
+                  {col.variantLabel ? (
+                    <p className="text-xs font-semibold text-text-muted mt-0.5">{col.variantLabel}</p>
+                  ) : null}
                   <button
                     type="button"
-                    onClick={() => onRemove(product.id)}
+                    onClick={() => onRemove(col.productId)}
                     className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-text-muted hover:text-text-main"
                   >
                     <span className="material-symbols-outlined text-base">close</span>
@@ -73,18 +112,22 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
                     row.label
                   )}
                 </th>
-                {comparedProducts.map((product) => {
-                  const value = product.comparison[row.key] || "N/A";
-                  const isBest = bestProductsByRow[row.key].has(product.id);
+                {columns.map((col, colIndex) => {
+                  const value = col.comparison[row.key] || "N/A";
+                  const columnId = col.variantLabel ? `${col.productId}-${col.variantLabel}` : col.productId; // Note: variants in data use actual variantIds, but buildColumns needs a stable key. Actually let's use variantId if available.
+
+                  // Wait, I should update buildColumns to include a stable ID.
+                  // Let's just use a better key logic.
+                  const isBest = bestProductsByRow[row.key].has(col.variantId || col.productId);
 
                   return (
-                    <td key={`${row.key}-${product.id}`} className="py-3 px-3 border-b border-scandi-warm-grey/80">
+                    <td key={`${row.key}-${col.productId}-${col.variantLabel ?? colIndex}`} className="py-3 px-3 border-b border-scandi-warm-grey/80">
                       <div className="flex items-start gap-1.5">
                         {isBest ? <span className="text-green-600 leading-none">★</span> : null}
                         <span
                           className={cx(
                             "text-sm font-medium text-text-main",
-                            (row.key === "breakingCapacity" || row.key === "standardsApprovals") && "whitespace-pre-line"
+                            (row.key === "breakingCapacity" || row.key === "standardsApprovals" || row.key === "electricalEndurance") && "whitespace-pre-line"
                           )}
                         >
                           {row.key === "breakingCapacity"
