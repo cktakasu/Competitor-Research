@@ -6,27 +6,69 @@
   "comparison": {
     "capacityClass": "High (10kA / 15kA)",
     "ratedCurrentIn": "0.5-63A",
-    "breakingCapacity": "Icn: 10kA @230V; Icu: 15kA @240V",
+    "breakingCapacity": "Icn: 10kA @230/400V; Icu: 15kA @220-240V / 30kA @380-415V",
     "tripCurveCharacteristics": "B, C, D",
     "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
     "ratedVoltageUe": "230/400V AC, 12-250V DC",
     "ratedInsulationVoltageUi": "500V AC",
     "standardsApprovals": "IEC 60898-1, IEC 60947-2",
+    "mechanicalEndurance": "20,000 cycles",
+    "electricalEndurance": "10,000 cycles",
     "widthPerPole": "18mm",
-    "serviceBreakingCapacityIcs": "N/A"
+    "serviceBreakingCapacityIcs": "50% Icu / 100% Icn"
   },
   "specifications": [
-    { "label": "Capacity Class", "value": "High" },
-    { "label": "Rated Current (In)", "value": "0.5-63A" },
-    { "label": "IEC 60898-1 (Icn)", "value": "10kA @230V" },
-    { "label": "IEC 60947-2 (Icu)", "value": "15kA @240V" },
-    { "label": "Breaking Capacity (Icn) @230V", "value": "10kA" },
-    { "label": "Breaking Capacity (Icu) @240V", "value": "15kA" },
-    { "label": "Curve", "value": "B, C, D" },
-    { "label": "Standards", "value": "IEC 60898-1, IEC 60947-2" },
-    { "label": "Poles", "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P" },
-    { "label": "Rated Voltage (Ue)", "value": "230/400V AC, 12-250V DC" },
-    { "label": "Rated Insulation Voltage (Ui)", "value": "500V AC" },
-    { "label": "Width per Pole", "value": "18mm" }
+    {
+      "label": "Capacity Class",
+      "value": "High (15kA Icu / 10kA Icn)"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "0.5-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icu) @220-240V",
+      "value": "15kA (IEC 60947-2)"
+    },
+    {
+      "label": "Breaking Capacity (Icu) @380-415V",
+      "value": "30kA (IEC 60947-2)"
+    },
+    {
+      "label": "Breaking Capacity (Icn) @230/400V",
+      "value": "10kA (IEC 60898-1)"
+    },
+    {
+      "label": "Service Breaking Capacity (Ics)",
+      "value": "50% Icu (7.5kA) / 100% Icn (10kA)"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC 60898-1, IEC 60947-2"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230/400V AC, 12-250V DC"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "500V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand (Uimp)",
+      "value": "6kV"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "18mm"
+    }
   ]
 }
