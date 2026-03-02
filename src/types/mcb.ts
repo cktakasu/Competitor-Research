@@ -8,6 +8,7 @@ export type ComparisonRowKey =
   | "numberOfPoles"
   | "ratedVoltageUe"
   | "ratedInsulationVoltageUi"
+  | "ratedImpulseWithstandVoltageUimp"
   | "standardsApprovals"
   | "mechanicalEndurance"
   | "electricalEndurance"
@@ -53,6 +54,7 @@ export type ProductComparisonSpecs = {
   numberOfPoles: string;
   ratedVoltageUe: string;
   ratedInsulationVoltageUi: string;
+  ratedImpulseWithstandVoltageUimp?: string;
   standardsApprovals: string;
   mechanicalEndurance?: string;
   electricalEndurance?: string;
@@ -89,6 +91,7 @@ export const COMPARISON_ROWS: Array<{ key: ComparisonRowKey; label: string }> = 
   { key: "numberOfPoles", label: "Number of Poles" },
   { key: "ratedVoltageUe", label: "Rated Voltage (Ue)" },
   { key: "ratedInsulationVoltageUi", label: "Rated Insulation Voltage (Ui)" },
+  { key: "ratedImpulseWithstandVoltageUimp", label: "Rated Impulse Withstand Voltage (Uimp)" },
   { key: "standardsApprovals", label: "Standards / Approvals" },
   { key: "mechanicalEndurance", label: "Mechanical Endurance" },
   { key: "electricalEndurance", label: "Electrical Endurance" },

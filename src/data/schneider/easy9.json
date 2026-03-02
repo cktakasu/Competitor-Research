@@ -6,11 +6,12 @@
   "comparison": {
     "capacityClass": "Economy (4.5kA / 6kA)",
     "ratedCurrentIn": "6-63A",
-    "breakingCapacity": "Icn: 4.5kA / 6kA @230/400V",
+    "breakingCapacity": "Icn: 4.5kA / 6kA",
     "tripCurveCharacteristics": "B, C",
-    "numberOfPoles": "1P, 1P+N, 2P, 3P, 4P",
-    "ratedVoltageUe": "230/400V AC",
-    "ratedInsulationVoltageUi": "N/A",
+    "numberOfPoles": "1P, 2P, 3P, 4P",
+    "ratedVoltageUe": "230V AC (1P); 400V AC (2P/3P/4P)",
+    "ratedInsulationVoltageUi": "500V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
     "standardsApprovals": "IEC 60898-1",
     "mechanicalEndurance": "10,000 cycles",
     "electricalEndurance": "4,000 cycles",
@@ -24,11 +25,12 @@
       "comparison": {
         "capacityClass": "Economy (4.5kA)",
         "ratedCurrentIn": "6-63A",
-        "breakingCapacity": "Icn: 4.5kA @230/400V",
+        "breakingCapacity": "Icn: 4.5kA",
         "tripCurveCharacteristics": "B, C",
         "numberOfPoles": "1P, 2P, 3P, 4P",
-        "ratedVoltageUe": "230/400V AC",
-        "ratedInsulationVoltageUi": "N/A",
+        "ratedVoltageUe": "230V AC (1P); 400V AC (2P/3P/4P)",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
         "standardsApprovals": "IEC 60898-1",
         "mechanicalEndurance": "10,000 cycles",
         "electricalEndurance": "4,000 cycles",
@@ -46,7 +48,27 @@
         },
         {
           "label": "Breaking Capacity (Icn)",
-          "value": "4.5kA @230/400V"
+          "value": "4.5kA"
+        },
+        {
+          "label": "Curve",
+          "value": "B, C"
+        },
+        {
+          "label": "Poles",
+          "value": "1P, 2P, 3P, 4P"
+        },
+        {
+          "label": "Rated Voltage (Ue)",
+          "value": "230V AC (1P); 400V AC (2P/3P/4P)"
+        },
+        {
+          "label": "Rated Insulation Voltage (Ui)",
+          "value": "500V AC"
+        },
+        {
+          "label": "Rated Impulse Withstand Voltage (Uimp)",
+          "value": "4kV"
         }
       ]
     },
@@ -56,11 +78,12 @@
       "comparison": {
         "capacityClass": "Economy (6kA)",
         "ratedCurrentIn": "6-63A",
-        "breakingCapacity": "Icn: 6kA @230/400V",
+        "breakingCapacity": "Icn: 6kA",
         "tripCurveCharacteristics": "B, C",
         "numberOfPoles": "1P, 2P, 3P, 4P",
-        "ratedVoltageUe": "230/400V AC",
-        "ratedInsulationVoltageUi": "N/A",
+        "ratedVoltageUe": "230V AC (1P); 400V AC (2P/3P/4P)",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
         "standardsApprovals": "IEC 60898-1",
         "mechanicalEndurance": "10,000 cycles",
         "electricalEndurance": "4,000 cycles",
@@ -78,43 +101,27 @@
         },
         {
           "label": "Breaking Capacity (Icn)",
-          "value": "6kA @230/400V"
-        }
-      ]
-    },
-    {
-      "variantId": "easy9-compact",
-      "variantLabel": "Easy9 Compact (6kA)",
-      "comparison": {
-        "capacityClass": "Economy (6kA)",
-        "ratedCurrentIn": "3-50A",
-        "breakingCapacity": "Icn: 6kA @230/400V",
-        "tripCurveCharacteristics": "B, C",
-        "numberOfPoles": "1P+N",
-        "ratedVoltageUe": "230/400V AC",
-        "ratedInsulationVoltageUi": "N/A",
-        "standardsApprovals": "IEC 60898-1, EN 61009-1",
-        "mechanicalEndurance": "10,000 cycles",
-        "electricalEndurance": "4,000 cycles",
-        "widthPerPole": "18mm",
-        "serviceBreakingCapacityIcs": "100% Icn"
-      },
-      "specifications": [
-        {
-          "label": "Capacity Class",
-          "value": "Economy (6kA)"
+          "value": "6kA"
         },
         {
-          "label": "Rated Current (In)",
-          "value": "3-50A"
+          "label": "Curve",
+          "value": "B, C"
         },
         {
-          "label": "Breaking Capacity (Icn)",
-          "value": "6kA @230/400V"
+          "label": "Poles",
+          "value": "1P, 2P, 3P, 4P"
         },
         {
-          "label": "Form Factor",
-          "value": "Compact (1P+N)"
+          "label": "Rated Voltage (Ue)",
+          "value": "230V AC (1P); 400V AC (2P/3P/4P)"
+        },
+        {
+          "label": "Rated Insulation Voltage (Ui)",
+          "value": "500V AC"
+        },
+        {
+          "label": "Rated Impulse Withstand Voltage (Uimp)",
+          "value": "4kV"
         }
       ]
     }
@@ -126,11 +133,11 @@
     },
     {
       "label": "Rated Current (In)",
-      "value": "3-63A"
+      "value": "1-63A"
     },
     {
       "label": "Breaking Capacity (Icn)",
-      "value": "4.5kA / 6kA @230/400V"
+      "value": "4.5kA / 6kA"
     },
     {
       "label": "Curve",
@@ -138,23 +145,27 @@
     },
     {
       "label": "Standards",
-      "value": "IEC 60898-1, EN 61009-1"
+      "value": "IEC 60898-1"
     },
     {
       "label": "Poles",
-      "value": "1P, 1P+N, 2P, 3P, 4P"
+      "value": "1P, 2P, 3P, 4P"
     },
     {
       "label": "Rated Voltage (Ue)",
-      "value": "230/400V AC"
+      "value": "230V AC (1P); 400V AC (2P/3P/4P)"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "500V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
     },
     {
       "label": "Width per Pole",
       "value": "18mm"
-    },
-    {
-      "label": "Busbar System",
-      "value": "Conventional"
     }
   ]
 }

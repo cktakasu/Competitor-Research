@@ -25,7 +25,7 @@ export function TopBar({
         </span>
 
         <div className="order-3 md:order-2 w-full md:w-auto min-w-0 overflow-x-auto pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <div className="min-w-max md:min-w-0">
+          <div className="w-max pr-2 md:pr-4">
             <ManufacturerSelector
               manufacturers={manufacturers}
               selectedManufacturerId={selectedManufacturerId}
