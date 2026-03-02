@@ -67,11 +67,11 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-max border-collapse">
+      <div className="overflow-x-auto w-full">
+        <table className="w-max border-separate border-spacing-0">
           <thead>
             <tr>
-              <th className="text-left text-xs uppercase tracking-widest text-text-muted font-bold py-3 px-3 border-b border-scandi-warm-grey w-[160px]">
+              <th className="sticky left-0 z-20 bg-white text-left text-xs uppercase tracking-widest text-text-muted font-bold py-3 px-3 border-b border-scandi-warm-grey w-[160px] shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
                 Comparison Item
               </th>
               {columns.map((col, colIndex) => (
@@ -100,8 +100,8 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
           </thead>
           <tbody>
             {COMPARISON_ROWS.map((row) => (
-              <tr key={row.key}>
-                <th className="text-left text-sm font-bold text-text-main py-3 px-3 border-b border-scandi-warm-grey/80 bg-scandi-light/50">
+              <tr key={row.key} className="group">
+                <th className="sticky left-0 z-10 text-left text-sm font-bold text-text-main py-3 px-3 border-b border-scandi-warm-grey/80 bg-scandi-light shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
                   {row.key === "breakingCapacity" ? (
                     <>
                       <span>Breaking Capacity</span>

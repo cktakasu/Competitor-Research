@@ -19,8 +19,8 @@
   },
   "variants": [
     {
-      "variantId": "easy9-standard",
-      "variantLabel": "1P, 2P, 3P, 4P",
+      "variantId": "easy9-4.5ka",
+      "variantLabel": "Easy9 (4.5kA)",
       "comparison": {
         "capacityClass": "Economy (4.5kA)",
         "ratedCurrentIn": "6-63A",
@@ -33,12 +33,58 @@
         "mechanicalEndurance": "10,000回",
         "electricalEndurance": "4,000回",
         "widthPerPole": "18mm",
-        "serviceBreakingCapacityIcs": "100% Icn (4.5kA)"
-      }
+        "serviceBreakingCapacityIcs": "100% Icn"
+      },
+      "specifications": [
+        {
+          "label": "Capacity Class",
+          "value": "Economy (4.5kA)"
+        },
+        {
+          "label": "Rated Current (In)",
+          "value": "6-63A"
+        },
+        {
+          "label": "Breaking Capacity (Icn)",
+          "value": "4.5kA @230/400V"
+        }
+      ]
+    },
+    {
+      "variantId": "easy9-6ka",
+      "variantLabel": "Easy9 (6kA)",
+      "comparison": {
+        "capacityClass": "Economy (6kA)",
+        "ratedCurrentIn": "6-63A",
+        "breakingCapacity": "Icn: 6kA @230/400V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "N/A",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "10,000回",
+        "electricalEndurance": "4,000回",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "100% Icn"
+      },
+      "specifications": [
+        {
+          "label": "Capacity Class",
+          "value": "Economy (6kA)"
+        },
+        {
+          "label": "Rated Current (In)",
+          "value": "6-63A"
+        },
+        {
+          "label": "Breaking Capacity (Icn)",
+          "value": "6kA @230/400V"
+        }
+      ]
     },
     {
       "variantId": "easy9-compact",
-      "variantLabel": "Compact (1P+N)",
+      "variantLabel": "Easy9 Compact (6kA)",
       "comparison": {
         "capacityClass": "Economy (6kA)",
         "ratedCurrentIn": "3-50A",
@@ -51,8 +97,26 @@
         "mechanicalEndurance": "10,000回",
         "electricalEndurance": "4,000回",
         "widthPerPole": "18mm",
-        "serviceBreakingCapacityIcs": "100% Icn (6kA)"
-      }
+        "serviceBreakingCapacityIcs": "100% Icn"
+      },
+      "specifications": [
+        {
+          "label": "Capacity Class",
+          "value": "Economy (6kA)"
+        },
+        {
+          "label": "Rated Current (In)",
+          "value": "3-50A"
+        },
+        {
+          "label": "Breaking Capacity (Icn)",
+          "value": "6kA @230/400V"
+        },
+        {
+          "label": "Form Factor",
+          "value": "Compact (1P+N)"
+        }
+      ]
     }
   ],
   "specifications": [
