@@ -90,8 +90,8 @@ export const COMPARISON_ROWS: Array<{ key: ComparisonRowKey; label: string }> = 
   { key: "ratedVoltageUe", label: "Rated Voltage (Ue)" },
   { key: "ratedInsulationVoltageUi", label: "Rated Insulation Voltage (Ui)" },
   { key: "standardsApprovals", label: "Standards / Approvals" },
-  { key: "mechanicalEndurance", label: "機械的耐久回数" },
-  { key: "electricalEndurance", label: "電気的耐久回数" },
+  { key: "mechanicalEndurance", label: "Mechanical Endurance" },
+  { key: "electricalEndurance", label: "Electrical Endurance" },
   { key: "widthPerPole", label: "Width per Pole" },
   { key: "serviceBreakingCapacityIcs", label: "Service Breaking Capacity (Ics)" }
 ];

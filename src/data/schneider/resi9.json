@@ -12,8 +12,8 @@
     "ratedVoltageUe": "230/400V AC",
     "ratedInsulationVoltageUi": "400V AC",
     "standardsApprovals": "IEC 60898-1",
-    "mechanicalEndurance": "20,000回",
-    "electricalEndurance": "10,000回",
+    "mechanicalEndurance": "20,000 cycles",
+    "electricalEndurance": "10,000 cycles",
     "widthPerPole": "18mm",
     "serviceBreakingCapacityIcs": "100% Icn"
   },
@@ -30,8 +30,8 @@
         "ratedVoltageUe": "230/400V AC",
         "ratedInsulationVoltageUi": "400V AC",
         "standardsApprovals": "IEC 60898-1",
-        "mechanicalEndurance": "20,000回",
-        "electricalEndurance": "10,000回",
+        "mechanicalEndurance": "20,000 cycles",
+        "electricalEndurance": "10,000 cycles",
         "widthPerPole": "18mm",
         "serviceBreakingCapacityIcs": "100% Icn (6kA)"
       }
@@ -48,8 +48,8 @@
         "ratedVoltageUe": "230/400V AC",
         "ratedInsulationVoltageUi": "400V AC",
         "standardsApprovals": "IEC 60898-1",
-        "mechanicalEndurance": "20,000回",
-        "electricalEndurance": "10,000回",
+        "mechanicalEndurance": "20,000 cycles",
+        "electricalEndurance": "10,000 cycles",
         "widthPerPole": "18mm",
         "serviceBreakingCapacityIcs": "100% Icn (4.5kA)"
       }

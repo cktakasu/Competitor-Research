@@ -6,7 +6,13 @@ import { cx } from "./utils";
 
 const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manufacturer: Manufacturer }) {
   const [errored, setErrored] = useState(false);
-  const logoScaleClass = manufacturer.id === "abb" ? "scale-75" : manufacturer.id === "eaton" ? "scale-75" : "scale-100";
+  // Refine scales to prevent horizontal overflow while maintaining visibility
+  const logoScaleClass =
+    manufacturer.id === "abb" ? "scale-75" :
+      manufacturer.id === "eaton" ? "scale-75" :
+        manufacturer.id === "schneider-electric" ? "scale-[0.85]" :
+          manufacturer.id === "ls-electric" ? "scale-[0.85]" :
+            "scale-100";
 
   if (errored) {
     return <span className="text-sm font-bold tracking-wide text-text-main">{manufacturer.name}</span>;
@@ -17,7 +23,7 @@ const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manu
       src={manufacturer.logoUrl}
       alt={manufacturer.name}
       className={cx(
-        "h-6 md:h-7 w-auto max-w-[108px] md:max-w-[122px] lg:max-w-[132px] object-contain origin-center",
+        "h-6 md:h-7 w-auto max-w-[100px] md:max-w-[110px] lg:max-w-[120px] object-contain origin-center",
         logoScaleClass
       )}
       loading="lazy"
@@ -46,12 +52,12 @@ export const ManufacturerCard = memo(function ManufacturerCard({
       title={manufacturer.name}
       aria-label={manufacturer.name}
       className={cx(
-        "relative h-9 md:h-10 px-1 transition-all duration-200 flex items-center justify-center bg-transparent border-0 rounded-none shadow-none appearance-none focus:outline-none focus:ring-0 shrink-0",
+        "relative h-9 md:h-10 px-0.5 transition-all duration-200 flex items-center justify-center bg-transparent border-0 rounded-none shadow-none appearance-none focus:outline-none focus:ring-0 shrink-0",
         selected ? "opacity-100" : "opacity-70 hover:opacity-95",
         disabled && "opacity-45 cursor-not-allowed grayscale"
       )}
     >
-      <div className="h-7 flex items-center justify-center">
+      <div className="h-7 flex items-center justify-center min-w-[60px]">
         <ManufacturerLogo manufacturer={manufacturer} />
       </div>
       {disabled ? (
@@ -73,7 +79,7 @@ export const ManufacturerSelector = memo(function ManufacturerSelector({
   onSelect: (manufacturer: Manufacturer) => void;
 }) {
   return (
-    <div className="flex items-center justify-start md:justify-center gap-1.5 md:gap-2 w-full">
+    <div className="flex items-center justify-start gap-3 md:gap-4 w-full">
       {manufacturers.map((manufacturer) => (
         <ManufacturerCard
           key={manufacturer.id}
