@@ -11,7 +11,7 @@ const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manu
     manufacturer.id === "abb" ? "scale-75" :
       manufacturer.id === "eaton" ? "scale-75" :
         manufacturer.id === "schneider-electric" ? "scale-[0.85]" :
-          manufacturer.id === "ls-electric" ? "scale-[0.85]" :
+          manufacturer.id === "ls-electric" ? "scale-[0.8]" :
             "scale-100";
 
   if (errored) {
@@ -57,7 +57,7 @@ export const ManufacturerCard = memo(function ManufacturerCard({
         disabled && "opacity-45 cursor-not-allowed grayscale"
       )}
     >
-      <div className="h-7 flex items-center justify-center min-w-[60px]">
+      <div className="h-7 flex items-center justify-center min-w-[56px]">
         <ManufacturerLogo manufacturer={manufacturer} />
       </div>
       {disabled ? (
@@ -79,7 +79,7 @@ export const ManufacturerSelector = memo(function ManufacturerSelector({
   onSelect: (manufacturer: Manufacturer) => void;
 }) {
   return (
-    <div className="flex items-center justify-start gap-3 md:gap-4 w-full">
+    <div className="flex items-center justify-start gap-1.5 md:gap-2 w-full">
       {manufacturers.map((manufacturer) => (
         <ManufacturerCard
           key={manufacturer.id}

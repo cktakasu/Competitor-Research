@@ -56,14 +56,14 @@ export const useMcbStore = create<McbStore>((set) => ({
     });
   },
   setComparedProducts: (productIds) => {
-    const normalized = Array.from(
-      new Set(
-        productIds
-          .map((productId) => productId.trim())
-          .filter(Boolean)
-      )
-    ).slice(0, MAX_COMPARE_PRODUCTS);
-
+    const normalized: string[] = [];
+    for (const raw of productIds) {
+      const id = raw.trim();
+      if (id && !normalized.includes(id)) {
+        normalized.push(id);
+        if (normalized.length === MAX_COMPARE_PRODUCTS) break;
+      }
+    }
     set({ comparedProductIds: normalized });
   },
   removeComparedProduct: (productId) => {

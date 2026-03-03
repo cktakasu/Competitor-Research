@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
 import { buildMarketSections } from "../../../src/services/marketViewService";
 import {
   getManufacturers,
@@ -18,34 +18,30 @@ import { TopBar } from "../../../src/components/mcb/TopBar";
 import { SpecComparisonTable } from "../../../src/components/mcb/SpecComparisonTable";
 import { RationalePanel } from "../../../src/components/mcb/RationalePanel";
 import { useShallow } from "zustand/react/shallow";
+import { parseIdsFromQuery } from "./page-utils";
 
 const manufacturers = getManufacturers();
 const MANUFACTURER_NAME_BY_ID = manufacturers.reduce(
-  (accumulator, manufacturer) => {
-    accumulator[manufacturer.id] = manufacturer.name;
-    return accumulator;
+  (acc, m) => {
+    acc[m.id] = m.name;
+    return acc;
   },
   {} as Record<ManufacturerId, string>
 );
 
-function parseIdsFromQuery(value: string | null): string[] {
-  if (!value) {
-    return [];
-  }
-
-  const safeDecode = (raw: string) => {
-    try {
-      return decodeURIComponent(raw);
-    } catch {
-      return raw;
-    }
-  };
-
-  return value
-    .split(",")
-    .map((id) => safeDecode(id).trim())
-    .filter(Boolean);
-}
+const Footer = memo(function Footer() {
+  return (
+    <footer className="mt-auto py-8 md:py-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-scandi-warm-grey">
+      <p className="text-text-muted text-xs font-medium uppercase tracking-widest">
+        © 2026 LV Breaker Intelligence Systems.
+      </p>
+      <div className="flex gap-10">
+        <button type="button" className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors">Privacy Policy</button>
+        <button type="button" className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors">Terms of Service</button>
+      </div>
+    </footer>
+  );
+});
 
 function McbSpecPageContent() {
   const searchParams = useSearchParams();
@@ -74,19 +70,17 @@ function McbSpecPageContent() {
 
   const idsQueryValue = searchParams?.get("ids") ?? "";
   const selectedIdsFromQuery = useMemo(
-    () => parseIdsFromQuery(idsQueryValue).filter((productId) => Boolean(getProductById(productId))),
+    () => parseIdsFromQuery(idsQueryValue).filter((id) => Boolean(getProductById(id))),
     [idsQueryValue]
   );
 
   const comparedProducts = useMemo(
-    () =>
-      comparedProductIds
-        .map((productId) => getProductById(productId))
-        .filter((product): product is McbProduct => Boolean(product)),
+    () => comparedProductIds.map(getProductById).filter((p): p is McbProduct => Boolean(p)),
     [comparedProductIds]
   );
+
   const normalizedComparedProductIds = useMemo(
-    () => comparedProducts.map((product) => product.id).slice(0, MAX_COMPARE_PRODUCTS),
+    () => comparedProducts.map((p) => p.id).slice(0, MAX_COMPARE_PRODUCTS),
     [comparedProducts]
   );
 
@@ -101,16 +95,16 @@ function McbSpecPageContent() {
   );
 
   const selectedManufacturer = useMemo(
-    () => manufacturers.find((manufacturer) => manufacturer.id === selectedManufacturerId) ?? manufacturers[0],
+    () => manufacturers.find((m) => m.id === selectedManufacturerId) ?? manufacturers[0],
     [selectedManufacturerId]
   );
 
   const segments = useMemo(() => getSegmentsByManufacturer(selectedManufacturerId), [selectedManufacturerId]);
   const segmentProductsById = useMemo(
     () =>
-      segments.reduce<Record<string, McbProduct[]>>((accumulator, segment) => {
-        accumulator[segment.id] = getProductsBySegment(selectedManufacturerId, segment.id);
-        return accumulator;
+      segments.reduce<Record<string, McbProduct[]>>((acc, segment) => {
+        acc[segment.id] = getProductsBySegment(selectedManufacturerId, segment.id);
+        return acc;
       }, {}),
     [segments, selectedManufacturerId]
   );
@@ -119,32 +113,42 @@ function McbSpecPageContent() {
 
   const handleSelectManufacturer = useCallback(
     (manufacturer: Manufacturer) => {
-      if (manufacturer.enabled) {
-        selectManufacturer(manufacturer.id);
-      }
+      if (manufacturer.enabled) selectManufacturer(manufacturer.id);
     },
     [selectManufacturer]
   );
 
-  const handleOpenAdd = useCallback(() => setIsAddModalOpen(true), []);
-  const handleToggleAdd = useCallback(() => setIsAddModalOpen((open) => !open), []);
+  const handleOpenAdd = useCallback(() => {
+    setAddManufacturerId(selectedManufacturerId);
+    setAddProductId("");
+    setIsAddModalOpen(true);
+  }, [selectedManufacturerId]);
+
+  const handleToggleAdd = useCallback(() => {
+    if (!isAddModalOpen) {
+      setAddManufacturerId(selectedManufacturerId);
+      setAddProductId("");
+    }
+    setIsAddModalOpen((open) => !open);
+  }, [isAddModalOpen, selectedManufacturerId]);
 
   const handleAddFromModal = useCallback(() => {
-    if (!addProductId) {
-      return;
-    }
+    if (!addProductId) return;
     addComparedProduct(addProductId);
     setAddProductId("");
   }, [addComparedProduct, addProductId]);
+
+  const handleAddManufacturerChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    setAddManufacturerId(event.target.value as ManufacturerId);
+    setAddProductId("");
+  }, []);
 
   useEffect(() => {
     if (idsQueryValue) {
       if (!selectedIdsFromQuery.length) {
         if (!normalizedComparedProductIds.length) {
           const firstProduct = getProductsByManufacturer(selectedManufacturerId)[0];
-          if (firstProduct) {
-            setComparedProducts([firstProduct.id]);
-          }
+          if (firstProduct) setComparedProducts([firstProduct.id]);
         }
         return;
       }
@@ -160,13 +164,9 @@ function McbSpecPageContent() {
       lastAppliedIdsQueryRef.current = null;
     }
 
-    if (normalizedComparedProductIds.length) {
-      return;
-    }
-
-    const firstProduct = getProductsByManufacturer(selectedManufacturerId)[0];
-    if (firstProduct) {
-      setComparedProducts([firstProduct.id]);
+    if (!normalizedComparedProductIds.length) {
+      const firstProduct = getProductsByManufacturer(selectedManufacturerId)[0];
+      if (firstProduct) setComparedProducts([firstProduct.id]);
     }
   }, [
     idsQueryValue,
@@ -179,32 +179,19 @@ function McbSpecPageContent() {
   useEffect(() => {
     if (
       comparedProductIds.length !== normalizedComparedProductIds.length ||
-      comparedProductIds.some((productId, index) => productId !== normalizedComparedProductIds[index])
+      comparedProductIds.some((id, index) => id !== normalizedComparedProductIds[index])
     ) {
       setComparedProducts(normalizedComparedProductIds);
     }
   }, [comparedProductIds, normalizedComparedProductIds, setComparedProducts]);
 
   useEffect(() => {
-    if (!comparedProducts.length) {
-      return;
-    }
+    if (comparedProducts.length === 0) return;
     const primaryManufacturerId = comparedProducts[0].manufacturerId;
     if (selectedManufacturerId !== primaryManufacturerId) {
       selectManufacturer(primaryManufacturerId);
     }
   }, [comparedProducts, selectManufacturer, selectedManufacturerId]);
-
-  useEffect(() => {
-    if (isAddModalOpen) {
-      setAddManufacturerId(selectedManufacturerId);
-      setAddProductId("");
-    }
-  }, [isAddModalOpen, selectedManufacturerId]);
-
-  useEffect(() => {
-    setAddProductId("");
-  }, [addManufacturerId]);
 
   return (
     <>
@@ -238,19 +225,19 @@ function McbSpecPageContent() {
               }
             />
 
-            {isAddModalOpen ? (
+            {isAddModalOpen && (
               <section className="rounded-2xl border border-scandi-warm-grey bg-scandi-light/70 p-4">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Manufacturer</label>
                     <select
                       value={addManufacturerId}
-                      onChange={(event) => setAddManufacturerId(event.target.value as ManufacturerId)}
+                      onChange={handleAddManufacturerChange}
                       className="mt-1 w-full rounded-xl border border-scandi-warm-grey bg-white px-3 py-2 text-sm font-semibold text-text-main"
                     >
-                      {manufacturers.map((manufacturer) => (
-                        <option key={`add-maker-${manufacturer.id}`} value={manufacturer.id} disabled={!manufacturer.enabled}>
-                          {manufacturer.enabled ? manufacturer.name : `${manufacturer.name} (Coming Soon)`}
+                      {manufacturers.map((m) => (
+                        <option key={`add-maker-${m.id}`} value={m.id} disabled={!m.enabled}>
+                          {m.enabled ? m.name : `${m.name} (Coming Soon)`}
                         </option>
                       ))}
                     </select>
@@ -260,14 +247,14 @@ function McbSpecPageContent() {
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Series</label>
                     <select
                       value={addProductId}
-                      onChange={(event) => setAddProductId(event.target.value)}
+                      onChange={(e) => setAddProductId(e.target.value)}
                       className="mt-1 w-full rounded-xl border border-scandi-warm-grey bg-white px-3 py-2 text-sm font-semibold text-text-main"
                       disabled={!addProducts.length}
                     >
                       <option value="">Select a product</option>
-                      {addProducts.map((product) => (
-                        <option key={`add-series-${product.id}`} value={product.id}>
-                          {product.series}
+                      {addProducts.map((p) => (
+                        <option key={`add-series-${p.id}`} value={p.id}>
+                          {p.series}
                         </option>
                       ))}
                     </select>
@@ -276,12 +263,10 @@ function McbSpecPageContent() {
                   <div className="flex items-end">
                     <button
                       type="button"
-                      className={[
-                        "w-full rounded-xl py-2.5 text-sm font-bold border",
-                        canSubmitAdd
+                      className={`w-full rounded-xl py-2.5 text-sm font-bold border ${canSubmitAdd
                           ? "bg-accent text-white border-accent hover:bg-red-600"
                           : "bg-scandi-warm-grey/50 text-text-muted border-scandi-warm-grey cursor-not-allowed"
-                      ].join(" ")}
+                        }`}
                       disabled={!canSubmitAdd}
                       onClick={handleAddFromModal}
                     >
@@ -290,7 +275,7 @@ function McbSpecPageContent() {
                   </div>
                 </div>
               </section>
-            ) : null}
+            )}
 
             {comparedProducts.length ? (
               <SpecComparisonTable
@@ -321,7 +306,7 @@ function McbSpecPageContent() {
               </section>
             )}
 
-            {selectedManufacturer.enabled && selectedManufacturer.id !== "schneider-electric" ? (
+            {selectedManufacturer.enabled && selectedManufacturer.id !== "schneider-electric" && (
               <section className="rounded-xl border border-scandi-warm-grey bg-white p-4">
                 <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-2">Series by Segment</p>
                 <div className="space-y-2">
@@ -333,27 +318,9 @@ function McbSpecPageContent() {
                   ))}
                 </div>
               </section>
-            ) : null}
+            )}
 
-            <footer className="mt-auto py-8 md:py-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-scandi-warm-grey">
-              <p className="text-text-muted text-xs font-medium uppercase tracking-widest">
-                © 2026 LV Breaker Intelligence Systems.
-              </p>
-              <div className="flex gap-10">
-                <button
-                  type="button"
-                  className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors"
-                >
-                  Privacy Policy
-                </button>
-                <button
-                  type="button"
-                  className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors"
-                >
-                  Terms of Service
-                </button>
-              </div>
-            </footer>
+            <Footer />
           </div>
         </div>
       </main>
@@ -381,3 +348,4 @@ export default function McbSpecPage() {
     </Suspense>
   );
 }
+

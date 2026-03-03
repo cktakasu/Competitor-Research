@@ -1,0 +1,32 @@
+[
+    {
+        "id": "residential",
+        "manufacturerId": "ls-electric",
+        "name": "Residential",
+        "icon": "home",
+        "productIds": [
+            "ls-electric-bkn"
+        ],
+        "rationaleTags": []
+    },
+    {
+        "id": "commercial-building",
+        "manufacturerId": "ls-electric",
+        "name": "Commercial / Building",
+        "icon": "apartment",
+        "productIds": [
+            "ls-electric-bk63n"
+        ],
+        "rationaleTags": []
+    },
+    {
+        "id": "industrial",
+        "manufacturerId": "ls-electric",
+        "name": "Industrial",
+        "icon": "factory",
+        "productIds": [
+            "ls-electric-bk125h"
+        ],
+        "rationaleTags": []
+    }
+]

@@ -31,7 +31,7 @@
     "id": "ls-electric",
     "name": "LS Electric",
     "logoUrl": "/logos/ls-electric.png",
-    "enabled": false,
-    "statusLabel": "Coming Soon"
+    "enabled": true,
+    "statusLabel": "Available"
   }
 ]

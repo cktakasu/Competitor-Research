@@ -114,10 +114,6 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
                 </th>
                 {columns.map((col, colIndex) => {
                   const value = col.comparison[row.key] || "N/A";
-                  const columnId = col.variantLabel ? `${col.productId}-${col.variantLabel}` : col.productId; // Note: variants in data use actual variantIds, but buildColumns needs a stable key. Actually let's use variantId if available.
-
-                  // Wait, I should update buildColumns to include a stable ID.
-                  // Let's just use a better key logic.
                   const isBest = bestProductsByRow[row.key].has(col.variantId || col.productId);
 
                   return (

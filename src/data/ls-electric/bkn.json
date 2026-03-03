@@ -1,0 +1,60 @@
+{
+    "id": "ls-electric-bkn",
+    "manufacturerId": "ls-electric",
+    "segmentId": "residential",
+    "series": "BKN",
+    "comparison": {
+        "capacityClass": "Standard (6kA)",
+        "ratedCurrentIn": "1-63A",
+        "breakingCapacity": "Icn: 6kA @230/400V",
+        "tripCurveCharacteristics": "C",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "400V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "100% Icn"
+    },
+    "specifications": [
+        {
+            "label": "Capacity Class",
+            "value": "Standard (6kA)"
+        },
+        {
+            "label": "Rated Current (In)",
+            "value": "1, 2, 3, 4, 6, 10, 13, 16, 20, 25, 32, 40, 50, 63A"
+        },
+        {
+            "label": "Breaking Capacity (Icn)",
+            "value": "6kA (IEC 60898-1)"
+        },
+        {
+            "label": "Service Breaking Capacity (Ics)",
+            "value": "100% Icn"
+        },
+        {
+            "label": "Curve",
+            "value": "C"
+        },
+        {
+            "label": "Standards",
+            "value": "IEC 60898-1"
+        },
+        {
+            "label": "Poles",
+            "value": "1P, 2P, 3P, 4P"
+        },
+        {
+            "label": "Rated Voltage (Ue)",
+            "value": "230/400V AC"
+        },
+        {
+            "label": "Rated Insulation Voltage (Ui)",
+            "value": "400V AC"
+        },
+        {
+            "label": "Width per Pole",
+            "value": "18mm"
+        }
+    ]
+}

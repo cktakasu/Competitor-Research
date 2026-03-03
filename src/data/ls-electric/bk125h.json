@@ -1,0 +1,61 @@
+{
+    "id": "ls-electric-bk125h",
+    "manufacturerId": "ls-electric",
+    "segmentId": "industrial",
+    "series": "BK125H",
+    "comparison": {
+        "capacityClass": "High (10kA)",
+        "ratedCurrentIn": "63-125A",
+        "breakingCapacity": "Icu: 10kA @230/400V",
+        "tripCurveCharacteristics": "B, C, D",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "6kV",
+        "standardsApprovals": "IEC 60947-2",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "50% Icu"
+    },
+    "specifications": [
+        {
+            "label": "Capacity Class",
+            "value": "High (10kA)"
+        },
+        {
+            "label": "Rated Current (In)",
+            "value": "63, 80, 100, 125A"
+        },
+        {
+            "label": "Breaking Capacity (Icu)",
+            "value": "10kA (IEC 60947-2)"
+        },
+        {
+            "label": "Service Breaking Capacity (Ics)",
+            "value": "50% Icu"
+        },
+        {
+            "label": "Curve",
+            "value": "B, C, D"
+        },
+        {
+            "label": "Standards",
+            "value": "IEC 60947-2"
+        },
+        {
+            "label": "Poles",
+            "value": "1P, 2P, 3P, 4P"
+        },
+        {
+            "label": "Rated Voltage (Ue)",
+            "value": "230/400V AC"
+        },
+        {
+            "label": "Rated Insulation Voltage (Ui)",
+            "value": "500V AC"
+        },
+        {
+            "label": "Width per Pole",
+            "value": "27mm"
+        }
+    ]
+}

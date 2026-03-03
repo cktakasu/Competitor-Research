@@ -4,31 +4,77 @@
   "segmentId": "industrial",
   "series": "Acti9 iC60L",
   "comparison": {
-    "capacityClass": "Extra High (25-50kA)",
+    "capacityClass": "Extra High（Icu 20-100kA / Icn 15kA）",
     "ratedCurrentIn": "0.5-63A",
-    "breakingCapacity": "Icu: 50kA @220-240V; 25kA @440V; Icn: 15kA @400V",
-    "tripCurveCharacteristics": "B, C, D, K, Z",
+    "breakingCapacity": "Icn: 15kA; Icu: 20-100kA（400Vで20-25kAが主流）",
+    "tripCurveCharacteristics": "B, C, D, K, Z, MA",
     "numberOfPoles": "1P, 2P, 3P, 4P",
-    "ratedVoltageUe": "230/440V AC",
+    "ratedVoltageUe": "230/400V AC（一部DC対応）",
     "ratedInsulationVoltageUi": "500V AC",
-    "standardsApprovals": "IEC 60898-1, IEC 60947-2",
+    "standardsApprovals": "IEC/EN 60898-1, IEC/EN 60947-2",
     "widthPerPole": "18mm",
-    "serviceBreakingCapacityIcs": "50% of Icu"
+    "serviceBreakingCapacityIcs": "50% of Icu / 100% of Icn"
   },
   "specifications": [
-    { "label": "Capacity Class", "value": "Extra High" },
-    { "label": "Rated Current (In)", "value": "0.5-63A" },
-    { "label": "IEC 60898-1 (Icn)", "value": "N/A" },
-    { "label": "IEC 60947-2 (Icu)", "value": "25-50kA" },
-    { "label": "Breaking Capacity (Icu) @220-240V", "value": "50kA" },
-    { "label": "Breaking Capacity (Icu) @440V", "value": "25kA" },
-    { "label": "Breaking Capacity (Icn) @400V", "value": "15kA" },
-    { "label": "Service Breaking Capacity (Ics)", "value": "50% of Icu" },
-    { "label": "Curve", "value": "B, C, D, K, Z" },
-    { "label": "Standards", "value": "IEC 60898-1, IEC 60947-2" },
-    { "label": "Poles", "value": "1P, 2P, 3P, 4P" },
-    { "label": "Rated Voltage (Ue)", "value": "230/440V AC" },
-    { "label": "Rated Insulation Voltage (Ui)", "value": "500V AC" },
-    { "label": "Width per Pole", "value": "18mm" }
+    {
+      "label": "Capacity Class",
+      "value": "Extra High（Icu 20-100kA / Icn 15kA）"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "0.5-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icu) @IEC 60947-2",
+      "value": "20-100kA（400Vで20-25kAが主流）"
+    },
+    {
+      "label": "Breaking Capacity (Icn) @IEC 60898-1",
+      "value": "15,000A"
+    },
+    {
+      "label": "Service Breaking Capacity (Ics)",
+      "value": "50% of Icu / 100% of Icn"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D, K, Z, MA（品番による）"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60898-1, IEC/EN 60947-2"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 2P, 3P, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230/400V AC（50/60 Hz）※一部DC対応"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "500V AC"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "18mm"
+    },
+    {
+      "label": "Terminal Capacity",
+      "value": "剛性1-35mm² / 柔軟1-25mm²"
+    },
+    {
+      "label": "Operating Temperature",
+      "value": "-35 ～ +70 ℃"
+    },
+    {
+      "label": "Endurance",
+      "value": "機械的: 20,000回 / 電気的: 10,000回（定格による）"
+    },
+    {
+      "label": "Key Features",
+      "value": "VisiTrip（トリップ赤表示） / VisiSafe（接点視認） / 制限クラス3"
+    }
   ]
 }

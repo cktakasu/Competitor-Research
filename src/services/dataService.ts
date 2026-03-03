@@ -1,5 +1,7 @@
 import manufacturersData from "../data/manufacturers.json";
-import segmentsData from "../data/schneider/segments.json";
+import schneiderSegmentsData from "../data/schneider/segments.json";
+import lsSegmentsData from "../data/ls-electric/segments.json";
+
 import acti9Ic60hData from "../data/schneider/acti9-ic60h.json";
 import acti9Ic60hDcData from "../data/schneider/acti9-ic60h-dc.json";
 import acti9Ic60lData from "../data/schneider/acti9-ic60l.json";
@@ -12,10 +14,15 @@ import multi9C60bpData from "../data/schneider/multi9-c60bp.json";
 import multi9C60hDcData from "../data/schneider/multi9-c60h-dc.json";
 import multi9C60spData from "../data/schneider/multi9-c60sp.json";
 import resi9Data from "../data/schneider/resi9.json";
+
+import bknData from "../data/ls-electric/bkn.json";
+import bk63nData from "../data/ls-electric/bk63n.json";
+import bk125hData from "../data/ls-electric/bk125h.json";
+
 import type { Manufacturer, ManufacturerId, McbProduct, McbSegment } from "../types/mcb";
 
 const manufacturers = manufacturersData as Manufacturer[];
-const segments = segmentsData as McbSegment[];
+const segments = [...(schneiderSegmentsData as McbSegment[]), ...(lsSegmentsData as McbSegment[])];
 
 const products = [
   resi9Data,
@@ -29,7 +36,10 @@ const products = [
   multi9C60spData,
   multi9C60hDcData,
   acti9Ic60nDcData,
-  acti9Ic60hDcData
+  acti9Ic60hDcData,
+  bknData,
+  bk63nData,
+  bk125hData
 ] as McbProduct[];
 
 const EMPTY_PRODUCTS: McbProduct[] = [];
@@ -41,33 +51,31 @@ const productById = new Map<string, McbProduct>();
 const segmentsByManufacturer = new Map<ManufacturerId, McbSegment[]>();
 const segmentById = new Map<string, McbSegment>();
 
-for (const manufacturer of manufacturers) {
-  productsByManufacturer.set(manufacturer.id, []);
-  segmentsByManufacturer.set(manufacturer.id, []);
-}
+const initializeData = () => {
+  manufacturers.forEach((m) => {
+    productsByManufacturer.set(m.id, []);
+    segmentsByManufacturer.set(m.id, []);
+  });
 
-for (const product of products) {
-  const byMaker = productsByManufacturer.get(product.manufacturerId);
-  if (byMaker) {
-    byMaker.push(product);
-  }
-  const segmentKey = `${product.manufacturerId}::${product.segmentId}`;
-  const bySegment = productsBySegment.get(segmentKey);
-  if (bySegment) {
-    bySegment.push(product);
-  } else {
-    productsBySegment.set(segmentKey, [product]);
-  }
-  productById.set(product.id, product);
-}
+  products.forEach((product) => {
+    productsByManufacturer.get(product.manufacturerId)?.push(product);
 
-for (const segment of segments) {
-  const byMaker = segmentsByManufacturer.get(segment.manufacturerId);
-  if (byMaker) {
-    byMaker.push(segment);
-  }
-  segmentById.set(`${segment.manufacturerId}::${segment.id}`, segment);
-}
+    const segmentKey = `${product.manufacturerId}::${product.segmentId}`;
+    if (!productsBySegment.has(segmentKey)) {
+      productsBySegment.set(segmentKey, []);
+    }
+    productsBySegment.get(segmentKey)!.push(product);
+
+    productById.set(product.id, product);
+  });
+
+  segments.forEach((segment) => {
+    segmentsByManufacturer.get(segment.manufacturerId)?.push(segment);
+    segmentById.set(`${segment.manufacturerId}::${segment.id}`, segment);
+  });
+};
+
+initializeData();
 
 export function getManufacturers(): Manufacturer[] {
   return manufacturers;

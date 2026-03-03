@@ -20,11 +20,11 @@ export function TopBar({
   return (
     <section className="sticky top-0 z-20 -mx-1 px-1 py-2 md:py-2.5 bg-scandi-light/95 backdrop-blur supports-[backdrop-filter]:bg-scandi-light/80 border-b border-scandi-warm-grey/70">
       <div className="flex flex-wrap items-center justify-between gap-y-3 gap-x-2 md:grid md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-4">
-        <span className="order-1 inline-flex items-center rounded-full bg-white border border-scandi-warm-grey px-3 py-1.5 text-sm font-bold tracking-wide text-text-main uppercase whitespace-nowrap">
+        <span className="order-1 inline-flex items-center rounded-full bg-white border border-scandi-warm-grey px-2 py-1 text-xs font-bold tracking-wide text-text-main uppercase whitespace-nowrap">
           {title}
         </span>
 
-        <div className="order-3 md:order-2 w-full md:w-auto min-w-0 overflow-x-auto pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="order-3 md:order-2 w-full md:w-auto min-w-0 overflow-x-auto pb-1 md:pb-0">
           <div className="w-max pr-2 md:pr-4">
             <ManufacturerSelector
               manufacturers={manufacturers}

@@ -103,27 +103,26 @@ function dedupeEvidenceEntries(entries: MarketEvidenceEntry[]): MarketEvidenceEn
   const normalizeValue = (value: string) => value.toLowerCase().replace(/\s+/g, " ").trim();
   const buckets = new Map<string, MarketEvidenceEntry[]>();
 
-  for (const entry of entries) {
+  entries.forEach((entry) => {
     const key = normalizeValue(entry.value);
-    const list = buckets.get(key) ?? [];
-    list.push(entry);
-    buckets.set(key, list);
-  }
+    const existing = buckets.get(key);
+
+    if (!existing) {
+      buckets.set(key, [entry]);
+    } else {
+      existing.push(entry);
+    }
+  });
 
   return Array.from(buckets.values()).map((group) => {
-    if (group.length === 1) {
-      return group[0];
-    }
+    if (group.length === 1) return group[0];
 
-    // Prefer shorter/canonical labels (e.g. "Curve", "Standards") when values are identical.
-    const preferred = [...group].sort((a, b) => {
-      const aIsVerbose = /\/|Approvals|Characteristics/i.test(a.label);
-      const bIsVerbose = /\/|Approvals|Characteristics/i.test(b.label);
-      if (aIsVerbose !== bIsVerbose) {
-        return aIsVerbose ? 1 : -1;
-      }
-      return a.label.length - b.label.length;
-    })[0];
+    const preferred = group.reduce((prev, curr) => {
+      const pVerbose = /\/|Approvals|Characteristics/i.test(prev.label);
+      const cVerbose = /\/|Approvals|Characteristics/i.test(curr.label);
+      if (pVerbose !== cVerbose) return pVerbose ? curr : prev;
+      return prev.label.length <= curr.label.length ? prev : curr;
+    });
 
     const noteJa = group.find((item) => item.noteJa)?.noteJa;
     return noteJa ? { ...preferred, noteJa } : preferred;
