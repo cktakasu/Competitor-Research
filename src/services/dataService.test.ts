@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { getManufacturers, getSegmentsByManufacturer, getProductsByManufacturer, getProductById } from './dataService';
+import { getManufacturers, getSegmentsByManufacturer, getProductById } from './dataService';
 
 describe('dataService', () => {
     test('getManufacturers returns an array of manufacturers', () => {

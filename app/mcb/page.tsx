@@ -3,15 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useMemo } from "react";
-import { buildMarketSections, type MarketSection } from "../../src/services/marketViewService";
-import {
-  getManufacturers,
-  getProductById,
-  getProductsBySegment,
-  getSegmentsByManufacturer
-} from "../../src/services/dataService";
-import { MAX_COMPARE_PRODUCTS, useMcbStore } from "../../src/stores/mcbStore";
-import type { Manufacturer, McbProduct } from "../../src/types/mcb";
+import { useShallow } from "zustand/react/shallow";
+import { EmptyState } from "../../src/components/mcb/EmptyState";
+import { PageFooter } from "../../src/components/mcb/PageFooter";
+import { SelectionButton } from "../../src/components/mcb/SelectionButton";
 import { Sidebar } from "../../src/components/mcb/Sidebar";
 import { TopBar } from "../../src/components/mcb/TopBar";
 import {
@@ -25,9 +20,32 @@ import {
   sortBadgeTags,
   splitSummaryBadgeTag
 } from "../../src/components/mcb/utils";
-import { useShallow } from "zustand/react/shallow";
+import {
+  MAX_COMPARE_PRODUCTS,
+  comparedProductIdsMatch,
+  normalizeComparedProductIds
+} from "../../src/services/comparedProducts";
+import {
+  getManufacturers,
+  getProductById,
+  getProductsBySegment,
+  getSegmentsByManufacturer
+} from "../../src/services/dataService";
+import { buildMarketSections, type MarketSection } from "../../src/services/marketViewService";
+import { useMcbStore } from "../../src/stores/mcbStore";
+import type { Manufacturer, McbProduct } from "../../src/types/mcb";
 
 const manufacturers = getManufacturers();
+
+function getSelectableCardClass(disabled: boolean, isSelected: boolean) {
+  if (disabled) {
+    return "border-scandi-warm-grey/50 bg-white/60";
+  }
+
+  return isSelected
+    ? "border-text-muted border-2 bg-scandi-wood/50 hover:bg-scandi-wood active:bg-scandi-wood/80"
+    : "border-scandi-warm-grey bg-white hover:border-text-muted hover:bg-scandi-wood hover:shadow-md active:border-text-muted active:bg-scandi-wood/80";
+}
 
 const ProductCard = memo(function ProductCard({
   isFull,
@@ -46,11 +64,7 @@ const ProductCard = memo(function ProductCard({
     <article
       className={[
         "rounded-2xl border p-4 md:p-5 shadow-sm flex flex-col transition-all duration-200",
-        disabled
-          ? "border-scandi-warm-grey/50 bg-white/60"
-          : isSelected
-            ? "border-text-muted border-2 bg-scandi-wood/50 hover:bg-scandi-wood active:bg-scandi-wood/80"
-            : "border-scandi-warm-grey bg-white hover:border-text-muted hover:bg-scandi-wood hover:shadow-md active:border-text-muted active:bg-scandi-wood/80"
+        getSelectableCardClass(disabled, isSelected)
       ].join(" ")}
     >
       <h4 className="text-lg font-bold text-text-main tracking-tight">{product.series}</h4>
@@ -64,21 +78,7 @@ const ProductCard = memo(function ProductCard({
         ))}
       </dl>
 
-      <button
-        type="button"
-        onClick={onToggle}
-        disabled={disabled}
-        className={[
-          "mt-5 w-full rounded-xl py-2.5 text-sm font-bold border transition-colors",
-          disabled
-            ? "bg-scandi-warm-grey/40 text-text-muted border-scandi-warm-grey cursor-not-allowed"
-            : isSelected
-              ? "bg-text-muted text-white border-text-muted shadow-inner hover:bg-text-muted/90"
-              : "bg-accent text-white border-accent hover:bg-red-600"
-        ].join(" ")}
-      >
-        {isSelected ? "Selected" : "Select"}
-      </button>
+      <SelectionButton selected={isSelected} disabled={disabled} onClick={onToggle} />
     </article>
   );
 });
@@ -94,8 +94,8 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
   onToggleProduct: (productId: string) => void;
   section: MarketSection;
 }) {
-  const summaryBadgeTags = sortBadgeTags(dedupeTags(section.summaryTags.flatMap(splitSummaryBadgeTag)));
   const marketLabel = MARKET_LABEL_BY_SEGMENT_ID[section.segmentId] ?? section.segmentId;
+  const summaryBadgeTags = sortBadgeTags(dedupeTags(section.summaryTags.flatMap(splitSummaryBadgeTag)));
 
   return (
     <article className="market-section-shell rounded-2xl overflow-hidden">
@@ -122,7 +122,9 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
             const isSelected = comparedProductIdSet.has(row.productId);
             const disabled = !isSelected && isCompareFull;
             const orderedCompactTags = dedupeTags(row.compactTags.map((tag) => tag.tagValue))
-              .map((tagValue) => row.compactTags.find((tag) => normalizeTagKey(tag.tagValue) === normalizeTagKey(tagValue)))
+              .map((tagValue) =>
+                row.compactTags.find((tag) => normalizeTagKey(tag.tagValue) === normalizeTagKey(tagValue))
+              )
               .filter((tag): tag is NonNullable<typeof tag> => Boolean(tag))
               .sort((a, b) => compareTagLabel(a.tagValue, b.tagValue));
 
@@ -131,30 +133,19 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                 key={`${section.segmentId}-${row.productId}`}
                 className={[
                   "rounded-xl border p-3 md:p-4 transition-all duration-200",
-                  disabled
-                    ? "border-scandi-warm-grey/30 bg-white/60"
-                    : isSelected
-                      ? "border-text-muted border-2 bg-scandi-wood/50 hover:bg-scandi-wood active:bg-scandi-wood/80"
-                      : "border-scandi-warm-grey/30 bg-white hover:border-text-muted hover:bg-scandi-wood hover:shadow-md active:border-text-muted active:bg-scandi-wood/80"
+                  getSelectableCardClass(disabled, isSelected).replace("border-scandi-warm-grey", "border-scandi-warm-grey/30")
                 ].join(" ")}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <h4 className="text-2xl md:text-[28px] leading-none font-black tracking-tight text-text-main">{row.series}</h4>
-                  <button
-                    type="button"
-                    onClick={() => onToggleProduct(row.productId)}
+                  <h4 className="text-2xl md:text-[28px] leading-none font-black tracking-tight text-text-main">
+                    {row.series}
+                  </h4>
+                  <SelectionButton
+                    compact
+                    selected={isSelected}
                     disabled={disabled}
-                    className={[
-                      "inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-[11px] font-bold border shrink-0",
-                      disabled
-                        ? "bg-scandi-warm-grey/40 text-text-muted border-scandi-warm-grey cursor-not-allowed"
-                        : isSelected
-                          ? "bg-text-muted text-white border-text-muted shadow-inner hover:bg-text-muted/90"
-                          : "bg-accent text-white border-accent hover:bg-red-600"
-                    ].join(" ")}
-                  >
-                    {isSelected ? "Selected" : "Select"}
-                  </button>
+                    onClick={() => onToggleProduct(row.productId)}
+                  />
                 </div>
 
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -165,7 +156,9 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold tracking-widest uppercase text-text-muted">Breaking Capacity</p>
+                    <p className="text-[10px] font-bold tracking-widest uppercase text-text-muted">
+                      Breaking Capacity
+                    </p>
                     <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug whitespace-pre-line">
                       {formatBreakingCapacityValue(row.breakingCapacity)}
                     </p>
@@ -202,6 +195,10 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
   );
 });
 
+function DataPreparationState() {
+  return <EmptyState message="Data in Preparation" />;
+}
+
 export default function McbPage() {
   const router = useRouter();
   const {
@@ -232,29 +229,18 @@ export default function McbPage() {
     () => manufacturers.find((manufacturer) => manufacturer.id === selectedManufacturerId) ?? manufacturers[0],
     [selectedManufacturerId]
   );
-
   const segments = useMemo(() => getSegmentsByManufacturer(selectedManufacturerId), [selectedManufacturerId]);
-  const normalizedComparedProductIds = useMemo(() => {
-    const seen = new Set<string>();
-    return comparedProductIds
-      .filter((productId) => {
-        if (seen.has(productId)) {
-          return false;
-        }
-        seen.add(productId);
-        return Boolean(getProductById(productId));
-      })
-      .slice(0, MAX_COMPARE_PRODUCTS);
-  }, [comparedProductIds]);
+  const normalizedComparedProductIds = useMemo(
+    () => normalizeComparedProductIds(comparedProductIds, (productId) => Boolean(getProductById(productId))),
+    [comparedProductIds]
+  );
   const comparedProductIdSet = useMemo(() => new Set(normalizedComparedProductIds), [normalizedComparedProductIds]);
   const isCompareFull = normalizedComparedProductIds.length >= MAX_COMPARE_PRODUCTS;
   const isSchneiderMarketView = selectedManufacturerId === "schneider-electric";
-
   const marketSections = useMemo(
     () => (isSchneiderMarketView ? buildMarketSections(selectedManufacturerId) : []),
     [isSchneiderMarketView, selectedManufacturerId]
   );
-
   const segmentProductsById = useMemo(
     () =>
       segments.reduce<Record<string, McbProduct[]>>((accumulator, segment) => {
@@ -279,6 +265,7 @@ export default function McbPage() {
         removeComparedProduct(productId);
         return;
       }
+
       addComparedProduct(productId);
     },
     [addComparedProduct, comparedProductIdSet, removeComparedProduct]
@@ -288,24 +275,18 @@ export default function McbPage() {
     if (!normalizedComparedProductIds.length) {
       return;
     }
+
     router.push(`/mcb/spec?ids=${encodeURIComponent(normalizedComparedProductIds.join(","))}`);
   }, [normalizedComparedProductIds, router]);
 
   useEffect(() => {
-    if (
-      comparedProductIds.length !== normalizedComparedProductIds.length ||
-      comparedProductIds.some((productId, index) => productId !== normalizedComparedProductIds[index])
-    ) {
+    if (!comparedProductIdsMatch(comparedProductIds, normalizedComparedProductIds)) {
       setComparedProducts(normalizedComparedProductIds);
     }
   }, [comparedProductIds, normalizedComparedProductIds, setComparedProducts]);
 
   useEffect(() => {
-    if (segments.length) {
-      setExpandedSegments([segments[0].id]);
-    } else {
-      setExpandedSegments([]);
-    }
+    setExpandedSegments(segments.length ? [segments[0].id] : []);
   }, [segments, setExpandedSegments]);
 
   return (
@@ -333,7 +314,7 @@ export default function McbPage() {
                     ].join(" ")}
                   >
                     <span className="material-symbols-outlined text-base">visibility</span>
-                    仕様確認 ({normalizedComparedProductIds.length})
+                    View Specs ({normalizedComparedProductIds.length})
                   </button>
                   <Link
                     href="/"
@@ -347,100 +328,79 @@ export default function McbPage() {
             />
 
             <section className="rounded-3xl border border-scandi-warm-grey/60 bg-white shadow-scandi p-4 md:p-5">
-              {selectedManufacturer.enabled ? (
-                isSchneiderMarketView ? (
-                  marketSections.length ? (
-                    <div className="space-y-3 min-w-0">
-                      {marketSections.map((section) => (
-                        <MarketSectionBoard
-                          key={section.segmentId}
-                          section={section}
-                          comparedProductIdSet={comparedProductIdSet}
-                          isCompareFull={isCompareFull}
-                          onToggleProduct={handleToggleProduct}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="rounded-2xl border border-dashed border-scandi-warm-grey bg-white p-8 text-center">
-                      <p className="text-sm font-bold text-text-muted uppercase tracking-widest">Data in Preparation</p>
-                    </div>
-                  )
-                ) : segments.length ? (
-                  <div className="space-y-4">
-                    {segments.map((segment) => {
-                      const segmentProducts = segmentProductsById[segment.id] ?? [];
-                      const opened = expandedSegmentIds.includes(segment.id);
-
-                      return (
-                        <article key={segment.id} className="rounded-2xl border border-scandi-warm-grey bg-scandi-light/40">
-                          <button
-                            type="button"
-                            onClick={() => toggleSegment(segment.id)}
-                            className="w-full text-left p-4 md:p-5 flex items-start justify-between gap-3 transition-colors duration-200 hover:bg-white/70"
-                          >
-                            <div>
-                              <p className="text-base md:text-lg font-bold text-text-main flex items-center gap-2">
-                                <span className="material-symbols-outlined text-xl">{segment.icon}</span>
-                                {segment.name}
-                              </p>
-                              <p className="text-sm text-text-muted mt-1">{segmentProducts.map((product) => product.series).join(", ")}</p>
-                            </div>
-                            <span className="material-symbols-outlined text-text-muted">
-                              {opened ? "expand_less" : "expand_more"}
-                            </span>
-                          </button>
-
-                          {opened ? (
-                            <div className="px-4 md:px-5 pb-5">
-                              <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
-                                {segmentProducts.map((product) => (
-                                  <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    isSelected={comparedProductIdSet.has(product.id)}
-                                    isFull={isCompareFull}
-                                    onToggle={() => handleToggleProduct(product.id)}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          ) : null}
-                        </article>
-                      );
-                    })}
+              {!selectedManufacturer.enabled ? (
+                <DataPreparationState />
+              ) : isSchneiderMarketView ? (
+                marketSections.length ? (
+                  <div className="space-y-3 min-w-0">
+                    {marketSections.map((section) => (
+                      <MarketSectionBoard
+                        key={section.segmentId}
+                        section={section}
+                        comparedProductIdSet={comparedProductIdSet}
+                        isCompareFull={isCompareFull}
+                        onToggleProduct={handleToggleProduct}
+                      />
+                    ))}
                   </div>
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-scandi-warm-grey bg-white p-8 text-center">
-                    <p className="text-sm font-bold text-text-muted uppercase tracking-widest">Data in Preparation</p>
-                  </div>
+                  <DataPreparationState />
                 )
-              ) : (
-                <div className="rounded-2xl border border-dashed border-scandi-warm-grey bg-white p-8 text-center">
-                  <p className="text-sm font-bold text-text-muted uppercase tracking-widest">Data in Preparation</p>
+              ) : segments.length ? (
+                <div className="space-y-4">
+                  {segments.map((segment) => {
+                    const segmentProducts = segmentProductsById[segment.id] ?? [];
+                    const opened = expandedSegmentIds.includes(segment.id);
+
+                    return (
+                      <article
+                        key={segment.id}
+                        className="rounded-2xl border border-scandi-warm-grey bg-scandi-light/40"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => toggleSegment(segment.id)}
+                          className="w-full text-left p-4 md:p-5 flex items-start justify-between gap-3 transition-colors duration-200 hover:bg-white/70"
+                        >
+                          <div>
+                            <p className="text-base md:text-lg font-bold text-text-main flex items-center gap-2">
+                              <span className="material-symbols-outlined text-xl">{segment.icon}</span>
+                              {segment.name}
+                            </p>
+                            <p className="text-sm text-text-muted mt-1">
+                              {segmentProducts.map((product) => product.series).join(", ")}
+                            </p>
+                          </div>
+                          <span className="material-symbols-outlined text-text-muted">
+                            {opened ? "expand_less" : "expand_more"}
+                          </span>
+                        </button>
+
+                        {opened ? (
+                          <div className="px-4 md:px-5 pb-5">
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+                              {segmentProducts.map((product) => (
+                                <ProductCard
+                                  key={product.id}
+                                  product={product}
+                                  isSelected={comparedProductIdSet.has(product.id)}
+                                  isFull={isCompareFull}
+                                  onToggle={() => handleToggleProduct(product.id)}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        ) : null}
+                      </article>
+                    );
+                  })}
                 </div>
+              ) : (
+                <DataPreparationState />
               )}
             </section>
 
-            <footer className="mt-auto py-8 md:py-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-scandi-warm-grey">
-              <p className="text-text-muted text-xs font-medium uppercase tracking-widest">
-                © 2026 LV Breaker Intelligence Systems.
-              </p>
-              <div className="flex gap-10">
-                <button
-                  type="button"
-                  className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors"
-                >
-                  Privacy Policy
-                </button>
-                <button
-                  type="button"
-                  className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors"
-                >
-                  Terms of Service
-                </button>
-              </div>
-            </footer>
+            <PageFooter year={2026} />
           </div>
         </div>
       </main>

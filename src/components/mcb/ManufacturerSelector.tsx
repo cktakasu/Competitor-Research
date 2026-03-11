@@ -4,15 +4,16 @@ import { memo, useState } from "react";
 import type { Manufacturer } from "../../types/mcb";
 import { cx } from "./utils";
 
+const LOGO_SCALE_CLASS_BY_ID: Partial<Record<Manufacturer["id"], string>> = {
+  abb: "scale-75",
+  eaton: "scale-75",
+  "schneider-electric": "scale-[0.85]",
+  "ls-electric": "scale-[0.8]"
+};
+
 const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manufacturer: Manufacturer }) {
   const [errored, setErrored] = useState(false);
-  // Refine scales to prevent horizontal overflow while maintaining visibility
-  const logoScaleClass =
-    manufacturer.id === "abb" ? "scale-75" :
-      manufacturer.id === "eaton" ? "scale-75" :
-        manufacturer.id === "schneider-electric" ? "scale-[0.85]" :
-          manufacturer.id === "ls-electric" ? "scale-[0.8]" :
-            "scale-100";
+  const logoScaleClass = LOGO_SCALE_CLASS_BY_ID[manufacturer.id] ?? "scale-100";
 
   if (errored) {
     return <span className="text-sm font-bold tracking-wide text-text-main">{manufacturer.name}</span>;
@@ -35,8 +36,8 @@ const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manu
 
 export const ManufacturerCard = memo(function ManufacturerCard({
   manufacturer,
-  selected,
-  onSelect
+  onSelect,
+  selected
 }: {
   manufacturer: Manufacturer;
   onSelect: () => void;
@@ -62,7 +63,7 @@ export const ManufacturerCard = memo(function ManufacturerCard({
       </div>
       {disabled ? (
         <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 inline-flex items-center rounded-full border border-scandi-warm-grey bg-white px-1.5 py-0.5 text-[9px] font-bold leading-none tracking-wide text-text-muted whitespace-nowrap">
-          準備中
+          {manufacturer.statusLabel}
         </span>
       ) : null}
     </button>
@@ -71,12 +72,12 @@ export const ManufacturerCard = memo(function ManufacturerCard({
 
 export const ManufacturerSelector = memo(function ManufacturerSelector({
   manufacturers,
-  selectedManufacturerId,
-  onSelect
+  onSelect,
+  selectedManufacturerId
 }: {
   manufacturers: Manufacturer[];
-  selectedManufacturerId: Manufacturer["id"];
   onSelect: (manufacturer: Manufacturer) => void;
+  selectedManufacturerId: Manufacturer["id"];
 }) {
   return (
     <div className="flex items-center justify-start gap-1.5 md:gap-2 w-full">

@@ -1,10 +1,9 @@
 "use client";
 
 import { create } from "zustand";
+import { MAX_COMPARE_PRODUCTS, normalizeComparedProductIds } from "../services/comparedProducts";
 import { getManufacturers } from "../services/dataService";
 import type { ManufacturerId } from "../types/mcb";
-
-const MAX_COMPARE_PRODUCTS = 5;
 
 type McbStore = {
   selectedManufacturerId: ManufacturerId;
@@ -56,15 +55,7 @@ export const useMcbStore = create<McbStore>((set) => ({
     });
   },
   setComparedProducts: (productIds) => {
-    const normalized: string[] = [];
-    for (const raw of productIds) {
-      const id = raw.trim();
-      if (id && !normalized.includes(id)) {
-        normalized.push(id);
-        if (normalized.length === MAX_COMPARE_PRODUCTS) break;
-      }
-    }
-    set({ comparedProductIds: normalized });
+    set({ comparedProductIds: normalizeComparedProductIds(productIds) });
   },
   removeComparedProduct: (productId) => {
     set((state) => ({

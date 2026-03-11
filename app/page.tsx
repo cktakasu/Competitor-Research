@@ -1,12 +1,13 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
+import { PageFooter } from "../src/components/mcb/PageFooter";
+import { Sidebar } from "../src/components/mcb/Sidebar";
 
 const APPLICATION_TOOLTIP =
   "Application tags are indicative. Final product selection must consider system voltage, rated current, breaking capacity, and the applicable standard (IEC 60947-2 for ACB/MCCB, IEC 60898-1 for MCB).";
 
 const TAG_CHIP_CLASS =
   "px-3 py-1.5 rounded-lg bg-scandi-wood text-text-main text-xs font-bold border border-scandi-warm-grey";
-
 const BASE_CARD_CLASS = "group relative bg-white rounded-3xl p-8 flex flex-col overflow-hidden";
 const LOCKED_CARD_CLASS = "shadow-scandi border border-scandi-warm-grey/50";
 const SELECTED_CARD_CLASS = "shadow-2xl border-4 border-accent ring-4 ring-accent/5";
@@ -29,18 +30,9 @@ type BreakerCardData = {
   icon: string;
   id: string;
   offsetClass?: string;
-  photoClassName: string;
-  photoStyle: CSSProperties;
   specifications: Specifications;
   tags: readonly string[];
-  textureStyle: CSSProperties;
   variant: CardVariant;
-};
-
-type NavItem = {
-  active?: boolean;
-  icon: string;
-  title: string;
 };
 
 const ACB_APPLICATION_TAGS = [
@@ -56,23 +48,7 @@ const ACB_APPLICATION_TAGS = [
   "Government"
 ] as const;
 
-const COMMON_APPLICATION_TAGS = [
-  ...ACB_APPLICATION_TAGS,
-  "Telecom / ICT",
-  "OEM / Machine Building"
-] as const;
-
-const NAV_ITEMS: readonly NavItem[] = [
-  { title: "Dashboard", icon: "dashboard" },
-  { title: "Product Selection", icon: "category", active: true },
-  { title: "Status Monitor", icon: "monitoring" },
-  { title: "Analytics", icon: "analytics" }
-];
-
-const FOOTER_LINKS = [
-  { label: "Privacy Policy" },
-  { label: "Terms of Service" }
-] as const;
+const COMMON_APPLICATION_TAGS = [...ACB_APPLICATION_TAGS, "Telecom / ICT", "OEM / Machine Building"] as const;
 
 const cx = (...values: Array<string | false | null | undefined>) => values.filter(Boolean).join(" ");
 
@@ -99,20 +75,8 @@ const createTextureLayerStyle = (imageUrl: string, position: string): CSSPropert
   WebkitMaskSize: "330% auto"
 });
 
-const cardWithLayerStyles = (
-  card: Omit<BreakerCardData, "photoClassName" | "photoStyle" | "textureStyle">
-): BreakerCardData => ({
-  ...card,
-  photoClassName:
-    card.variant === "selected"
-      ? "absolute inset-0 grayscale mix-blend-multiply"
-      : "absolute inset-0 grayscale",
-  photoStyle: createPhotoLayerStyle(card.backgroundImage, card.backgroundPosition),
-  textureStyle: createTextureLayerStyle(card.backgroundImage, card.backgroundPosition)
-});
-
 const BREAKER_CARDS: readonly BreakerCardData[] = [
-  cardWithLayerStyles({
+  {
     id: "acb",
     code: "ACB",
     fullName: "Air Circuit Breaker",
@@ -128,8 +92,8 @@ const BREAKER_CARDS: readonly BreakerCardData[] = [
       breakingCapacity: "up to 150kA"
     },
     tags: ACB_APPLICATION_TAGS
-  }),
-  cardWithLayerStyles({
+  },
+  {
     id: "mccb",
     code: "MCCB",
     fullName: "Molded Case Circuit Breaker",
@@ -144,8 +108,8 @@ const BREAKER_CARDS: readonly BreakerCardData[] = [
       breakingCapacity: "up to 200kA"
     },
     tags: COMMON_APPLICATION_TAGS
-  }),
-  cardWithLayerStyles({
+  },
+  {
     id: "mcb",
     code: "MCB",
     fullName: "Miniature Circuit Breaker",
@@ -153,8 +117,7 @@ const BREAKER_CARDS: readonly BreakerCardData[] = [
     icon: "bolt",
     offsetClass: "xl:-mr-4",
     headingWeight: "black",
-    backgroundImage:
-      "https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png",
+    backgroundImage: "https://www.mitsubishielectric.com/fa/products/lvd/lvcb/items/mcb/img/img_mv-1.png",
     backgroundPosition: "48% center",
     specifications: {
       ratedCurrent: "0.5-125A",
@@ -162,33 +125,8 @@ const BREAKER_CARDS: readonly BreakerCardData[] = [
       curveCharacteristics: "Type B, C, D, K, Z"
     },
     tags: COMMON_APPLICATION_TAGS
-  })
+  }
 ];
-
-function CircuitBreakerIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      role="img"
-      aria-label="Circuit breaker icon"
-    >
-      <rect x="6" y="3" width="12" height="18" rx="2" />
-      <line x1="9" y1="3" x2="9" y2="1.5" />
-      <line x1="15" y1="3" x2="15" y2="1.5" />
-      <line x1="9" y1="22.5" x2="9" y2="21" />
-      <line x1="15" y1="22.5" x2="15" y2="21" />
-      <rect x="9.5" y="7.5" width="5" height="7" rx="1" />
-      <line x1="12" y1="10.5" x2="12" y2="14.5" />
-      <line x1="10.5" y1="17" x2="13.5" y2="17" />
-    </svg>
-  );
-}
 
 function ApplicationSection({
   tags,
@@ -252,6 +190,7 @@ function SpecificationsSection({ specifications }: { specifications: Specificati
 
 function BreakerCard({ card }: { card: BreakerCardData }) {
   const selected = card.variant === "selected";
+  const photoClassName = cx("absolute inset-0 grayscale", selected && "mix-blend-multiply");
   const pillClass = selected
     ? "px-3 py-1 rounded-full bg-accent text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5"
     : "px-3 py-1 rounded-full bg-scandi-warm-grey text-text-muted text-[10px] font-bold uppercase tracking-widest";
@@ -271,8 +210,11 @@ function BreakerCard({ card }: { card: BreakerCardData }) {
         card.offsetClass
       )}
     >
-      <div className={card.photoClassName} style={card.photoStyle} />
-      <div className="absolute inset-0 pointer-events-none" style={card.textureStyle} />
+      <div className={photoClassName} style={createPhotoLayerStyle(card.backgroundImage, card.backgroundPosition)} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={createTextureLayerStyle(card.backgroundImage, card.backgroundPosition)}
+      />
 
       <div className="relative z-10 flex justify-between items-start mb-4">
         <span className={pillClass}>
@@ -310,53 +252,6 @@ function BreakerCard({ card }: { card: BreakerCardData }) {
   );
 }
 
-function Sidebar() {
-  return (
-    <aside className="w-full md:w-16 h-16 md:h-auto flex md:flex-col items-center bg-white border-b md:border-b-0 md:border-r border-scandi-warm-grey py-0 md:py-8 px-4 md:px-0 z-20 shadow-sm flex-shrink-0">
-      <div className="mr-4 md:mr-0 md:mb-10">
-        <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-scandi-wood">
-          <CircuitBreakerIcon />
-        </div>
-      </div>
-
-      <nav className="flex-1 flex flex-row md:flex-col gap-3 md:gap-6 w-auto md:w-full px-0 md:px-2 items-center justify-center">
-        {NAV_ITEMS.map((item) => (
-          <button
-            type="button"
-            key={item.title}
-            className={cx(
-              "h-10 w-10 mx-auto flex items-center justify-center rounded-lg transition-all",
-              item.active
-                ? "bg-scandi-wood text-primary relative group"
-                : "text-text-muted hover:bg-scandi-wood hover:text-text-main"
-            )}
-            title={item.title}
-            aria-label={item.title}
-          >
-            <span className={cx("material-symbols-outlined", item.active && "icon-filled")}>
-              {item.icon}
-            </span>
-          </button>
-        ))}
-      </nav>
-
-      <div className="ml-4 md:ml-0 md:mt-auto flex flex-row md:flex-col gap-3 md:gap-6 w-auto md:w-full px-0 md:px-2 items-center">
-        <button
-          type="button"
-          className="h-10 w-10 mx-auto flex items-center justify-center rounded-lg text-text-muted hover:bg-scandi-wood hover:text-text-main transition-all"
-          title="Settings"
-          aria-label="Settings"
-        >
-          <span className="material-symbols-outlined">settings</span>
-        </button>
-        <div className="h-8 w-8 mx-auto rounded-full bg-scandi-warm-grey flex items-center justify-center text-[10px] font-bold text-text-main ring-2 ring-white shadow-sm cursor-pointer hidden sm:flex">
-          JD
-        </div>
-      </div>
-    </aside>
-  );
-}
-
 export default function Home() {
   return (
     <>
@@ -390,23 +285,7 @@ export default function Home() {
               ))}
             </div>
 
-            <footer className="mt-auto py-8 md:py-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-scandi-warm-grey">
-              <p className="text-text-muted text-xs font-medium uppercase tracking-widest">
-                © 2024 LV Breaker Intelligence Systems.
-              </p>
-              <div className="flex gap-10">
-                {FOOTER_LINKS.map((link) => (
-                  <button
-                    type="button"
-                    key={link.label}
-                    className="text-text-muted hover:text-text-main text-xs font-bold uppercase tracking-widest transition-colors"
-                    aria-label={link.label}
-                  >
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            </footer>
+            <PageFooter year={2024} />
           </div>
         </div>
       </main>
