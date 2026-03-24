@@ -51,7 +51,7 @@ export const RationalePanel = memo(function RationalePanel({
         onClick={() => setOpen((prev) => !prev)}
         className="w-full px-4 py-3 flex items-center justify-between text-left"
       >
-        <span className="text-xs font-bold tracking-widest uppercase text-text-muted">Rationale Details</span>
+        <span className="text-xs font-bold tracking-widest uppercase text-text-muted">選定根拠</span>
         <span className="material-symbols-outlined text-base text-text-muted">{open ? "expand_less" : "expand_more"}</span>
       </button>
       {open ? (
@@ -70,7 +70,7 @@ export const RationalePanel = memo(function RationalePanel({
               </article>
             ))
           ) : (
-            <p className="pt-3 text-xs text-text-muted">No rationale details for the selected products.</p>
+            <p className="pt-3 text-xs text-text-muted">選択中の製品に対する根拠情報はありません。</p>
           )}
         </div>
       ) : null}

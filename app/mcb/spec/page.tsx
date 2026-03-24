@@ -101,6 +101,13 @@ function McbSpecPageContent() {
     [segments, selectedManufacturerId]
   );
   const marketSections = useMemo(() => buildMarketSections(selectedManufacturerId), [selectedManufacturerId]);
+  const selectedProductsInCurrentView = useMemo(
+    () => comparedProducts.filter((product) => product.manufacturerId === selectedManufacturerId),
+    [comparedProducts, selectedManufacturerId]
+  );
+  const supportsRationaleView = selectedManufacturer.enabled && selectedManufacturer.id === "schneider-electric";
+  const hasSegmentsInCurrentView = segments.length > 0;
+  const isCompareFull = normalizedComparedProductIds.length >= MAX_COMPARE_PRODUCTS;
 
   const resetAddDraft = useCallback(() => {
     setAddManufacturerId(selectedManufacturerId);
@@ -129,14 +136,20 @@ function McbSpecPageContent() {
     setIsAddModalOpen((open) => !open);
   }, [isAddModalOpen, resetAddDraft]);
 
+  const handleCloseAdd = useCallback(() => {
+    setIsAddModalOpen(false);
+    resetAddDraft();
+  }, [resetAddDraft]);
+
   const handleAddFromModal = useCallback(() => {
     if (!addProductId) {
       return;
     }
 
     addComparedProduct(addProductId);
-    setAddProductId("");
-  }, [addComparedProduct, addProductId]);
+    setIsAddModalOpen(false);
+    resetAddDraft();
+  }, [addComparedProduct, addProductId, resetAddDraft]);
 
   const handleAddManufacturerChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setAddManufacturerId(event.target.value as ManufacturerId);
@@ -186,17 +199,6 @@ function McbSpecPageContent() {
     }
   }, [comparedProductIds, normalizedComparedProductIds, setComparedProducts]);
 
-  useEffect(() => {
-    if (!comparedProducts.length) {
-      return;
-    }
-
-    const primaryManufacturerId = comparedProducts[0].manufacturerId;
-    if (selectedManufacturerId !== primaryManufacturerId) {
-      selectManufacturer(primaryManufacturerId);
-    }
-  }, [comparedProducts, selectManufacturer, selectedManufacturerId]);
-
   return (
     <>
       <Sidebar />
@@ -204,7 +206,7 @@ function McbSpecPageContent() {
         <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-6 md:pb-10 relative z-10">
           <div className="w-full max-w-[1600px] mx-auto h-full flex flex-col gap-3">
             <TopBar
-              title="mcb specifications"
+              title="MCB 仕様比較"
               manufacturers={manufacturers}
               selectedManufacturerId={selectedManufacturerId}
               onSelectManufacturer={handleSelectManufacturer}
@@ -216,14 +218,14 @@ function McbSpecPageContent() {
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-xs font-bold border border-accent hover:bg-red-600 whitespace-nowrap"
                   >
                     <span className="material-symbols-outlined text-base">add</span>
-                    Add Product
+                    製品を追加
                   </button>
                   <Link
                     href="/mcb"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-scandi-wood border border-scandi-warm-grey text-xs font-bold text-text-main whitespace-nowrap"
                   >
                     <span className="material-symbols-outlined text-base">arrow_back</span>
-                    Back
+                    戻る
                   </Link>
                 </>
               }
@@ -231,10 +233,27 @@ function McbSpecPageContent() {
 
             {isAddModalOpen ? (
               <section className="rounded-2xl border border-scandi-warm-grey bg-scandi-light/70 p-4">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-text-muted">製品を追加</p>
+                    <p className="mt-1 text-xs text-text-muted">
+                      1画面で最大 {MAX_COMPARE_PRODUCTS} 製品まで比較できます。
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCloseAdd}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-scandi-warm-grey bg-white px-3 py-1.5 text-xs font-bold text-text-main"
+                  >
+                    <span className="material-symbols-outlined text-base">close</span>
+                    キャンセル
+                  </button>
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">
-                      Manufacturer
+                      メーカー
                     </label>
                     <select
                       value={addManufacturerId}
@@ -256,14 +275,14 @@ function McbSpecPageContent() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Series</label>
+                    <label className="text-xs font-bold uppercase tracking-wider text-text-muted">シリーズ</label>
                     <select
                       value={addProductId}
                       onChange={(event) => setAddProductId(event.target.value)}
                       className="mt-1 w-full rounded-xl border border-scandi-warm-grey bg-white px-3 py-2 text-sm font-semibold text-text-main"
                       disabled={!addProducts.length}
                     >
-                      <option value="">Select a product</option>
+                      <option value="">製品を選択</option>
                       {addProducts.map((product) => (
                         <option key={`add-series-${product.id}`} value={product.id}>
                           {product.series}
@@ -284,10 +303,15 @@ function McbSpecPageContent() {
                       disabled={!canSubmitAdd}
                       onClick={handleAddFromModal}
                     >
-                      Add to Compare
+                      比較に追加
                     </button>
                   </div>
                 </div>
+                {isCompareFull ? (
+                  <p className="mt-3 text-xs text-text-muted">
+                    比較上限に達しています。追加する前に既存の製品を削除してください。
+                  </p>
+                ) : null}
               </section>
             ) : null}
 
@@ -299,44 +323,57 @@ function McbSpecPageContent() {
                 onRemove={removeComparedProduct}
               />
             ) : (
-              <EmptyState message="No Products Added" className="rounded-3xl">
+              <EmptyState message="比較対象がありません" className="rounded-3xl">
                 <button
                   type="button"
                   onClick={handleOpenAdd}
                   className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-white text-sm font-bold border border-accent hover:bg-red-600"
                 >
                   <span className="material-symbols-outlined text-base">add</span>
-                  Add Product
+                  製品を追加
                 </button>
               </EmptyState>
             )}
 
-            {selectedManufacturer.enabled && selectedManufacturer.id === "schneider-electric" ? (
+            {supportsRationaleView ? (
               <RationalePanel sections={marketSections} selectedProductIds={normalizedComparedProductIds} />
             ) : (
               <section className="rounded-xl border border-scandi-warm-grey bg-white p-4">
-                <p className="text-xs text-text-muted">
-                  Rationale details are currently available for Schneider Electric view.
+                <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-2">
+                  選定根拠の表示
                 </p>
+                <p className="text-xs text-text-muted">
+                  選定根拠は現在 Schneider Electric ビューでのみ表示されます。
+                </p>
+                <p className="mt-2 text-xs text-text-muted">現在の表示: {selectedManufacturer.name}</p>
+                {!selectedProductsInCurrentView.length ? (
+                  <p className="mt-1 text-xs text-text-muted">
+                    現在の表示対象メーカーの製品は、比較セットに含まれていません。
+                  </p>
+                ) : null}
               </section>
             )}
 
             {selectedManufacturer.enabled && selectedManufacturer.id !== "schneider-electric" ? (
               <section className="rounded-xl border border-scandi-warm-grey bg-white p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-2">Series by Segment</p>
-                <div className="space-y-2">
-                  {segments.map((segment) => (
-                    <div
-                      key={segment.id}
-                      className="rounded-lg border border-scandi-warm-grey p-3 bg-scandi-light/40"
-                    >
-                      <p className="text-sm font-bold text-text-main">{segment.name}</p>
-                      <p className="text-xs text-text-muted mt-1">
-                        {(segmentProductsById[segment.id] ?? []).map((product) => product.series).join(", ")}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-2">セグメント別シリーズ</p>
+                {hasSegmentsInCurrentView ? (
+                  <div className="space-y-2">
+                    {segments.map((segment) => (
+                      <div
+                        key={segment.id}
+                        className="rounded-lg border border-scandi-warm-grey p-3 bg-scandi-light/40"
+                      >
+                        <p className="text-sm font-bold text-text-main">{segment.name}</p>
+                        <p className="text-xs text-text-muted mt-1">
+                          {(segmentProductsById[segment.id] ?? []).map((product) => product.series).join(", ")}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-text-muted">現在の表示対象ではセグメント情報がありません。</p>
+                )}
               </section>
             ) : null}
 
@@ -356,7 +393,7 @@ function McbSpecPageFallback() {
         <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-6 md:pb-10 relative z-10">
           <div className="w-fit mx-auto h-full flex items-center justify-center">
             <p className="text-sm font-bold uppercase tracking-widest text-text-muted">
-              Loading specifications...
+              仕様情報を読み込み中...
             </p>
           </div>
         </div>

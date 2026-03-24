@@ -183,7 +183,7 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                       ))}
                     </div>
                   ) : (
-                    <p className="text-[11px] font-semibold text-text-muted">Rationale data in preparation</p>
+                    <p className="text-[11px] font-semibold text-text-muted">根拠データを準備中です</p>
                   )}
                 </div>
               </article>
@@ -196,7 +196,7 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
 });
 
 function DataPreparationState() {
-  return <EmptyState message="Data in Preparation" />;
+  return <EmptyState message="データを準備中です" />;
 }
 
 export default function McbPage() {
@@ -296,7 +296,7 @@ export default function McbPage() {
         <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-6 md:pb-10 relative z-10">
           <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-2">
             <TopBar
-              title="mcb product lineup"
+              title="MCB 製品ラインアップ"
               manufacturers={manufacturers}
               selectedManufacturerId={selectedManufacturerId}
               onSelectManufacturer={handleSelectManufacturer}
@@ -314,14 +314,14 @@ export default function McbPage() {
                     ].join(" ")}
                   >
                     <span className="material-symbols-outlined text-base">visibility</span>
-                    View Specs ({normalizedComparedProductIds.length})
+                    仕様を比較 ({normalizedComparedProductIds.length})
                   </button>
                   <Link
                     href="/"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-scandi-wood border border-scandi-warm-grey text-xs font-bold text-text-main whitespace-nowrap"
                   >
                     <span className="material-symbols-outlined text-base">arrow_back</span>
-                    Back
+                    戻る
                   </Link>
                 </>
               }

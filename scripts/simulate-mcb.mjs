@@ -1,10 +1,21 @@
 import { spawn } from "node:child_process";
+import { access } from "node:fs/promises";
 import { setTimeout as delay } from "node:timers/promises";
 import { mkdir } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
 const BASE_URL = process.env.BASE_URL ?? "http://127.0.0.1:8001";
-const ARTIFACTS_DIR = new URL("../artifacts/", import.meta.url).pathname;
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
+const ARTIFACTS_DIR = path.join(PROJECT_ROOT, "artifacts");
+const LOCAL_BROWSER_CANDIDATES = [
+  process.env.PLAYWRIGHT_EXECUTABLE_PATH,
+  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+].filter(Boolean);
 
 async function isServerUp(url) {
   try {
@@ -27,8 +38,10 @@ async function waitForServer(url, timeoutMs = 60000) {
 }
 
 function startDevServer() {
-  const child = spawn("npm", ["run", "dev", "--", "-p", "8001"], {
-    cwd: new URL("../", import.meta.url).pathname,
+  const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+  const child = spawn(npmCommand, ["run", "dev", "--", "-p", "8001"], {
+    cwd: PROJECT_ROOT,
+    shell: process.platform === "win32",
     stdio: ["ignore", "pipe", "pipe"]
   });
 
@@ -40,6 +53,19 @@ function startDevServer() {
   });
 
   return child;
+}
+
+async function resolveExecutablePath() {
+  for (const candidate of LOCAL_BROWSER_CANDIDATES) {
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      // Try the next candidate.
+    }
+  }
+
+  return undefined;
 }
 
 async function main() {
@@ -61,7 +87,11 @@ async function main() {
     throw new Error(`server did not become ready: ${BASE_URL}`);
   }
 
-  const browser = await chromium.launch({ headless: true });
+  const executablePath = await resolveExecutablePath();
+  const browser = await chromium.launch({
+    headless: true,
+    ...(executablePath ? { executablePath } : {})
+  });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1024 } });
 
   try {

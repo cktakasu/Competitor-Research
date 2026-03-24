@@ -33,7 +33,7 @@ export function SelectionButton({
             : "bg-accent text-white border-accent hover:bg-red-600"
       )}
     >
-      {selected ? "Selected" : "Select"}
+      {selected ? "選択中" : "選択"}
     </button>
   );
 }

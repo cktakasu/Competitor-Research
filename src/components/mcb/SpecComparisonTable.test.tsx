@@ -57,7 +57,7 @@ describe("SpecComparisonTable", () => {
       />
     );
 
-    screen.getByText("Add Product").click();
+    screen.getByText("製品を追加").click();
     expect(mockOnOpenAdd).toHaveBeenCalled();
   });
 
@@ -71,7 +71,7 @@ describe("SpecComparisonTable", () => {
       />
     );
 
-    screen.getByText("Remove").click();
+    screen.getByText("削除").click();
     expect(mockOnRemove).toHaveBeenCalledWith("acti9");
   });
 });

@@ -88,7 +88,7 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
           className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-white text-xs font-bold border border-accent hover:bg-red-600"
         >
           <span className="material-symbols-outlined text-sm">add</span>
-          Add Product
+          製品を追加
         </button>
       </div>
 
@@ -97,7 +97,7 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
           <thead>
             <tr>
               <th className="sticky left-0 z-20 bg-white text-left text-xs uppercase tracking-widest text-text-muted font-bold py-3 px-3 border-b border-scandi-warm-grey w-[160px] shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
-                Comparison Item
+                比較項目
               </th>
               {columns.map((column, index) => (
                 <th
@@ -117,7 +117,7 @@ export const SpecComparisonTable = memo(function SpecComparisonTable({
                     className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-text-muted hover:text-text-main"
                   >
                     <span className="material-symbols-outlined text-base">close</span>
-                    Remove
+                    削除
                   </button>
                 </th>
               ))}
