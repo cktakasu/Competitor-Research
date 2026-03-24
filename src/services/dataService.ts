@@ -60,18 +60,19 @@ const initializeData = () => {
   products.forEach((product) => {
     productsByManufacturer.get(product.manufacturerId)?.push(product);
 
-    const segmentKey = `${product.manufacturerId}::${product.segmentId}`;
-    if (!productsBySegment.has(segmentKey)) {
-      productsBySegment.set(segmentKey, []);
-    }
-    productsBySegment.get(segmentKey)!.push(product);
-
     productById.set(product.id, product);
   });
 
   segments.forEach((segment) => {
     segmentsByManufacturer.get(segment.manufacturerId)?.push(segment);
     segmentById.set(`${segment.manufacturerId}::${segment.id}`, segment);
+
+    productsBySegment.set(
+      `${segment.manufacturerId}::${segment.id}`,
+      segment.productIds
+        .map((productId) => productById.get(productId))
+        .filter((product): product is McbProduct => Boolean(product))
+    );
   });
 };
 

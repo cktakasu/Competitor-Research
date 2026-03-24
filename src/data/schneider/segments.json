@@ -4,7 +4,7 @@
     "manufacturerId": "schneider-electric",
     "name": "Residential",
     "icon": "home",
-    "productIds": ["resi9", "easy9", "easy9-pro", "domae"],
+    "productIds": ["resi9", "easy9"],
     "rationaleTags": [
       {
         "id": "std-60898",
@@ -16,18 +16,18 @@
         ]
       },
       {
-        "id": "break-4_5-10",
-        "value": "4.5-10kA",
-        "reasonJa": "住宅向けシリーズ全体で容量レンジが分かれるため（DomaeはIEC 60898-1で4.5-6kA）。",
+        "id": "break-4_5-6",
+        "value": "4.5-6kA",
+        "reasonJa": "住宅用途で一般的な遮断容量レンジをResi9とEasy9でカバーするため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "breakingCapacity" },
           { "source": "specification", "label": "Breaking Capacity (Icn)" }
         ]
       },
       {
-        "id": "current-2-63",
-        "value": "2-63A",
-        "reasonJa": "低容量側を含む住宅分岐回路の定格電流レンジを広くカバーしているため。",
+        "id": "current-6-63",
+        "value": "6-63A",
+        "reasonJa": "住宅分岐回路で主流となる定格電流レンジを標準的にカバーしているため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "ratedCurrentIn" },
           { "source": "specification", "label": "Rated Current (In)" }
@@ -37,6 +37,96 @@
         "id": "curve-b-c",
         "value": "Curve B, C",
         "reasonJa": "住宅負荷で頻出するB/Cカーブの保護特性に対応するため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "residential-light-commercial",
+    "manufacturerId": "schneider-electric",
+    "name": "Residential / Light Commercial",
+    "icon": "storefront",
+    "productIds": ["easy9-pro"],
+    "rationaleTags": [
+      {
+        "id": "std-dual-resi-light",
+        "value": "IEC/EN 60898-1 + IEC/EN 60947-2",
+        "reasonJa": "住宅用途に加えて小規模商業用途まで視野に入れた二規格対応のため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-6-10",
+        "value": "6-10kA",
+        "reasonJa": "住宅向け標準帯より一段高い遮断容量で小規模商業用途にも展開しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity" }
+        ]
+      },
+      {
+        "id": "current-6-63-light",
+        "value": "6-63A",
+        "reasonJa": "住宅系と軽商用で共通して使いやすい定格電流レンジを持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" },
+          { "source": "specification", "label": "Rated Current (In)" }
+        ]
+      },
+      {
+        "id": "curve-b-c-light",
+        "value": "Curve B, C",
+        "reasonJa": "住宅負荷と軽商用の一般回路で使いやすいB/Cカーブを備えるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "regional-legacy-residential",
+    "manufacturerId": "schneider-electric",
+    "name": "Regional / Legacy Residential",
+    "icon": "public",
+    "productIds": ["domae"],
+    "rationaleTags": [
+      {
+        "id": "std-60898-legacy",
+        "value": "IEC 60898-1",
+        "reasonJa": "住宅用途向けの基本規格に沿ったシリーズだが、地域差を伴うため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-4_5-6-legacy",
+        "value": "4.5-6kA",
+        "reasonJa": "地域限定で残る住宅向け基本レンジとして4.5-6kA帯を担うため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icn)" }
+        ]
+      },
+      {
+        "id": "legacy-region",
+        "value": "Regional / Legacy",
+        "reasonJa": "市場によって継続販売と終売が混在するため、グローバル主力とは切り分けて扱うため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "comparison", "key": "ratedVoltageUe", "noteJa": "地域別の継続状況は別途確認" }
+        ]
+      },
+      {
+        "id": "curve-b-c-legacy",
+        "value": "Curve B, C",
+        "reasonJa": "住宅回路向けの標準的なB/Cカーブに対応するため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "tripCurveCharacteristics" },
           { "source": "specification", "label": "Curve" }
@@ -66,8 +156,8 @@
         "reasonJa": "商業・ビル用途で想定される故障電流レベルに対応するため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "breakingCapacity" },
-          { "source": "specification", "label": "Breaking Capacity (Icn) @230V" },
-          { "source": "specification", "label": "Breaking Capacity (Icu) @240V" }
+          { "source": "specification", "label": "Breaking Capacity (Icn) @230/400V" },
+          { "source": "specification", "label": "Breaking Capacity (Icu) @220-240V" }
         ]
       },
       {
@@ -112,8 +202,8 @@
         "reasonJa": "高故障電流系統を想定した高遮断容量帯をカバーするため。",
         "evidenceRefs": [
           { "source": "comparison", "key": "breakingCapacity" },
-          { "source": "specification", "label": "Breaking Capacity (Icu) @220-240V" },
-          { "source": "specification", "label": "Breaking Capacity (Icu) @440V" }
+          { "source": "specification", "label": "Breaking Capacity (Icu) @IEC 60947-2" },
+          { "source": "specification", "label": "Breaking Capacity (Icn) @IEC 60898-1" }
         ]
       },
       {

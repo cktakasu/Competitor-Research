@@ -75,17 +75,17 @@ async function main() {
     products.push(await loadJson(path.join(schneiderDir, fileName)));
   }
 
-  const productsBySegmentId = new Map();
+  const productsById = new Map();
   for (const product of products) {
-    const list = productsBySegmentId.get(product.segmentId) ?? [];
-    list.push(product);
-    productsBySegmentId.set(product.segmentId, list);
+    productsById.set(product.id, product);
   }
 
   const issues = [];
 
   for (const segment of segments) {
-    const segmentProducts = productsBySegmentId.get(segment.id) ?? [];
+    const segmentProducts = (segment.productIds ?? [])
+      .map((productId) => productsById.get(productId))
+      .filter(Boolean);
 
     if (!segmentProducts.length) {
       addIssue(issues, `segment=${segment.id} に紐づく製品が存在しません。`);
