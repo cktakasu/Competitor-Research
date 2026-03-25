@@ -4,11 +4,11 @@
   "segmentId": "residential",
   "series": "Resi9",
   "comparison": {
-    "capacityClass": "Standard (4.5kA / 6kA)",
-    "ratedCurrentIn": "6-63A",
-    "breakingCapacity": "Icn: 4.5kA (1P+N) / 6kA (1P, 2P) @230/400V",
+    "capacityClass": "Standard (3kA / 4.5kA / 6kA; region-dependent)",
+    "ratedCurrentIn": "2-63A (region-dependent)",
+    "breakingCapacity": "Icn: 3kA / 4.5kA / 6kA (region-dependent)",
     "tripCurveCharacteristics": "B, C",
-    "numberOfPoles": "1P, 1P+N, 2P",
+    "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P (region-dependent)",
     "ratedVoltageUe": "230/400V AC",
     "ratedInsulationVoltageUi": "400V AC",
     "standardsApprovals": "IEC 60898-1",
@@ -19,54 +19,72 @@
   },
   "variants": [
     {
-      "variantId": "resi9-1p-2p",
-      "variantLabel": "1P / 2P",
+      "variantId": "resi9-3ka-family",
+      "variantLabel": "3kA family",
+      "comparison": {
+        "capacityClass": "Standard (3kA)",
+        "ratedCurrentIn": "2-40A",
+        "breakingCapacity": "Icn: 3kA",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 2P, 3P, 4P; 3P+N in some markets",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "400V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "20,000 cycles",
+        "electricalEndurance": "10,000 cycles",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "100% Icn"
+      }
+    },
+    {
+      "variantId": "resi9-4-5ka-family",
+      "variantLabel": "4.5kA family",
+      "comparison": {
+        "capacityClass": "Standard (4.5kA)",
+        "ratedCurrentIn": "6-63A",
+        "breakingCapacity": "Icn: 4.5kA @230/400V",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P, 1P+N, 2P, 3P",
+        "ratedVoltageUe": "230/400V AC",
+        "ratedInsulationVoltageUi": "400V AC",
+        "standardsApprovals": "IEC 60898-1",
+        "mechanicalEndurance": "20,000 cycles",
+        "electricalEndurance": "10,000 cycles",
+        "widthPerPole": "18mm",
+        "serviceBreakingCapacityIcs": "100% Icn"
+      }
+    },
+    {
+      "variantId": "resi9-6ka-family",
+      "variantLabel": "6kA family",
       "comparison": {
         "capacityClass": "Standard (6kA)",
         "ratedCurrentIn": "6-63A",
         "breakingCapacity": "Icn: 6kA @230/400V",
         "tripCurveCharacteristics": "B, C",
-        "numberOfPoles": "1P, 2P",
+        "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
         "ratedVoltageUe": "230/400V AC",
         "ratedInsulationVoltageUi": "400V AC",
         "standardsApprovals": "IEC 60898-1",
         "mechanicalEndurance": "20,000 cycles",
         "electricalEndurance": "10,000 cycles",
         "widthPerPole": "18mm",
-        "serviceBreakingCapacityIcs": "100% Icn (6kA)"
-      }
-    },
-    {
-      "variantId": "resi9-1pn",
-      "variantLabel": "1P+N",
-      "comparison": {
-        "capacityClass": "Standard (4.5kA)",
-        "ratedCurrentIn": "6-40A",
-        "breakingCapacity": "Icn: 4.5kA @230/400V",
-        "tripCurveCharacteristics": "B, C",
-        "numberOfPoles": "1P+N",
-        "ratedVoltageUe": "230/400V AC",
-        "ratedInsulationVoltageUi": "400V AC",
-        "standardsApprovals": "IEC 60898-1",
-        "mechanicalEndurance": "20,000 cycles",
-        "electricalEndurance": "10,000 cycles",
-        "widthPerPole": "18mm",
-        "serviceBreakingCapacityIcs": "100% Icn (4.5kA)"
+        "serviceBreakingCapacityIcs": "100% Icn"
       }
     }
   ],
   "specifications": [
     {
       "label": "Capacity Class",
-      "value": "Standard"
+      "value": "Standard (region-dependent)"
     },
     {
       "label": "Rated Current (In)",
-      "value": "6-63A"
+      "value": "2-63A (region-dependent)"
     },
     {
       "label": "Breaking Capacity (Icn)",
-      "value": "4.5kA (1P+N) / 6kA (1P, 2P) @230/400V"
+      "value": "3kA / 4.5kA / 6kA (region-dependent)"
     },
     {
       "label": "Curve",
@@ -78,7 +96,7 @@
     },
     {
       "label": "Poles",
-      "value": "1P, 1P+N, 2P"
+      "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P (region-dependent)"
     },
     {
       "label": "Rated Voltage (Ue)",

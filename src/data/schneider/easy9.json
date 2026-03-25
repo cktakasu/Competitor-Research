@@ -4,38 +4,38 @@
   "segmentId": "residential",
   "series": "Easy9",
   "comparison": {
-    "capacityClass": "Economy (4.5kA / 6kA)",
-    "ratedCurrentIn": "6-63A",
-    "breakingCapacity": "Icn: 4.5kA / 6kA",
+    "capacityClass": "Economy (4.5kA / 6kA; region-dependent)",
+    "ratedCurrentIn": "6-100A (region- and standard-dependent)",
+    "breakingCapacity": "Icn: 4.5kA / 6kA (region-dependent)",
     "tripCurveCharacteristics": "B, C",
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "230V AC (1P); 400V AC (2P/3P/4P)",
     "ratedInsulationVoltageUi": "500V AC",
     "ratedImpulseWithstandVoltageUimp": "4kV",
-    "standardsApprovals": "IEC 60898-1",
+    "standardsApprovals": "IEC 60898-1; some higher-current SKUs also reference IEC/EN 60947-2",
     "mechanicalEndurance": "10,000 cycles",
     "electricalEndurance": "4,000 cycles",
     "widthPerPole": "18mm",
-    "serviceBreakingCapacityIcs": "100% Icn"
+    "serviceBreakingCapacityIcs": "100% Icn for IEC 60898-1 line"
   },
   "variants": [
     {
       "variantId": "easy9-4.5ka",
-      "variantLabel": "Easy9 (4.5kA)",
+      "variantLabel": "Easy9 4.5kA family",
       "comparison": {
         "capacityClass": "Economy (4.5kA)",
-        "ratedCurrentIn": "6-63A",
+        "ratedCurrentIn": "6-100A (6-63A common under IEC 60898-1)",
         "breakingCapacity": "Icn: 4.5kA",
         "tripCurveCharacteristics": "B, C",
         "numberOfPoles": "1P, 2P, 3P, 4P",
         "ratedVoltageUe": "230V AC (1P); 400V AC (2P/3P/4P)",
         "ratedInsulationVoltageUi": "500V AC",
         "ratedImpulseWithstandVoltageUimp": "4kV",
-        "standardsApprovals": "IEC 60898-1",
+        "standardsApprovals": "IEC 60898-1; some 80-100A SKUs use IEC/EN 60947-2",
         "mechanicalEndurance": "10,000 cycles",
         "electricalEndurance": "4,000 cycles",
         "widthPerPole": "18mm",
-        "serviceBreakingCapacityIcs": "100% Icn"
+        "serviceBreakingCapacityIcs": "100% Icn for IEC 60898-1 SKUs"
       },
       "specifications": [
         {
@@ -44,7 +44,7 @@
         },
         {
           "label": "Rated Current (In)",
-          "value": "6-63A"
+          "value": "6-100A (6-63A common under IEC 60898-1)"
         },
         {
           "label": "Breaking Capacity (Icn)",
@@ -69,12 +69,16 @@
         {
           "label": "Rated Impulse Withstand Voltage (Uimp)",
           "value": "4kV"
+        },
+        {
+          "label": "Standards",
+          "value": "IEC 60898-1; some 80-100A SKUs use IEC/EN 60947-2"
         }
       ]
     },
     {
       "variantId": "easy9-6ka",
-      "variantLabel": "Easy9 (6kA)",
+      "variantLabel": "Easy9 6kA family",
       "comparison": {
         "capacityClass": "Economy (6kA)",
         "ratedCurrentIn": "6-63A",
@@ -129,15 +133,15 @@
   "specifications": [
     {
       "label": "Capacity Class",
-      "value": "Economy"
+      "value": "Economy (region-dependent)"
     },
     {
       "label": "Rated Current (In)",
-      "value": "1-63A"
+      "value": "6-100A (6kA line commonly 6-63A)"
     },
     {
       "label": "Breaking Capacity (Icn)",
-      "value": "4.5kA / 6kA"
+      "value": "4.5kA / 6kA (region-dependent)"
     },
     {
       "label": "Curve",
@@ -145,7 +149,7 @@
     },
     {
       "label": "Standards",
-      "value": "IEC 60898-1"
+      "value": "IEC 60898-1; some higher-current SKUs also reference IEC/EN 60947-2"
     },
     {
       "label": "Poles",
