@@ -2,6 +2,8 @@ export const cx = (...values: Array<string | false | null | undefined>) => value
 
 export const MARKET_LABEL_BY_SEGMENT_ID: Record<string, string> = {
   residential: "Residential",
+  "residential-light-commercial": "Residential / Light Commercial",
+  "regional-legacy-residential": "Regional / Legacy Residential",
   "commercial-building": "Commercial / Building",
   industrial: "Industrial",
   "oem-machine-building": "OEM / Machine Building",
@@ -105,7 +107,15 @@ export const dedupeTags = (tags: string[]): string[] => {
 
 export const formatTagLabel = (tag: string): string => tag.trim();
 
-export const formatBreakingCapacityValue = (value: string): string => value.replace(/\s*;\s*/g, "\n");
+export const formatCompactMultilineValue = (value: string): string => value.replace(/\s*;\s*/g, "\n");
+
+export const formatBreakingCapacityValue = (value: string): string => formatCompactMultilineValue(value);
+
+export const formatRatedCurrentValue = (value: string): string => formatCompactMultilineValue(value);
+
+export const formatCapacityClassValue = (value: string): string => formatCompactMultilineValue(value);
+
+export const formatPolesValue = (value: string): string => formatCompactMultilineValue(value);
 
 export const formatStandardsValue = (value: string): string => {
   const normalized = value.replace(/\s*;\s*/g, ", ").replace(/\s+/g, " ").trim();

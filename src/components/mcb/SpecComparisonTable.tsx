@@ -3,7 +3,14 @@
 import { memo, useMemo } from "react";
 import { getBestProductsByRow } from "../../services/comparisonService";
 import { COMPARISON_ROWS, type ComparisonRowKey, type ManufacturerId, type McbProduct } from "../../types/mcb";
-import { cx, formatBreakingCapacityValue, formatStandardsValue } from "./utils";
+import {
+  cx,
+  formatBreakingCapacityValue,
+  formatCapacityClassValue,
+  formatPolesValue,
+  formatRatedCurrentValue,
+  formatStandardsValue
+} from "./utils";
 
 type ComparisonColumn = {
   comparison: McbProduct["comparison"];
@@ -15,13 +22,19 @@ type ComparisonColumn = {
 };
 
 const MULTILINE_ROW_KEYS = new Set<ComparisonRowKey>([
+  "capacityClass",
   "breakingCapacity",
+  "ratedCurrentIn",
+  "numberOfPoles",
   "standardsApprovals",
   "electricalEndurance"
 ]);
 
 const VALUE_FORMATTER_BY_ROW_KEY: Partial<Record<ComparisonRowKey, (value: string) => string>> = {
+  capacityClass: formatCapacityClassValue,
   breakingCapacity: formatBreakingCapacityValue,
+  ratedCurrentIn: formatRatedCurrentValue,
+  numberOfPoles: formatPolesValue,
   standardsApprovals: formatStandardsValue
 };
 

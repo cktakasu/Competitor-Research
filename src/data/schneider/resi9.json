@@ -4,11 +4,11 @@
   "segmentId": "residential",
   "series": "Resi9",
   "comparison": {
-    "capacityClass": "Standard (3kA / 4.5kA / 6kA; region-dependent)",
-    "ratedCurrentIn": "2-63A (region-dependent)",
-    "breakingCapacity": "Icn: 3kA / 4.5kA / 6kA (region-dependent)",
+    "capacityClass": "Standard; 3kA / 4.5kA / 6kA; region-dependent",
+    "ratedCurrentIn": "2-63A; region-dependent",
+    "breakingCapacity": "Icn: 3kA / 4.5kA / 6kA; region-dependent",
     "tripCurveCharacteristics": "B, C",
-    "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P (region-dependent)",
+    "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P; region-dependent",
     "ratedVoltageUe": "230/400V AC",
     "ratedInsulationVoltageUi": "400V AC",
     "standardsApprovals": "IEC 60898-1",
@@ -76,15 +76,15 @@
   "specifications": [
     {
       "label": "Capacity Class",
-      "value": "Standard (region-dependent)"
+      "value": "Standard; region-dependent"
     },
     {
       "label": "Rated Current (In)",
-      "value": "2-63A (region-dependent)"
+      "value": "2-63A; region-dependent"
     },
     {
       "label": "Breaking Capacity (Icn)",
-      "value": "3kA / 4.5kA / 6kA (region-dependent)"
+      "value": "3kA / 4.5kA / 6kA; region-dependent"
     },
     {
       "label": "Curve",
@@ -96,7 +96,7 @@
     },
     {
       "label": "Poles",
-      "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P (region-dependent)"
+      "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P; region-dependent"
     },
     {
       "label": "Rated Voltage (Ue)",

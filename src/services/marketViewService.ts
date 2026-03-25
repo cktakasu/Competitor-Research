@@ -48,6 +48,8 @@ const COMPARISON_LABEL_BY_KEY = COMPARISON_ROWS.reduce(
 
 const MARKET_NAME_JA_BY_SEGMENT_ID: Record<string, string> = {
   residential: "住宅市場",
+  "residential-light-commercial": "住宅・軽商用市場",
+  "regional-legacy-residential": "地域・レガシー住宅市場",
   "commercial-building": "商業・ビル市場",
   industrial: "産業市場",
   "oem-machine-building": "OEM・機械市場",

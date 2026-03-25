@@ -4,9 +4,9 @@
   "segmentId": "residential",
   "series": "Easy9",
   "comparison": {
-    "capacityClass": "Economy (4.5kA / 6kA; region-dependent)",
-    "ratedCurrentIn": "6-100A (region- and standard-dependent)",
-    "breakingCapacity": "Icn: 4.5kA / 6kA (region-dependent)",
+    "capacityClass": "Economy; 4.5kA / 6kA; region-dependent",
+    "ratedCurrentIn": "6-100A; region- and standard-dependent",
+    "breakingCapacity": "Icn: 4.5kA / 6kA; region-dependent",
     "tripCurveCharacteristics": "B, C",
     "numberOfPoles": "1P, 2P, 3P, 4P",
     "ratedVoltageUe": "230V AC (1P); 400V AC (2P/3P/4P)",
@@ -24,7 +24,7 @@
       "variantLabel": "Easy9 4.5kA family",
       "comparison": {
         "capacityClass": "Economy (4.5kA)",
-        "ratedCurrentIn": "6-100A (6-63A common under IEC 60898-1)",
+        "ratedCurrentIn": "6-100A; 6-63A common under IEC 60898-1",
         "breakingCapacity": "Icn: 4.5kA",
         "tripCurveCharacteristics": "B, C",
         "numberOfPoles": "1P, 2P, 3P, 4P",
@@ -44,7 +44,7 @@
         },
         {
           "label": "Rated Current (In)",
-          "value": "6-100A (6-63A common under IEC 60898-1)"
+          "value": "6-100A; 6-63A common under IEC 60898-1"
         },
         {
           "label": "Breaking Capacity (Icn)",
@@ -133,15 +133,15 @@
   "specifications": [
     {
       "label": "Capacity Class",
-      "value": "Economy (region-dependent)"
+      "value": "Economy; region-dependent"
     },
     {
       "label": "Rated Current (In)",
-      "value": "6-100A (6kA line commonly 6-63A)"
+      "value": "6-100A; 6kA line commonly 6-63A"
     },
     {
       "label": "Breaking Capacity (Icn)",
-      "value": "4.5kA / 6kA (region-dependent)"
+      "value": "4.5kA / 6kA; region-dependent"
     },
     {
       "label": "Curve",

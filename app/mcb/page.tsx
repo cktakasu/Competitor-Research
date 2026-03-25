@@ -13,6 +13,7 @@ import {
   compareTagLabel,
   dedupeTags,
   formatBreakingCapacityValue,
+  formatRatedCurrentValue,
   formatStandardsValue,
   formatTagLabel,
   MARKET_LABEL_BY_SEGMENT_ID,
@@ -165,7 +166,9 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
                   </div>
                   <div>
                     <p className="text-[10px] font-bold tracking-widest uppercase text-text-muted">Rated Current</p>
-                    <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug">{row.ratedCurrent}</p>
+                    <p className="mt-0.5 text-xs font-semibold text-text-main leading-snug whitespace-pre-line">
+                      {formatRatedCurrentValue(row.ratedCurrent)}
+                    </p>
                   </div>
                 </div>
 
