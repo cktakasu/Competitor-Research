@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { getManufacturers, getSegmentsByManufacturer, getProductById } from './dataService';
+import { getManufacturers, getProductsByManufacturer, getSegmentsByManufacturer, getProductById } from './dataService';
 
 describe('dataService', () => {
     test('getManufacturers returns an array of manufacturers', () => {
@@ -19,6 +19,12 @@ describe('dataService', () => {
         const segments = getSegmentsByManufacturer('abb');
         expect(segments.length).toBeGreaterThan(0);
         expect(segments.some((s) => s.id === 'commercial-building')).toBe(true);
+    });
+
+    test('getProductsByManufacturer returns ABB products and empty future catalogs', () => {
+        expect(getProductsByManufacturer('abb').length).toBeGreaterThan(0);
+        expect(getProductsByManufacturer('siemens')).toEqual([]);
+        expect(getProductsByManufacturer('eaton')).toEqual([]);
     });
 
     test('getProductById retrieves a valid product', () => {
