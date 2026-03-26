@@ -6,6 +6,7 @@ import { type ChangeEvent, Suspense, useCallback, useEffect, useMemo, useRef, us
 import { useShallow } from "zustand/react/shallow";
 import { EmptyState } from "../../../src/components/mcb/EmptyState";
 import { PageFooter } from "../../../src/components/mcb/PageFooter";
+import { ProductNotesPanel } from "../../../src/components/mcb/ProductNotesPanel";
 import { RationalePanel } from "../../../src/components/mcb/RationalePanel";
 import { Sidebar } from "../../../src/components/mcb/Sidebar";
 import { SpecComparisonTable } from "../../../src/components/mcb/SpecComparisonTable";
@@ -292,12 +293,15 @@ function McbSpecPageContent() {
             ) : null}
 
             {comparedProducts.length ? (
-              <SpecComparisonTable
-                comparedProducts={comparedProducts}
-                manufacturerNameById={MANUFACTURER_NAME_BY_ID}
-                onOpenAdd={handleOpenAdd}
-                onRemove={removeComparedProduct}
-              />
+              <>
+                <SpecComparisonTable
+                  comparedProducts={comparedProducts}
+                  manufacturerNameById={MANUFACTURER_NAME_BY_ID}
+                  onOpenAdd={handleOpenAdd}
+                  onRemove={removeComparedProduct}
+                />
+                <ProductNotesPanel products={comparedProducts} />
+              </>
             ) : (
               <EmptyState message="No Products Added" className="rounded-3xl">
                 <button
@@ -311,17 +315,17 @@ function McbSpecPageContent() {
               </EmptyState>
             )}
 
-            {selectedManufacturer.enabled && selectedManufacturer.id === "schneider-electric" ? (
+            {selectedManufacturer.enabled && marketSections.length ? (
               <RationalePanel sections={marketSections} selectedProductIds={normalizedComparedProductIds} />
             ) : (
               <section className="rounded-xl border border-scandi-warm-grey bg-white p-4">
                 <p className="text-xs text-text-muted">
-                  Rationale details are currently available for Schneider Electric view.
+                  Rationale details are currently available for manufacturers with market-view data.
                 </p>
               </section>
             )}
 
-            {selectedManufacturer.enabled && selectedManufacturer.id !== "schneider-electric" ? (
+            {selectedManufacturer.enabled && !marketSections.length ? (
               <section className="rounded-xl border border-scandi-warm-grey bg-white p-4">
                 <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-2">Series by Segment</p>
                 <div className="space-y-2">

@@ -1,0 +1,298 @@
+[
+  {
+    "id": "residential",
+    "manufacturerId": "abb",
+    "name": "Residential",
+    "icon": "home",
+    "productIds": ["abb-s200"],
+    "rationaleTags": [
+      {
+        "id": "std-iec-60898",
+        "value": "IEC/EN 60898-1",
+        "reasonJa": "住宅向け配線保護で標準となる IEC/EN 60898-1 に対応しており、一般配電盤の主力として整理しやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" }
+        ]
+      },
+      {
+        "id": "poles-1p-3pn",
+        "value": "1P-3P+N",
+        "reasonJa": "単相分岐から多極回路まで同一ファミリーで扱え、住宅配電盤の回路構成を広くカバーできます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "numberOfPoles" }
+        ]
+      },
+      {
+        "id": "current-0_5-63",
+        "value": "0.5-63A",
+        "reasonJa": "小容量分岐から上位回路までを 1 ファミリーで整理しやすく、住宅市場の比較軸として扱いやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" }
+        ]
+      },
+      {
+        "id": "break-6ka-home",
+        "value": "6kA Icn",
+        "reasonJa": "一般住宅の分岐保護で扱いやすい 6kA Icn を明示でき、fault level の比較軸として使えます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" }
+        ]
+      },
+      {
+        "id": "curve-b-to-z",
+        "value": "Curve B, C, D, K, Z",
+        "reasonJa": "標準負荷から突入電流を伴う回路まで曲線選定で幅広く対応できるため、住宅用途でも選択肢の厚みを示せます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "residential-light-commercial",
+    "manufacturerId": "abb",
+    "name": "Residential / Light Commercial",
+    "icon": "storefront",
+    "productIds": ["abb-sn201"],
+    "rationaleTags": [
+      {
+        "id": "one-module-1pn",
+        "value": "1P+N in 1 module",
+        "reasonJa": "1P+N を 1 モジュールに収める省スペース性が強く、住宅から軽商用までの盤内密度に効きます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "numberOfPoles" },
+          { "source": "comparison", "key": "widthPerPole" },
+          { "source": "specification", "label": "1P+N in 1 module" }
+        ]
+      },
+      {
+        "id": "break-4_5-10",
+        "value": "4.5-10kA",
+        "reasonJa": "SN201L / SN201 / SN201M を通じて遮断容量レンジが広く、住宅から軽商用まで fault level の差を吸収しやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "comparison", "key": "capacityClass" }
+        ]
+      },
+      {
+        "id": "std-iec-60898-light",
+        "value": "IEC/EN 60898-1",
+        "reasonJa": "住宅・軽商用の分岐保護で使いやすい IEC/EN 60898-1 準拠を明示できます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" }
+        ]
+      },
+      {
+        "id": "current-2-40",
+        "value": "2-40A",
+        "reasonJa": "住宅分岐から小規模商用回路まで扱いやすい電流帯をカバーしています。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "commercial-building",
+    "manufacturerId": "abb",
+    "name": "Commercial / Building",
+    "icon": "apartment",
+    "productIds": ["abb-s300-p"],
+    "rationaleTags": [
+      {
+        "id": "break-25ka",
+        "value": "25kA Icu",
+        "reasonJa": "商業ビル系で重要な高 fault level への対応を、Icu 25kA のわかりやすい数値で示せます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" }
+        ]
+      },
+      {
+        "id": "high-ics",
+        "value": "Ics 7.5-12.5kA",
+        "reasonJa": "高い service breaking capacity を持ち、継続運用を重視するビル用途の比較軸として使えます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "serviceBreakingCapacityIcs" },
+          { "source": "comparison", "key": "breakingCapacity" }
+        ]
+      },
+      {
+        "id": "width-17_5",
+        "value": "17.5mm",
+        "reasonJa": "1 極あたり 17.5mm の盤面効率を示せるため、回路点数が多いビル配電に相性が良いです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "widthPerPole" }
+        ]
+      },
+      {
+        "id": "poles-1p-3pn-building",
+        "value": "1P-3P+N",
+        "reasonJa": "単相分岐から三相系までを同一ファミリーで整理でき、ビル用途の回路バリエーションに対応しやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "numberOfPoles" }
+        ]
+      },
+      {
+        "id": "iec-ul-csa",
+        "value": "IEC/UL/CSA",
+        "reasonJa": "複数規格に跨るため、案件仕様差がある commercial building でも説明しやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "industrial",
+    "manufacturerId": "abb",
+    "name": "Industrial",
+    "icon": "factory",
+    "productIds": ["abb-s800"],
+    "rationaleTags": [
+      {
+        "id": "break-up-to-50ka",
+        "value": "up to 50kA",
+        "reasonJa": "高 fault level が要求される産業用途に対して、最大 50kA の遮断容量を端的に示せます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "comparison", "key": "serviceBreakingCapacityIcs" }
+        ]
+      },
+      {
+        "id": "current-up-to-125a",
+        "value": "0.5-125A",
+        "reasonJa": "分岐保護から上位回路までをカバーしやすく、産業盤の比較軸として十分な電流帯を持ちます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" }
+        ]
+      },
+      {
+        "id": "compact-27",
+        "value": "27mm / 1.5 module",
+        "reasonJa": "高遮断容量帯としてはコンパクトな 1.5 モジュール相当で、盤面効率の説明に使えます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "widthPerPole" },
+          { "source": "specification", "label": "Module size" }
+        ]
+      },
+      {
+        "id": "curve-b-to-k",
+        "value": "Curve B, C, D, K",
+        "reasonJa": "産業系負荷で必要になる曲線選択肢を持ち、用途差に応じた選定余地を示せます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" }
+        ]
+      },
+      {
+        "id": "iec-ul",
+        "value": "IEC / UL",
+        "reasonJa": "IEC と UL を跨ぐ承認文脈を持ち、国際案件や輸出案件にも繋げやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "oem-machine-building",
+    "manufacturerId": "abb",
+    "name": "OEM / Machine Building",
+    "icon": "precision_manufacturing",
+    "productIds": ["abb-su200"],
+    "rationaleTags": [
+      {
+        "id": "ul-489",
+        "value": "UL 489",
+        "reasonJa": "北米 OEM 機械盤で重要な UL 489 branch circuit protection をそのまま根拠タグにできます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Branch circuit protection" }
+        ]
+      },
+      {
+        "id": "ac-dc",
+        "value": "AC/DC",
+        "reasonJa": "AC/DC 両用の文脈を持ち、制御盤や輸出装置での混在回路に説明しやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedVoltageUe" },
+          { "source": "specification", "label": "AC and DC applications" }
+        ]
+      },
+      {
+        "id": "break-10-15",
+        "value": "10-15kA",
+        "reasonJa": "UL/CSA と IEC で fault rating を読み替えやすく、OEM 比較で扱いやすい定量タグです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" }
+        ]
+      },
+      {
+        "id": "global-ul-csa-iec",
+        "value": "UL/CSA/IEC",
+        "reasonJa": "グローバル OEM で求められる複数規格を横断して示せます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" }
+        ]
+      },
+      {
+        "id": "poles-1p-4p",
+        "value": "1P-4P",
+        "reasonJa": "単相から多極回路まで同一ファミリーで扱え、機械装置の回路構成に対応しやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "numberOfPoles" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pv-renewables",
+    "manufacturerId": "abb",
+    "name": "PV / Renewables",
+    "icon": "solar_power",
+    "productIds": ["abb-s800pv-sp"],
+    "rationaleTags": [
+      {
+        "id": "pv-1500vdc",
+        "value": "up to 1500V DC",
+        "reasonJa": "PV ストリング保護で重要な高電圧 DC への対応を、1500V DC の数値で明確に示せます。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedVoltageUe" }
+        ]
+      },
+      {
+        "id": "current-5-125a",
+        "value": "5-125A",
+        "reasonJa": "PV ストリング保護用途で使いやすい広い電流帯をカバーしています。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" }
+        ]
+      },
+      {
+        "id": "annex-p",
+        "value": "IEC/EN 60947-2 Annex P",
+        "reasonJa": "PV 専用要件を持つ Annex P を明示でき、汎用 DC 用途との差別化に直結します。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" }
+        ]
+      },
+      {
+        "id": "ics-equals-icu",
+        "value": "Ics = Icu",
+        "reasonJa": "サービス duty を短く伝えられるため、PV 向けの reliability tag としてわかりやすいです。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "serviceBreakingCapacityIcs" },
+          { "source": "comparison", "key": "breakingCapacity" }
+        ]
+      },
+      {
+        "id": "polarity-independent",
+        "value": "Polarity independent",
+        "reasonJa": "極性非依存で施工性と扱いやすさを補足でき、PV/DC 用途の補助タグとして使えます。",
+        "evidenceRefs": [
+          { "source": "specification", "label": "Polarity independent" },
+          { "source": "comparison", "key": "ratedVoltageUe" }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,160 @@
+{
+  "id": "abb-s800",
+  "manufacturerId": "abb",
+  "segmentId": "industrial",
+  "series": "S800",
+  "comparison": {
+    "capacityClass": "Family summary: Class 3 on S800B, S800C, S800N, and S800S",
+    "ratedCurrentIn": "0.5-125A",
+    "breakingCapacity": "Family summary: 16-50kA Icu across standard ranges; 10-25kA Icn on applicable IEC 60898 lines",
+    "tripCurveCharacteristics": "B, C, D, K",
+    "numberOfPoles": "1P, 2P, 3P, 4P",
+    "ratedVoltageUe": "IEC/EN 60898-1: 230/400V AC; IEC/EN 60947-2: 240/400-690V AC, 75-500V DC",
+    "ratedInsulationVoltageUi": "500-690V AC",
+    "ratedImpulseWithstandVoltageUimp": "6-8kV",
+    "standardsApprovals": "IEC/EN 60947-2; EN 60898-1 or UL 1077 on selected sub-ranges",
+    "mechanicalEndurance": "8,000-10,000 ops.",
+    "electricalEndurance": "1,500-10,000 ops.",
+    "widthPerPole": "27mm",
+    "serviceBreakingCapacityIcs": "Family summary: 3-40kA on IEC/EN 60947-2 lines; 7.5-12.5kA on applicable IEC 60898 lines"
+  },
+  "variants": [
+    {
+      "variantId": "abb-s800b",
+      "variantLabel": "S800B 16kA tier",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "0.5-63A",
+        "breakingCapacity": "IEC/EN 60947-2 Icu: 16kA",
+        "tripCurveCharacteristics": "B, C, D, K",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "IEC/EN 60898-1: 230/400V AC; IEC/EN 60947-2: up to 400V AC, DC on selected poles",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "6kV",
+        "standardsApprovals": "IEC/EN 60947-2; EN 60898-1 on selected sub-ranges",
+        "mechanicalEndurance": "8,000-10,000 ops.",
+        "electricalEndurance": "1,500-10,000 ops.",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "3-7.5kA"
+      }
+    },
+    {
+      "variantId": "abb-s800c",
+      "variantLabel": "S800C 25kA tier",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "0.5-63A",
+        "breakingCapacity": "IEC/EN 60947-2 Icu: 25kA; IEC/EN 60898-1 Icn: 15kA",
+        "tripCurveCharacteristics": "B, C, D, K",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "IEC/EN 60898-1: 230/400V AC; IEC/EN 60947-2: up to 690V AC, DC on selected poles",
+        "ratedInsulationVoltageUi": "690V AC",
+        "ratedImpulseWithstandVoltageUimp": "8kV",
+        "standardsApprovals": "IEC/EN 60947-2; EN 60898-1 on selected sub-ranges",
+        "mechanicalEndurance": "8,000-10,000 ops.",
+        "electricalEndurance": "1,500-10,000 ops.",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "7.5-12.5kA"
+      }
+    },
+    {
+      "variantId": "abb-s800n",
+      "variantLabel": "S800N 36kA tier",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "0.5-125A",
+        "breakingCapacity": "IEC/EN 60947-2 Icu: 36kA; IEC/EN 60898-1 Icn: 20kA",
+        "tripCurveCharacteristics": "B, C, D, K",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "IEC/EN 60898-1: 230/400V AC; IEC/EN 60947-2: up to 690V AC, DC on selected poles",
+        "ratedInsulationVoltageUi": "690V AC",
+        "ratedImpulseWithstandVoltageUimp": "8kV",
+        "standardsApprovals": "IEC/EN 60947-2; EN 60898-1 on selected sub-ranges",
+        "mechanicalEndurance": "8,000-10,000 ops.",
+        "electricalEndurance": "1,500-10,000 ops.",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "10-20kA"
+      }
+    },
+    {
+      "variantId": "abb-s800s",
+      "variantLabel": "S800S 50kA tier",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "0.5-125A",
+        "breakingCapacity": "IEC/EN 60947-2 Icu: 50kA; IEC/EN 60898-1 Icn: 25kA",
+        "tripCurveCharacteristics": "B, C, D, K",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "IEC/EN 60898-1: 230/400V AC; IEC/EN 60947-2: up to 690V AC, DC on selected poles",
+        "ratedInsulationVoltageUi": "690V AC",
+        "ratedImpulseWithstandVoltageUimp": "8kV",
+        "standardsApprovals": "IEC/EN 60947-2; EN 60898-1; UL 1077 on selected sub-ranges",
+        "mechanicalEndurance": "8,000-10,000 ops.",
+        "electricalEndurance": "1,500-10,000 ops.",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "20-40kA"
+      }
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "Family summary: Class 3 on S800B, S800C, S800N, and S800S"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "0.5-125A"
+    },
+    {
+      "label": "Breaking Capacity (Icu / Icn)",
+      "value": "Family summary: 16-50kA Icu across standard ranges; 10-25kA Icn on applicable IEC 60898 lines"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D, K"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 2P, 3P, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "IEC/EN 60898-1: 230/400V AC; IEC/EN 60947-2: 240/400-690V AC, 75-500V DC"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "500-690V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "6-8kV"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60947-2; EN 60898-1 or UL 1077 on selected sub-ranges"
+    },
+    {
+      "label": "Mechanical Endurance",
+      "value": "8,000-10,000 ops."
+    },
+    {
+      "label": "Electrical Endurance",
+      "value": "1,500-10,000 ops."
+    },
+    {
+      "label": "Width per Pole",
+      "value": "27mm"
+    },
+    {
+      "label": "Module size",
+      "value": "1.5 modules per pole"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Family summary coverage",
+      "body": "S800B, S800C, S800N, and S800S are summarized at the family level. Use the variant columns for the main capacity tiers.",
+      "tone": "coverage"
+    }
+  ]
+}

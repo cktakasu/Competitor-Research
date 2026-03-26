@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { memo, useState } from "react";
 import type { Manufacturer } from "../../types/mcb";
 import { cx } from "./utils";
@@ -20,15 +21,15 @@ const ManufacturerLogo = memo(function ManufacturerLogo({ manufacturer }: { manu
   }
 
   return (
-    <img
+    <Image
       src={manufacturer.logoUrl}
       alt={manufacturer.name}
+      width={120}
+      height={28}
       className={cx(
         "h-6 md:h-7 w-auto max-w-[100px] md:max-w-[110px] lg:max-w-[120px] object-contain origin-center",
         logoScaleClass
       )}
-      loading="lazy"
-      decoding="async"
       onError={() => setErrored(true)}
     />
   );

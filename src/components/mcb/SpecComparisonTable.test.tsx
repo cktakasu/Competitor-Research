@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { SpecComparisonTable } from "./SpecComparisonTable";
 
 afterEach(() => {
@@ -44,7 +44,7 @@ describe("SpecComparisonTable", () => {
     );
 
     expect(screen.getByText("Capacity Class")).toBeDefined();
-    expect(screen.getByText("Acti9")).toBeDefined();
+    expect(screen.getAllByText("Acti9").length).toBeGreaterThan(0);
   });
 
   test("calls onOpenAdd when add button is clicked", () => {
@@ -73,5 +73,45 @@ describe("SpecComparisonTable", () => {
 
     screen.getByText("Remove").click();
     expect(mockOnRemove).toHaveBeenCalledWith("acti9");
+  });
+
+  test("renders variant labels as separate comparison columns", () => {
+    render(
+      <SpecComparisonTable
+        comparedProducts={[
+          {
+            ...mockProducts[0],
+            variants: [
+              {
+                variantId: "acti9-6ka",
+                variantLabel: "Acti9 6kA family",
+                comparison: mockProducts[0].comparison
+              },
+              {
+                variantId: "acti9-10ka",
+                variantLabel: "Acti9 10kA family",
+                comparison: {
+                  ...mockProducts[0].comparison,
+                  breakingCapacity: "10kA"
+                }
+              }
+            ]
+          }
+        ]}
+        manufacturerNameById={mockManufacturerNameById}
+        onOpenAdd={mockOnOpenAdd}
+        onRemove={mockOnRemove}
+      />
+    );
+
+    expect(screen.getAllByText("Family Summary").length).toBeGreaterThan(0);
+    expect(screen.queryByText("Acti9 6kA family")).toBeNull();
+    expect(screen.queryByText("Acti9 10kA family")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: /Show Variant Detail \(2\)/i }));
+
+    expect(screen.getAllByText("Variant Detail").length).toBeGreaterThan(0);
+    expect(screen.getByText("Acti9 6kA family")).toBeDefined();
+    expect(screen.getByText("Acti9 10kA family")).toBeDefined();
   });
 });

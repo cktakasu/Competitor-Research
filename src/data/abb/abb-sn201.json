@@ -1,0 +1,141 @@
+{
+  "id": "abb-sn201",
+  "manufacturerId": "abb",
+  "segmentId": "residential-light-commercial",
+  "series": "SN201",
+  "comparison": {
+    "capacityClass": "Class 3",
+    "ratedCurrentIn": "2-40A",
+    "breakingCapacity": "Family summary: 4.5-10kA across SN201L, SN201, and SN201M",
+    "tripCurveCharacteristics": "Family summary: B, C, D by sub-range",
+    "numberOfPoles": "1P+N",
+    "ratedVoltageUe": "230V AC",
+    "ratedInsulationVoltageUi": "500V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "IEC/EN 60898-1",
+    "mechanicalEndurance": "20,000 ops.",
+    "electricalEndurance": "10,000 ops.",
+    "widthPerPole": "17.6mm",
+    "serviceBreakingCapacityIcs": "Family summary: 4.5-7.5kA by sub-range"
+  },
+  "variants": [
+    {
+      "variantId": "abb-sn201l",
+      "variantLabel": "SN201L 4.5kA family",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "2-40A",
+        "breakingCapacity": "Icn: 4.5kA",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P+N",
+        "ratedVoltageUe": "230V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60898-1",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "10,000 ops.",
+        "widthPerPole": "17.6mm",
+        "serviceBreakingCapacityIcs": "4.5kA"
+      }
+    },
+    {
+      "variantId": "abb-sn201",
+      "variantLabel": "SN201 6kA family",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "2-40A",
+        "breakingCapacity": "Icn: 6kA",
+        "tripCurveCharacteristics": "B, C, D",
+        "numberOfPoles": "1P+N",
+        "ratedVoltageUe": "230V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60898-1",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "10,000 ops.",
+        "widthPerPole": "17.6mm",
+        "serviceBreakingCapacityIcs": "6kA"
+      }
+    },
+    {
+      "variantId": "abb-sn201m",
+      "variantLabel": "SN201M 10kA family",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "2-40A",
+        "breakingCapacity": "Icn: 10kA",
+        "tripCurveCharacteristics": "B, C",
+        "numberOfPoles": "1P+N",
+        "ratedVoltageUe": "230V AC",
+        "ratedInsulationVoltageUi": "500V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60898-1",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "10,000 ops.",
+        "widthPerPole": "17.6mm",
+        "serviceBreakingCapacityIcs": "7.5kA"
+      }
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "Class 3"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "2-40A"
+    },
+    {
+      "label": "Breaking Capacity (Icn)",
+      "value": "Family summary: 4.5-10kA across SN201L, SN201, and SN201M"
+    },
+    {
+      "label": "Curve",
+      "value": "Family summary: B, C, D by sub-range"
+    },
+    {
+      "label": "Poles",
+      "value": "1P+N"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230V AC"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "500V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60898-1"
+    },
+    {
+      "label": "Mechanical Endurance",
+      "value": "20,000 ops."
+    },
+    {
+      "label": "Electrical Endurance",
+      "value": "10,000 ops."
+    },
+    {
+      "label": "Width per Pole",
+      "value": "17.6mm"
+    },
+    {
+      "label": "1P+N in 1 module",
+      "value": "Yes"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Family summary coverage",
+      "body": "SN201L, SN201, and SN201M are summarized at the family level. Use the variant columns for the exact breaking-capacity tier.",
+      "tone": "coverage"
+    }
+  ]
+}

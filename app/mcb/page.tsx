@@ -10,7 +10,6 @@ import { SelectionButton } from "../../src/components/mcb/SelectionButton";
 import { Sidebar } from "../../src/components/mcb/Sidebar";
 import { TopBar } from "../../src/components/mcb/TopBar";
 import {
-  compareTagLabel,
   dedupeTags,
   formatBreakingCapacityValue,
   formatRatedCurrentValue,
@@ -18,7 +17,6 @@ import {
   formatTagLabel,
   MARKET_LABEL_BY_SEGMENT_ID,
   normalizeTagKey,
-  sortBadgeTags,
   splitSummaryBadgeTag
 } from "../../src/components/mcb/utils";
 import {
@@ -96,7 +94,7 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
   section: MarketSection;
 }) {
   const marketLabel = MARKET_LABEL_BY_SEGMENT_ID[section.segmentId] ?? section.segmentId;
-  const summaryBadgeTags = sortBadgeTags(dedupeTags(section.summaryTags.flatMap(splitSummaryBadgeTag)));
+  const summaryBadgeTags = dedupeTags(section.summaryTags.flatMap(splitSummaryBadgeTag));
 
   return (
     <article className="market-section-shell rounded-2xl overflow-hidden">
@@ -122,12 +120,16 @@ const MarketSectionBoard = memo(function MarketSectionBoard({
           {section.rows.map((row) => {
             const isSelected = comparedProductIdSet.has(row.productId);
             const disabled = !isSelected && isCompareFull;
-            const orderedCompactTags = dedupeTags(row.compactTags.map((tag) => tag.tagValue))
-              .map((tagValue) =>
-                row.compactTags.find((tag) => normalizeTagKey(tag.tagValue) === normalizeTagKey(tagValue))
-              )
-              .filter((tag): tag is NonNullable<typeof tag> => Boolean(tag))
-              .sort((a, b) => compareTagLabel(a.tagValue, b.tagValue));
+            const seenTagKeys = new Set<string>();
+            const orderedCompactTags = row.compactTags.filter((tag) => {
+              const normalizedTag = normalizeTagKey(tag.tagValue);
+              if (seenTagKeys.has(normalizedTag)) {
+                return false;
+              }
+
+              seenTagKeys.add(normalizedTag);
+              return true;
+            });
 
             return (
               <article
@@ -239,11 +241,7 @@ export default function McbPage() {
   );
   const comparedProductIdSet = useMemo(() => new Set(normalizedComparedProductIds), [normalizedComparedProductIds]);
   const isCompareFull = normalizedComparedProductIds.length >= MAX_COMPARE_PRODUCTS;
-  const isSchneiderMarketView = selectedManufacturerId === "schneider-electric";
-  const marketSections = useMemo(
-    () => (isSchneiderMarketView ? buildMarketSections(selectedManufacturerId) : []),
-    [isSchneiderMarketView, selectedManufacturerId]
-  );
+  const marketSections = useMemo(() => buildMarketSections(selectedManufacturerId), [selectedManufacturerId]);
   const segmentProductsById = useMemo(
     () =>
       segments.reduce<Record<string, McbProduct[]>>((accumulator, segment) => {
@@ -333,7 +331,7 @@ export default function McbPage() {
             <section className="rounded-3xl border border-scandi-warm-grey/60 bg-white shadow-scandi p-4 md:p-5">
               {!selectedManufacturer.enabled ? (
                 <DataPreparationState />
-              ) : isSchneiderMarketView ? (
+              ) : marketSections.length ? (
                 marketSections.length ? (
                   <div className="space-y-3 min-w-0">
                     {marketSections.map((section) => (

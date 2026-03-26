@@ -1,0 +1,75 @@
+{
+  "id": "abb-s800pv-sp",
+  "manufacturerId": "abb",
+  "segmentId": "pv-renewables",
+  "series": "S800PV-SP",
+  "comparison": {
+    "capacityClass": "N/A",
+    "ratedCurrentIn": "5-125A",
+    "breakingCapacity": "IEC/EN 60947-2 Icu: 5kA (20-125A); Annex P: 5kA (5-16A), 3kA (20-125A)",
+    "tripCurveCharacteristics": "SP",
+    "numberOfPoles": "2P, 3P, 4P",
+    "ratedVoltageUe": "800V DC (2P); 1200V DC (3P); 1500V DC (4P)",
+    "ratedInsulationVoltageUi": "1500V DC",
+    "ratedImpulseWithstandVoltageUimp": "8kV",
+    "standardsApprovals": "IEC/EN 60947-2, Annex P",
+    "mechanicalEndurance": "9,700 ops. (5-16A); 8,500 ops. (20-100A); 9,000 ops. (125A)",
+    "electricalEndurance": "300 ops. (5-16A); 1,500 ops. (20-100A); 1,000 ops. (125A)",
+    "widthPerPole": "27mm",
+    "serviceBreakingCapacityIcs": "Ics = Icu"
+  },
+  "specifications": [
+    {
+      "label": "Rated Current (In)",
+      "value": "5-125A"
+    },
+    {
+      "label": "Breaking Capacity",
+      "value": "IEC/EN 60947-2 Icu: 5kA (20-125A); Annex P: 5kA (5-16A), 3kA (20-125A)"
+    },
+    {
+      "label": "Curve",
+      "value": "SP"
+    },
+    {
+      "label": "Poles",
+      "value": "2P, 3P, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "800V DC (2P); 1200V DC (3P); 1500V DC (4P)"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "1500V DC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "8kV"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60947-2, Annex P"
+    },
+    {
+      "label": "Mechanical Endurance",
+      "value": "9,700 ops. (5-16A); 8,500 ops. (20-100A); 9,000 ops. (125A)"
+    },
+    {
+      "label": "Electrical Endurance",
+      "value": "300 ops. (5-16A); 1,500 ops. (20-100A); 1,000 ops. (125A)"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "27mm"
+    },
+    {
+      "label": "Polarity independent",
+      "value": "Yes"
+    },
+    {
+      "label": "Application",
+      "value": "PV string protection"
+    }
+  ]
+}

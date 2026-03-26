@@ -1,0 +1,141 @@
+{
+  "id": "abb-su200",
+  "manufacturerId": "abb",
+  "segmentId": "oem-machine-building",
+  "series": "SU200",
+  "comparison": {
+    "capacityClass": "N/A",
+    "ratedCurrentIn": "0.2-63A",
+    "breakingCapacity": "Family summary: UL/CSA 10-14kA by variant; IEC line 15kA",
+    "tripCurveCharacteristics": "Family summary: C, K, Z; K-only on SU200MR",
+    "numberOfPoles": "1P, 2P, 3P, 4P",
+    "ratedVoltageUe": "Family summary: 230-400V AC IEC; up to 480Y/277V AC UL; 48-96V DC",
+    "ratedInsulationVoltageUi": "440V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "UL 489, CSA 22.2 No.5, IEC/EN 60947-2, VDE, CCC",
+    "mechanicalEndurance": "20,000 ops.",
+    "electricalEndurance": "20,000 ops. (<30A IEC AC); 10,000 ops. (>=30A IEC AC); 1,000-1,500 ops. (DC); 6,000 ops. (UL/CSA)",
+    "widthPerPole": "17.5mm",
+    "serviceBreakingCapacityIcs": "Family summary: 7.5-11.25kA by variant"
+  },
+  "variants": [
+    {
+      "variantId": "abb-su200m",
+      "variantLabel": "SU200M standard terminal",
+      "comparison": {
+        "capacityClass": "N/A",
+        "ratedCurrentIn": "0.2-63A",
+        "breakingCapacity": "UL/CSA: 10kA; IEC/EN 60947-2: 15kA",
+        "tripCurveCharacteristics": "C, K, Z",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "240V AC, 480Y/277V AC; 48-96V DC",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "UL 489, CSA 22.2 No.5, IEC/EN 60947-2, VDE, CCC",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "20,000 ops. (<30A IEC AC); 10,000 ops. (>=30A IEC AC); 1,000-1,500 ops. (DC); 6,000 ops. (UL/CSA)",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "11.25kA (<=40A); 7.5kA (>40A)"
+      }
+    },
+    {
+      "variantId": "abb-su200ml",
+      "variantLabel": "SU200ML compact UL line",
+      "comparison": {
+        "capacityClass": "N/A",
+        "ratedCurrentIn": "0.2-63A",
+        "breakingCapacity": "UL/CSA: 14kA; IEC/EN 60947-2: 15kA",
+        "tripCurveCharacteristics": "C, K, Z",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "240V AC; 48-96V DC",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "UL 489, CSA 22.2 No.5, IEC/EN 60947-2, VDE, CCC",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "20,000 ops. (<30A IEC AC); 10,000 ops. (>=30A IEC AC); 1,000-1,500 ops. (DC); 6,000 ops. (UL/CSA)",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "11.25kA (<=40A); 7.5kA (>40A)"
+      }
+    },
+    {
+      "variantId": "abb-su200mr",
+      "variantLabel": "SU200MR ring tongue line",
+      "comparison": {
+        "capacityClass": "N/A",
+        "ratedCurrentIn": "0.2-63A",
+        "breakingCapacity": "UL/CSA: 10kA; IEC/EN 60947-2: 15kA",
+        "tripCurveCharacteristics": "K",
+        "numberOfPoles": "1P, 2P, 3P, 4P",
+        "ratedVoltageUe": "240V AC, 480Y/277V AC",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "UL 489, CSA 22.2 No.5, IEC/EN 60947-2, VDE",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "6,000 ops. (UL/CSA); 10,000-20,000 ops. (IEC AC)",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "7.5-11.25kA"
+      }
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Rated Current (In)",
+      "value": "0.2-63A"
+    },
+    {
+      "label": "Breaking Capacity",
+      "value": "Family summary: UL/CSA 10-14kA by variant; IEC line 15kA"
+    },
+    {
+      "label": "Curve",
+      "value": "Family summary: C, K, Z; K-only on SU200MR"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 2P, 3P, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "Family summary: 230-400V AC IEC; up to 480Y/277V AC UL; 48-96V DC"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "440V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Standards",
+      "value": "UL 489, CSA 22.2 No.5, IEC/EN 60947-2, VDE, CCC"
+    },
+    {
+      "label": "Mechanical Endurance",
+      "value": "20,000 ops."
+    },
+    {
+      "label": "Electrical Endurance",
+      "value": "20,000 ops. (<30A IEC AC); 10,000 ops. (>=30A IEC AC); 1,000-1,500 ops. (DC); 6,000 ops. (UL/CSA)"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "17.5mm"
+    },
+    {
+      "label": "Branch circuit protection",
+      "value": "UL 489"
+    },
+    {
+      "label": "AC and DC applications",
+      "value": "Yes"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Family summary coverage",
+      "body": "SU200M, SU200ML, and SU200MR share the family summary. Use the variant columns for the exact terminal style and rating differences.",
+      "tone": "coverage"
+    }
+  ]
+}

@@ -1,6 +1,14 @@
 import manufacturersData from "../data/manufacturers.json";
+import abbSegmentsData from "../data/abb/segments.json";
 import schneiderSegmentsData from "../data/schneider/segments.json";
 import lsSegmentsData from "../data/ls-electric/segments.json";
+
+import abbS200Data from "../data/abb/abb-s200.json";
+import abbSn201Data from "../data/abb/abb-sn201.json";
+import abbS300PData from "../data/abb/abb-s300-p.json";
+import abbS800Data from "../data/abb/abb-s800.json";
+import abbSu200Data from "../data/abb/abb-su200.json";
+import abbS800PvSpData from "../data/abb/abb-s800pv-sp.json";
 
 import acti9Ic60hData from "../data/schneider/acti9-ic60h.json";
 import acti9Ic60hDcData from "../data/schneider/acti9-ic60h-dc.json";
@@ -22,9 +30,19 @@ import bk125hData from "../data/ls-electric/bk125h.json";
 import type { Manufacturer, ManufacturerId, McbProduct, McbSegment } from "../types/mcb";
 
 const manufacturers = manufacturersData as Manufacturer[];
-const segments = [...(schneiderSegmentsData as McbSegment[]), ...(lsSegmentsData as McbSegment[])];
+const segments = [
+  ...(abbSegmentsData as McbSegment[]),
+  ...(schneiderSegmentsData as McbSegment[]),
+  ...(lsSegmentsData as McbSegment[])
+] as McbSegment[];
 
 const products = [
+  abbS200Data,
+  abbSn201Data,
+  abbS300PData,
+  abbS800Data,
+  abbSu200Data,
+  abbS800PvSpData,
   resi9Data,
   easy9Data,
   easy9ProData,

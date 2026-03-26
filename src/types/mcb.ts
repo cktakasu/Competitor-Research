@@ -67,10 +67,17 @@ export type ProductSpecification = {
   value: string;
 };
 
+export type ProductNote = {
+  title: string;
+  body: string;
+  tone?: "info" | "coverage" | "caution";
+};
+
 export type ProductVariant = {
   variantId: string;
   variantLabel: string;
   comparison: ProductComparisonSpecs;
+  notes?: ProductNote[];
 };
 
 export type McbProduct = {
@@ -81,6 +88,7 @@ export type McbProduct = {
   comparison: ProductComparisonSpecs;
   variants?: ProductVariant[];
   specifications: ProductSpecification[];
+  notes?: ProductNote[];
 };
 
 export const COMPARISON_ROWS: Array<{ key: ComparisonRowKey; label: string }> = [

@@ -6,6 +6,7 @@ describe('dataService', () => {
         const manufacturers = getManufacturers();
         expect(manufacturers.length).toBeGreaterThan(0);
         expect(manufacturers.find((m) => m.id === 'schneider-electric')).toBeDefined();
+        expect(manufacturers.find((m) => m.id === 'abb' && m.enabled)).toBeDefined();
     });
 
     test('getSegmentsByManufacturer returns segments for valid manufacturer', () => {
@@ -14,10 +15,28 @@ describe('dataService', () => {
         expect(segments.some((s) => s.id === 'residential')).toBe(true);
     });
 
+    test('getSegmentsByManufacturer returns ABB market segments', () => {
+        const segments = getSegmentsByManufacturer('abb');
+        expect(segments.length).toBeGreaterThan(0);
+        expect(segments.some((s) => s.id === 'commercial-building')).toBe(true);
+    });
+
     test('getProductById retrieves a valid product', () => {
         const product = getProductById('acti9-ic60n');
         expect(product).toBeDefined();
         expect(product?.series).toBe('Acti9 iC60N');
+    });
+
+    test('getProductById retrieves an ABB product', () => {
+        const product = getProductById('abb-s300-p');
+        expect(product).toBeDefined();
+        expect(product?.series).toBe('S300 P');
+    });
+
+    test('getProductById exposes structured notes for ABB family summaries', () => {
+        const product = getProductById('abb-s800');
+        expect(product?.notes?.length).toBeGreaterThan(0);
+        expect(product?.notes?.[0].title).toBe('Family summary coverage');
     });
 
     test('getProductById returns undefined for unknown id', () => {

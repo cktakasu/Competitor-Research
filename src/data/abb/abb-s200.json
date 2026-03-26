@@ -1,0 +1,122 @@
+{
+  "id": "abb-s200",
+  "manufacturerId": "abb",
+  "segmentId": "residential",
+  "series": "S200",
+  "comparison": {
+    "capacityClass": "Class 3",
+    "ratedCurrentIn": "0.5-63A",
+    "breakingCapacity": "Family summary: Icn 6kA residential line; IEC/EN 60947-2 line reaches 10-50kA Icu",
+    "tripCurveCharacteristics": "B, C, D, K, Z",
+    "numberOfPoles": "1P, 2P, 3P, 4P, 1P+N, 3P+N",
+    "ratedVoltageUe": "230V AC (1P/1P+N); 440V AC (2P-4P/3P+N); DC 72V (1P), 125V (2P)",
+    "ratedInsulationVoltageUi": "440V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "Family summary: IEC/EN 60898-1, IEC/EN 60947-2, UL 1077",
+    "mechanicalEndurance": "20,000 ops.",
+    "electricalEndurance": "20,000 ops. (<32A AC); 10,000 ops. (>=32A AC); 1,000 ops. (DC)",
+    "widthPerPole": "17.5mm",
+    "serviceBreakingCapacityIcs": "Family summary: 7.5kA on IEC/EN 60947-2 line"
+  },
+  "variants": [
+    {
+      "variantId": "abb-s200-iec-60898",
+      "variantLabel": "S200 IEC/EN 60898-1 line",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "0.5-63A",
+        "breakingCapacity": "Icn: 6kA",
+        "tripCurveCharacteristics": "B, C, D",
+        "numberOfPoles": "1P, 2P, 3P, 4P, 1P+N, 3P+N",
+        "ratedVoltageUe": "230/400V AC (1P); 230V AC (1P+N); 400V AC (2P-4P/3P+N)",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60898-1",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "20,000 ops. (<32A AC); 10,000 ops. (>=32A AC)",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "N/A"
+      }
+    },
+    {
+      "variantId": "abb-s200-iec-60947",
+      "variantLabel": "S200 IEC/EN 60947-2 line",
+      "comparison": {
+        "capacityClass": "Class 3",
+        "ratedCurrentIn": "0.5-63A",
+        "breakingCapacity": "Icu: 50kA (<=2A); 10kA (>2A)",
+        "tripCurveCharacteristics": "B, C, D, K, Z",
+        "numberOfPoles": "1P, 2P, 3P, 4P, 1P+N, 3P+N",
+        "ratedVoltageUe": "230V AC (1P/1P+N); 440V AC (2P-4P/3P+N); DC 72V (1P), 125V (2P)",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60947-2, UL 1077",
+        "mechanicalEndurance": "20,000 ops.",
+        "electricalEndurance": "20,000 ops. (<32A AC); 10,000 ops. (>=32A AC); 1,000 ops. (DC)",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "7.5kA"
+      }
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "Class 3"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "0.5-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icu / Icn)",
+      "value": "Family summary: Icn 6kA residential line; IEC/EN 60947-2 line reaches 10-50kA Icu"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D, K, Z"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 2P, 3P, 4P, 1P+N, 3P+N"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230V AC (1P/1P+N); 440V AC (2P-4P/3P+N); DC 72V (1P), 125V (2P)"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "440V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Standards",
+      "value": "Family summary: IEC/EN 60898-1, IEC/EN 60947-2, UL 1077"
+    },
+    {
+      "label": "Mechanical Endurance",
+      "value": "20,000 ops."
+    },
+    {
+      "label": "Electrical Endurance",
+      "value": "20,000 ops. (<32A AC); 10,000 ops. (>=32A AC); 1,000 ops. (DC)"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "17.5mm"
+    },
+    {
+      "label": "Contact position indication (Real CPI)",
+      "value": "Yes"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Family summary coverage",
+      "body": "This family summary combines the IEC/EN 60898-1 residential line and the IEC/EN 60947-2 industrial line. Use the variant columns for the exact standard split.",
+      "tone": "coverage"
+    }
+  ]
+}

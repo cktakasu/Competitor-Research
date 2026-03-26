@@ -84,6 +84,11 @@ export function getBestProductsByRow(comparedProducts: McbProduct[]): Record<Com
   // Flatten products and variants into entries
   const entries: ComparisonEntry[] = [];
   for (const product of comparedProducts) {
+    entries.push({
+      id: product.id,
+      comparison: product.comparison,
+    });
+
     if (product.variants?.length) {
       for (const variant of product.variants) {
         entries.push({
@@ -91,11 +96,6 @@ export function getBestProductsByRow(comparedProducts: McbProduct[]): Record<Com
           comparison: variant.comparison,
         });
       }
-    } else {
-      entries.push({
-        id: product.id,
-        comparison: product.comparison,
-      });
     }
   }
 

@@ -1,15 +1,19 @@
-import { readdir, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const VALID_COMPARISON_KEYS = new Set([
+  "capacityClass",
   "ratedCurrentIn",
   "breakingCapacity",
   "tripCurveCharacteristics",
   "numberOfPoles",
   "ratedVoltageUe",
   "ratedInsulationVoltageUi",
+  "ratedImpulseWithstandVoltageUimp",
   "standardsApprovals",
+  "mechanicalEndurance",
+  "electricalEndurance",
   "widthPerPole",
   "serviceBreakingCapacityIcs"
 ]);
@@ -57,22 +61,38 @@ async function loadJson(filePath) {
   return JSON.parse(content);
 }
 
-async function main() {
-  const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-  const repoRoot = path.resolve(scriptDir, "..");
-  const schneiderDir = path.join(repoRoot, "src", "data", "schneider");
+async function pathExists(filePath) {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-  const segmentsPath = path.join(schneiderDir, "segments.json");
+async function validateManufacturerDir(dataDir, issues) {
+  const dirName = path.basename(dataDir);
+  const segmentsPath = path.join(dataDir, "segments.json");
+
+  if (!(await pathExists(segmentsPath))) {
+    return { validated: false, segmentCount: 0, productCount: 0 };
+  }
+
   const segments = await loadJson(segmentsPath);
+  const segmentsWithRationale = segments.filter((segment) => Array.isArray(segment.rationaleTags) && segment.rationaleTags.length);
 
-  const files = await readdir(schneiderDir);
+  if (!segmentsWithRationale.length) {
+    return { validated: false, segmentCount: segments.length, productCount: 0 };
+  }
+
+  const files = await readdir(dataDir);
   const productFiles = files.filter(
     (name) => name.endsWith(".json") && name !== "segments.json" && !name.startsWith("._")
   );
 
   const products = [];
   for (const fileName of productFiles) {
-    products.push(await loadJson(path.join(schneiderDir, fileName)));
+    products.push(await loadJson(path.join(dataDir, fileName)));
   }
 
   const productsById = new Map();
@@ -80,20 +100,13 @@ async function main() {
     productsById.set(product.id, product);
   }
 
-  const issues = [];
-
-  for (const segment of segments) {
+  for (const segment of segmentsWithRationale) {
     const segmentProducts = (segment.productIds ?? [])
       .map((productId) => productsById.get(productId))
       .filter(Boolean);
 
     if (!segmentProducts.length) {
-      addIssue(issues, `segment=${segment.id} に紐づく製品が存在しません。`);
-      continue;
-    }
-
-    if (!Array.isArray(segment.rationaleTags) || !segment.rationaleTags.length) {
-      addIssue(issues, `segment=${segment.id} の rationaleTags が空です。`);
+      addIssue(issues, `dir=${dirName} segment=${segment.id} has no mapped products.`);
       continue;
     }
 
@@ -101,22 +114,22 @@ async function main() {
 
     for (const tag of segment.rationaleTags) {
       if (!tag.id || !tag.value || !tag.reasonJa) {
-        addIssue(issues, `segment=${segment.id} tag に必須項目(id/value/reasonJa)が不足しています。`);
+        addIssue(issues, `dir=${dirName} segment=${segment.id} has a tag missing id/value/reasonJa.`);
       }
 
       if (!Array.isArray(tag.evidenceRefs) || !tag.evidenceRefs.length) {
-        addIssue(issues, `segment=${segment.id} tag=${tag.id ?? "unknown"} に evidenceRefs がありません。`);
+        addIssue(issues, `dir=${dirName} segment=${segment.id} tag=${tag.id ?? "unknown"} is missing evidenceRefs.`);
         continue;
       }
 
       for (const reference of tag.evidenceRefs) {
         if (reference.source === "comparison") {
           if (!reference.key) {
-            addIssue(issues, `segment=${segment.id} tag=${tag.id} comparison参照に key がありません。`);
+            addIssue(issues, `dir=${dirName} segment=${segment.id} tag=${tag.id} comparison reference is missing key.`);
             continue;
           }
           if (!VALID_COMPARISON_KEYS.has(reference.key)) {
-            addIssue(issues, `segment=${segment.id} tag=${tag.id} comparison key=${reference.key} は不正です。`);
+            addIssue(issues, `dir=${dirName} segment=${segment.id} tag=${tag.id} uses invalid comparison key=${reference.key}.`);
             continue;
           }
           coveredComparisonKeys.add(reference.key);
@@ -125,7 +138,7 @@ async function main() {
 
         if (reference.source === "specification") {
           if (!reference.label) {
-            addIssue(issues, `segment=${segment.id} tag=${tag.id} specification参照に label がありません。`);
+            addIssue(issues, `dir=${dirName} segment=${segment.id} tag=${tag.id} specification reference is missing label.`);
             continue;
           }
 
@@ -134,7 +147,10 @@ async function main() {
           );
 
           if (!existsInSegment) {
-            addIssue(issues, `segment=${segment.id} tag=${tag.id} specification label='${reference.label}' が見つかりません。`);
+            addIssue(
+              issues,
+              `dir=${dirName} segment=${segment.id} tag=${tag.id} references unknown specification label='${reference.label}'.`
+            );
           }
         }
       }
@@ -143,7 +159,7 @@ async function main() {
     const requiredKeys = REQUIRED_SEGMENT_KEYS[segment.id] ?? [];
     for (const requiredKey of requiredKeys) {
       if (!coveredComparisonKeys.has(requiredKey)) {
-        addIssue(issues, `segment=${segment.id} に必須comparison key=${requiredKey} の根拠紐付けがありません。`);
+        addIssue(issues, `dir=${dirName} segment=${segment.id} is missing required evidence for comparison key=${requiredKey}.`);
       }
     }
 
@@ -154,13 +170,40 @@ async function main() {
       }
 
       if (resolvedCount === 0) {
-        addIssue(issues, `product=${product.id} は根拠参照が1件も解決できません。`);
+        addIssue(issues, `dir=${dirName} product=${product.id} does not resolve any rationale evidence.`);
       }
     }
   }
 
+  return {
+    validated: true,
+    segmentCount: segmentsWithRationale.length,
+    productCount: products.length
+  };
+}
+
+async function main() {
+  const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+  const repoRoot = path.resolve(scriptDir, "..");
+  const dataRoot = path.join(repoRoot, "src", "data");
+  const dataDirs = (await readdir(dataRoot, { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(dataRoot, entry.name));
+
+  const issues = [];
+  let validatedSegments = 0;
+  let validatedProducts = 0;
+
+  for (const dataDir of dataDirs) {
+    const result = await validateManufacturerDir(dataDir, issues);
+    if (result.validated) {
+      validatedSegments += result.segmentCount;
+      validatedProducts += result.productCount;
+    }
+  }
+
   if (issues.length) {
-    console.error(`[validate:rationale-data] NG: ${issues.length}件`);
+    console.error(`[validate:rationale-data] NG: ${issues.length} issues`);
     for (const issue of issues) {
       console.error(`- ${issue}`);
     }
@@ -168,7 +211,7 @@ async function main() {
     return;
   }
 
-  console.log(`[validate:rationale-data] OK: ${segments.length}市場, ${products.length}製品`);
+  console.log(`[validate:rationale-data] OK: ${validatedSegments} segments, ${validatedProducts} products`);
 }
 
 main().catch((error) => {
