@@ -1,0 +1,83 @@
+{
+  "id": "eaton-faz-dc",
+  "manufacturerId": "eaton",
+  "segmentId": "oem-machine-building",
+  "series": "FAZ-DC",
+  "comparison": {
+    "capacityClass": "10kA DC class",
+    "ratedCurrentIn": "2-50A",
+    "breakingCapacity": "10kA",
+    "tripCurveCharacteristics": "B (documented example)",
+    "numberOfPoles": "1P, 2P",
+    "ratedVoltageUe": "220V DC per pole (2A); 250V DC per pole (3-50A); up to 500V DC in 2P example",
+    "ratedInsulationVoltageUi": "440V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "IEC/EN 60947-2",
+    "mechanicalEndurance": "N/A",
+    "electricalEndurance": "N/A",
+    "widthPerPole": "17.7mm (1P); 36mm device width (2P)",
+    "serviceBreakingCapacityIcs": "Officially not found in checked Eaton FAZ-DC sources"
+  },
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "10kA DC class"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "2-50A"
+    },
+    {
+      "label": "Breaking Capacity",
+      "value": "10kA"
+    },
+    {
+      "label": "Curve",
+      "value": "B (documented example)"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 2P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "220V DC per pole (2A); 250V DC per pole (3-50A); up to 500V DC in 2P example"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "440V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "17.7mm (1P); 36mm device width (2P)"
+    },
+    {
+      "label": "Service Breaking Capacity (Ics)",
+      "value": "Officially not found in checked Eaton FAZ-DC sources"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60947-2"
+    },
+    {
+      "label": "Application Note",
+      "value": "DC use only; do not map to PV string protection without dedicated PV confirmation"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Checked-source limitation",
+      "body": "Checked Eaton FAZ-DC sources confirm width and Icu 10kA, but do not explicitly state Ics.",
+      "tone": "coverage"
+    },
+    {
+      "title": "PV mapping held back",
+      "body": "The current Eaton research set does not confirm a dedicated IEC MCB line for pv-renewables. FAZ-DC is kept under OEM / machine building until PV-specific mapping is validated.",
+      "tone": "caution"
+    }
+  ]
+}

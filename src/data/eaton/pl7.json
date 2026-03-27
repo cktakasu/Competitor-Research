@@ -1,0 +1,78 @@
+{
+  "id": "eaton-pl7",
+  "manufacturerId": "eaton",
+  "segmentId": "residential-light-commercial",
+  "series": "PL7",
+  "comparison": {
+    "capacityClass": "10kA class",
+    "ratedCurrentIn": "0.16-63A",
+    "breakingCapacity": "Icn: 10kA",
+    "tripCurveCharacteristics": "B, C, D",
+    "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
+    "ratedVoltageUe": "230/400V AC; 48V DC per pole (max 2 poles)",
+    "ratedInsulationVoltageUi": "440V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "IEC/EN 60898-1",
+    "mechanicalEndurance": "N/A",
+    "electricalEndurance": "N/A",
+    "widthPerPole": "17.5mm; 1P+N device 26.3mm (1.5MU)",
+    "serviceBreakingCapacityIcs": "Officially not found in checked Eaton PL7 sources"
+  },
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "10kA class"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "0.16-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icn)",
+      "value": "10kA"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230/400V AC; 48V DC per pole (max 2 poles)"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "440V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "17.5mm; 1P+N device 26.3mm (1.5MU)"
+    },
+    {
+      "label": "Service Breaking Capacity (Ics)",
+      "value": "Officially not found in checked Eaton PL7 sources"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60898-1"
+    },
+    {
+      "label": "Official Positioning",
+      "value": "Residential and commercial applications"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Checked-source limitation",
+      "body": "Checked Eaton PL7 sources confirm 17.5 mm width per pole and a 26.3 mm 1P+N device width, but do not explicitly state Ics.",
+      "tone": "coverage"
+    }
+  ]
+}

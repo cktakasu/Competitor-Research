@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { EmptyState } from "../../src/components/mcb/EmptyState";
+import { ManufacturerNoticePanel } from "../../src/components/mcb/ManufacturerNoticePanel";
 import { PageFooter } from "../../src/components/mcb/PageFooter";
 import { SelectionButton } from "../../src/components/mcb/SelectionButton";
 import { Sidebar } from "../../src/components/mcb/Sidebar";
 import { TopBar } from "../../src/components/mcb/TopBar";
+import { manufacturerNotices } from "../../src/data/manufacturerNotices";
 import {
   dedupeTags,
   formatBreakingCapacityValue,
@@ -235,6 +237,10 @@ export default function McbPage() {
     [selectedManufacturerId]
   );
   const segments = useMemo(() => getSegmentsByManufacturer(selectedManufacturerId), [selectedManufacturerId]);
+  const selectedManufacturerNotice = useMemo(
+    () => manufacturerNotices[selectedManufacturerId],
+    [selectedManufacturerId]
+  );
   const normalizedComparedProductIds = useMemo(
     () => normalizeComparedProductIds(comparedProductIds, (productId) => Boolean(getProductById(productId))),
     [comparedProductIds]
@@ -327,6 +333,14 @@ export default function McbPage() {
                 </>
               }
             />
+
+            {selectedManufacturerNotice ? (
+              <ManufacturerNoticePanel
+                title={selectedManufacturerNotice.title}
+                tone={selectedManufacturerNotice.tone}
+                body={selectedManufacturerNotice.body}
+              />
+            ) : null}
 
             <section className="rounded-3xl border border-scandi-warm-grey/60 bg-white shadow-scandi p-4 md:p-5">
               {!selectedManufacturer.enabled ? (

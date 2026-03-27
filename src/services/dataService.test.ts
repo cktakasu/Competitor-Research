@@ -7,6 +7,7 @@ describe('dataService', () => {
         expect(manufacturers.length).toBeGreaterThan(0);
         expect(manufacturers.find((m) => m.id === 'schneider-electric')).toBeDefined();
         expect(manufacturers.find((m) => m.id === 'abb' && m.enabled)).toBeDefined();
+        expect(manufacturers.find((m) => m.id === 'eaton' && m.enabled)).toBeDefined();
     });
 
     test('getSegmentsByManufacturer returns segments for valid manufacturer', () => {
@@ -21,10 +22,17 @@ describe('dataService', () => {
         expect(segments.some((s) => s.id === 'commercial-building')).toBe(true);
     });
 
-    test('getProductsByManufacturer returns ABB products and empty future catalogs', () => {
+    test('getSegmentsByManufacturer returns Eaton market segments without PV', () => {
+        const segments = getSegmentsByManufacturer('eaton');
+        expect(segments).toHaveLength(5);
+        expect(segments.some((s) => s.id === 'industrial')).toBe(true);
+        expect(segments.some((s) => s.id === 'pv-renewables')).toBe(false);
+    });
+
+    test('getProductsByManufacturer returns ABB and Eaton products while Siemens stays empty', () => {
         expect(getProductsByManufacturer('abb').length).toBeGreaterThan(0);
+        expect(getProductsByManufacturer('eaton').length).toBeGreaterThan(0);
         expect(getProductsByManufacturer('siemens')).toEqual([]);
-        expect(getProductsByManufacturer('eaton')).toEqual([]);
     });
 
     test('getProductById retrieves a valid product', () => {
@@ -37,6 +45,12 @@ describe('dataService', () => {
         const product = getProductById('abb-s300-p');
         expect(product).toBeDefined();
         expect(product?.series).toBe('S300 P');
+    });
+
+    test('getProductById retrieves an Eaton product', () => {
+        const product = getProductById('eaton-faz');
+        expect(product).toBeDefined();
+        expect(product?.series).toBe('FAZ');
     });
 
     test('getProductById exposes structured notes for ABB family summaries', () => {

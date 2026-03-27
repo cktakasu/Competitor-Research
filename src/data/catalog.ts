@@ -1,6 +1,7 @@
 import abbSegmentsData from "./abb/segments.json";
 import schneiderSegmentsData from "./schneider/segments.json";
 import lsSegmentsData from "./ls-electric/segments.json";
+import eatonSegmentsData from "./eaton/segments.json";
 
 import abbS200Data from "./abb/abb-s200.json";
 import abbSn201Data from "./abb/abb-sn201.json";
@@ -25,6 +26,11 @@ import resi9Data from "./schneider/resi9.json";
 import bknData from "./ls-electric/bkn.json";
 import bk63nData from "./ls-electric/bk63n.json";
 import bk125hData from "./ls-electric/bk125h.json";
+import eatonPl6Data from "./eaton/pl6.json";
+import eatonPl7Data from "./eaton/pl7.json";
+import eatonPlhtData from "./eaton/plht.json";
+import eatonFazData from "./eaton/faz.json";
+import eatonFazDcData from "./eaton/faz-dc.json";
 
 import type { ManufacturerId, McbProduct, McbSegment } from "../types/mcb";
 
@@ -72,7 +78,10 @@ export const manufacturerCatalogs: Record<ManufacturerId, ManufacturerCatalog> =
     segments: lsSegmentsData as McbSegment[]
   },
   siemens: EMPTY_CATALOG,
-  eaton: EMPTY_CATALOG
+  eaton: {
+    products: [eatonPl6Data, eatonPl7Data, eatonPlhtData, eatonFazData, eatonFazDcData] as McbProduct[],
+    segments: eatonSegmentsData as McbSegment[]
+  }
 };
 
 export function getManufacturerCatalog(manufacturerId: ManufacturerId): ManufacturerCatalog {

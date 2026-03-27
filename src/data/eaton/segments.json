@@ -1,0 +1,232 @@
+[
+  {
+    "id": "residential",
+    "manufacturerId": "eaton",
+    "name": "Residential",
+    "icon": "home",
+    "productIds": ["eaton-pl6"],
+    "rationaleTags": [
+      {
+        "id": "std-iec-60898-pl6",
+        "value": "IEC/EN 60898-1",
+        "reasonJa": "住宅配線向けの低圧回路保護で一般的な規格に適合しているため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-6ka-pl6",
+        "value": "6kA",
+        "reasonJa": "住宅用途で想定しやすい標準的な遮断容量帯を担うため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icn)" }
+        ]
+      },
+      {
+        "id": "current-0_16-63-pl6",
+        "value": "0.16-63A",
+        "reasonJa": "分岐回路から小容量回路まで含めた広い定格電流レンジを持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" },
+          { "source": "specification", "label": "Rated Current (In)" }
+        ]
+      },
+      {
+        "id": "curve-bcd-pl6",
+        "value": "Curve B, C, D",
+        "reasonJa": "住宅系で主流の負荷条件に合わせやすい基本カーブを揃えているため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "residential-light-commercial",
+    "manufacturerId": "eaton",
+    "name": "Residential / Light Commercial",
+    "icon": "storefront",
+    "productIds": ["eaton-pl7"],
+    "rationaleTags": [
+      {
+        "id": "positioning-res-light-commercial-pl7",
+        "value": "Residential / Commercial",
+        "reasonJa": "公式の用途説明でも住宅と商業の両方を想定した位置付けになっているため。",
+        "evidenceRefs": [
+          { "source": "specification", "label": "Official Positioning" }
+        ]
+      },
+      {
+        "id": "std-iec-60898-pl7",
+        "value": "IEC/EN 60898-1",
+        "reasonJa": "住宅系を軸にしながら軽商用まで展開しやすい規格ベースのため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-10ka-pl7",
+        "value": "10kA",
+        "reasonJa": "PL6より高い遮断容量帯で、小規模商業用途への展開余地を持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icn)" }
+        ]
+      },
+      {
+        "id": "curve-bcd-pl7",
+        "value": "Curve B, C, D",
+        "reasonJa": "住宅負荷から一般的な商業回路まで扱いやすい基本カーブ構成のため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "commercial-building",
+    "manufacturerId": "eaton",
+    "name": "Commercial / Building",
+    "icon": "apartment",
+    "productIds": ["eaton-plht"],
+    "rationaleTags": [
+      {
+        "id": "std-iec-60947-plht",
+        "value": "IEC/EN 60947-2",
+        "reasonJa": "商業設備寄りの機器保護を前提にした選定がしやすい規格帯のため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-15-25ka-plht",
+        "value": "15-25kA",
+        "reasonJa": "ビル設備で想定される高めの故障電流レンジに対応しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icu / Ics)" }
+        ]
+      },
+      {
+        "id": "ics-15-25ka-plht",
+        "value": "Ics 15-25kA",
+        "reasonJa": "サービス継続性を意識するビル用途で、Icsの差分を見ながら選定しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "serviceBreakingCapacityIcs" }
+        ]
+      },
+      {
+        "id": "current-20-125-plht",
+        "value": "20-125A",
+        "reasonJa": "主幹寄りまで見据えた高めの定格電流レンジをカバーするため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedCurrentIn" },
+          { "source": "specification", "label": "Rated Current (In)" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "industrial",
+    "manufacturerId": "eaton",
+    "name": "Industrial",
+    "icon": "factory",
+    "productIds": ["eaton-faz"],
+    "rationaleTags": [
+      {
+        "id": "dual-standards-faz",
+        "value": "IEC/EN 60898-1 + IEC/EN 60947-2",
+        "reasonJa": "住宅系と機器保護系の両規格を跨いで比較しやすく、用途の広い位置付けを持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-10-15ka-faz",
+        "value": "10-15kA",
+        "reasonJa": "産業用途で必要になりやすい一段高い遮断容量帯を押さえているため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity (Icu / Icn)" }
+        ]
+      },
+      {
+        "id": "curve-bcdksz-faz",
+        "value": "Curve B, C, D, K, S, Z",
+        "reasonJa": "モーターや特殊負荷まで含めた幅広いトリップ特性を選べるため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "tripCurveCharacteristics" },
+          { "source": "specification", "label": "Curve" }
+        ]
+      },
+      {
+        "id": "industrial-positioning-faz",
+        "value": "Industrial / High-end Building",
+        "reasonJa": "公式の位置付け自体が産業用途と高機能ビル設備を明示しているため。",
+        "evidenceRefs": [
+          { "source": "specification", "label": "Official Positioning" }
+        ]
+      },
+      {
+        "id": "ics-7_5ka-faz",
+        "value": "Ics 7.5kA",
+        "reasonJa": "短絡後の継続使用性を見ながら産業用途の保護性能を比較しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "serviceBreakingCapacityIcs" },
+          { "source": "specification", "label": "Service Breaking Capacity (Ics)" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "oem-machine-building",
+    "manufacturerId": "eaton",
+    "name": "OEM / Machine Building",
+    "icon": "precision_manufacturing",
+    "productIds": ["eaton-faz-dc"],
+    "rationaleTags": [
+      {
+        "id": "std-iec-60947-fazdc",
+        "value": "IEC/EN 60947-2",
+        "reasonJa": "DC機器保護を前提にした規格系でOEM回路へ当て込みやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "standardsApprovals" },
+          { "source": "specification", "label": "Standards" }
+        ]
+      },
+      {
+        "id": "break-10ka-dc-fazdc",
+        "value": "10kA DC",
+        "reasonJa": "DC回路向けとして必要な短絡保護能力を比較しやすいため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "breakingCapacity" },
+          { "source": "specification", "label": "Breaking Capacity" }
+        ]
+      },
+      {
+        "id": "dc-220-500v-fazdc",
+        "value": "DC 220-500V",
+        "reasonJa": "DC制御回路や機械内DC系統を見据えた電圧条件を持つため。",
+        "evidenceRefs": [
+          { "source": "comparison", "key": "ratedVoltageUe" },
+          { "source": "specification", "label": "Rated Voltage (Ue)" }
+        ]
+      },
+      {
+        "id": "dc-only-fazdc",
+        "value": "DC use only",
+        "reasonJa": "AC系と混在させず、DC専用回路として明確に切り分けて扱うべきため。",
+        "evidenceRefs": [
+          { "source": "specification", "label": "Application Note" }
+        ]
+      }
+    ]
+  }
+]

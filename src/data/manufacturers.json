@@ -24,8 +24,8 @@
     "id": "eaton",
     "name": "EATON",
     "logoUrl": "/logos/eaton.svg",
-    "enabled": false,
-    "statusLabel": "Coming Soon"
+    "enabled": true,
+    "statusLabel": "Available"
   },
   {
     "id": "ls-electric",

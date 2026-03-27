@@ -38,4 +38,19 @@ describe("McbPage ABB flow", () => {
 
     expect(pushMock).toHaveBeenCalledWith("/mcb/spec?ids=abb-s200");
   }, 10000);
+
+  test("shows Eaton market sections after selection", () => {
+    render(<McbPage />);
+
+    fireEvent.click(screen.getByLabelText("EATON"));
+
+    expect(screen.getByText("Coverage Note")).toBeDefined();
+    expect(screen.getByText(/PV \/ renewables MCB line/i)).toBeDefined();
+    expect(screen.queryByText("PV / Renewables")).toBeNull();
+    expect(screen.getByText("PL6")).toBeDefined();
+    expect(screen.getByText("PLHT")).toBeDefined();
+    expect(screen.getByText("FAZ")).toBeDefined();
+    expect(screen.getAllByText("IEC/EN 60898-1").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("10-15kA").length).toBeGreaterThan(0);
+  }, 10000);
 });

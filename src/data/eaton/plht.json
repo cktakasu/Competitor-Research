@@ -1,0 +1,123 @@
+{
+  "id": "eaton-plht",
+  "manufacturerId": "eaton",
+  "segmentId": "commercial-building",
+  "series": "PLHT",
+  "comparison": {
+    "capacityClass": "15-25kA class",
+    "ratedCurrentIn": "20-125A",
+    "breakingCapacity": "Icu/Ics: 15-25kA by current and curve",
+    "tripCurveCharacteristics": "B, C, D; PLHT-V special high-inrush characteristic",
+    "numberOfPoles": "1P, 2P, 3P, 4P, 3P+N; PLHT-V 1P",
+    "ratedVoltageUe": "230/400V AC; 60V DC per pole",
+    "ratedInsulationVoltageUi": "440V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "IEC/EN 60947-2",
+    "mechanicalEndurance": "N/A",
+    "electricalEndurance": "N/A",
+    "widthPerPole": "27mm",
+    "serviceBreakingCapacityIcs": "PLHT: 25kA (C63/D50-63); 20kA (C80-100/D80); 15kA (C125/D100); PLHT-V officially not found"
+  },
+  "variants": [
+    {
+      "variantId": "eaton-plht-standard",
+      "variantLabel": "PLHT standard line",
+      "comparison": {
+        "capacityClass": "15-25kA class",
+        "ratedCurrentIn": "20-125A",
+        "breakingCapacity": "Icu/Ics: 15-25kA by current and curve",
+        "tripCurveCharacteristics": "B, C, D",
+        "numberOfPoles": "1P, 2P, 3P, 4P, 3P+N",
+        "ratedVoltageUe": "230/400V AC; 60V DC per pole",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60947-2",
+        "mechanicalEndurance": "N/A",
+        "electricalEndurance": "N/A",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "25kA (C63); 20kA (C80-100); 15kA (C125); 25kA (D50-63); 20kA (D80); 15kA (D100)"
+      }
+    },
+    {
+      "variantId": "eaton-plht-v",
+      "variantLabel": "PLHT-V high-inrush line",
+      "comparison": {
+        "capacityClass": "15-25kA class",
+        "ratedCurrentIn": "20-63A",
+        "breakingCapacity": "15-25kA by rating",
+        "tripCurveCharacteristics": "PLHT-V special high-inrush characteristic",
+        "numberOfPoles": "1P",
+        "ratedVoltageUe": "230/400V AC; 60V DC per pole",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60947-2",
+        "mechanicalEndurance": "N/A",
+        "electricalEndurance": "N/A",
+        "widthPerPole": "27mm",
+        "serviceBreakingCapacityIcs": "Officially not found in checked Eaton PLHT-V sources"
+      }
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "15-25kA class"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "PLHT: 20-125A; PLHT-V: 20-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icu / Ics)",
+      "value": "15-25kA, dependent on current rating and curve"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D; PLHT-V special high-inrush characteristic"
+    },
+    {
+      "label": "Poles",
+      "value": "PLHT: 1P, 2P, 3P, 4P, 3P+N; PLHT-V: 1P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "230/400V AC; 60V DC per pole"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "440V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "27mm"
+    },
+    {
+      "label": "Service Breaking Capacity (Ics)",
+      "value": "PLHT: 25kA (C63/D50-63); 20kA (C80-100/D80); 15kA (C125/D100); PLHT-V officially not found"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60947-2"
+    },
+    {
+      "label": "Official Positioning",
+      "value": "Commercial building and industrial applications"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Variant split required",
+      "body": "PLHT and PLHT-V should not be collapsed into one exact spec row because current range, poles, and service breaking capacity differ by line and curve.",
+      "tone": "coverage"
+    },
+    {
+      "title": "Checked-source limitation",
+      "body": "Checked Eaton PLHT-V sources confirm 27 mm width and 25 kA switching capacity, but do not explicitly state Ics.",
+      "tone": "caution"
+    }
+  ]
+}

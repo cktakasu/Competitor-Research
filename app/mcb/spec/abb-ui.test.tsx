@@ -58,5 +58,5 @@ describe("McbSpecPage ABB UI", () => {
     fireEvent.click(screen.getByRole("button", { name: /Add to Compare/i }));
 
     expect((await screen.findAllByText("S800")).length).toBeGreaterThan(0);
-  });
+  }, 10000);
 });

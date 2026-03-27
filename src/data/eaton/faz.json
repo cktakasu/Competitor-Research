@@ -1,0 +1,123 @@
+{
+  "id": "eaton-faz",
+  "manufacturerId": "eaton",
+  "segmentId": "industrial",
+  "series": "FAZ",
+  "comparison": {
+    "capacityClass": "10kA class (IEC/EN 60898-1); 10-15kA class (IEC/EN 60947-2)",
+    "ratedCurrentIn": "0.16-63A",
+    "breakingCapacity": "IEC/EN 60898-1: 10kA; IEC/EN 60947-2: 10-15kA",
+    "tripCurveCharacteristics": "B, C, D, K, S, Z",
+    "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
+    "ratedVoltageUe": "By pole and type: 230/240/254V AC single-pole; 400/415/440V AC multi-pole",
+    "ratedInsulationVoltageUi": "440V AC",
+    "ratedImpulseWithstandVoltageUimp": "4kV",
+    "standardsApprovals": "IEC/EN 60898-1; IEC/EN 60947-2",
+    "mechanicalEndurance": "N/A",
+    "electricalEndurance": "N/A",
+    "widthPerPole": "17.5mm",
+    "serviceBreakingCapacityIcs": "Ics: 7.5kA on checked FAZ SKU pages; catalog notes 6kA operational switching capacity for D50/D63 and 5kA for K/S/Z"
+  },
+  "variants": [
+    {
+      "variantId": "eaton-faz-bcd",
+      "variantLabel": "FAZ B/C/D line",
+      "comparison": {
+        "capacityClass": "10kA class",
+        "ratedCurrentIn": "0.16-63A",
+        "breakingCapacity": "IEC/EN 60898-1: 10kA; IEC/EN 60947-2: 10-15kA",
+        "tripCurveCharacteristics": "B, C, D",
+        "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
+        "ratedVoltageUe": "By pole and type: 230/240/254V AC single-pole; 400/415/440V AC multi-pole",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60898-1; IEC/EN 60947-2",
+        "mechanicalEndurance": "N/A",
+        "electricalEndurance": "N/A",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "Ics: 7.5kA"
+      }
+    },
+    {
+      "variantId": "eaton-faz-ksz",
+      "variantLabel": "FAZ K/S/Z industrial line",
+      "comparison": {
+        "capacityClass": "10-15kA class",
+        "ratedCurrentIn": "0.16-63A",
+        "breakingCapacity": "IEC/EN 60947-2: 10-15kA",
+        "tripCurveCharacteristics": "K, S, Z",
+        "numberOfPoles": "1P, 1P+N, 2P, 3P, 3P+N, 4P",
+        "ratedVoltageUe": "By pole and type: 230/240/254V AC single-pole; 400/415/440V AC multi-pole",
+        "ratedInsulationVoltageUi": "440V AC",
+        "ratedImpulseWithstandVoltageUimp": "4kV",
+        "standardsApprovals": "IEC/EN 60947-2",
+        "mechanicalEndurance": "N/A",
+        "electricalEndurance": "N/A",
+        "widthPerPole": "17.5mm",
+        "serviceBreakingCapacityIcs": "Officially not found; catalog notes operational switching capacity 5kA"
+      }
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Capacity Class",
+      "value": "10kA class (IEC/EN 60898-1); 10-15kA class (IEC/EN 60947-2)"
+    },
+    {
+      "label": "Rated Current (In)",
+      "value": "0.16-63A"
+    },
+    {
+      "label": "Breaking Capacity (Icu / Icn)",
+      "value": "10kA under IEC/EN 60898-1; 10-15kA under IEC/EN 60947-2"
+    },
+    {
+      "label": "Curve",
+      "value": "B, C, D, K, S, Z"
+    },
+    {
+      "label": "Poles",
+      "value": "1P, 1P+N, 2P, 3P, 3P+N, 4P"
+    },
+    {
+      "label": "Rated Voltage (Ue)",
+      "value": "By pole and type: 230/240/254V AC single-pole; 400/415/440V AC multi-pole"
+    },
+    {
+      "label": "Rated Insulation Voltage (Ui)",
+      "value": "440V AC"
+    },
+    {
+      "label": "Rated Impulse Withstand Voltage (Uimp)",
+      "value": "4kV"
+    },
+    {
+      "label": "Width per Pole",
+      "value": "17.5mm"
+    },
+    {
+      "label": "Service Breaking Capacity (Ics)",
+      "value": "Ics: 7.5kA on checked FAZ SKU pages; catalog notes 6kA operational switching capacity for D50/D63 and 5kA for K/S/Z"
+    },
+    {
+      "label": "Standards",
+      "value": "IEC/EN 60898-1; IEC/EN 60947-2"
+    },
+    {
+      "label": "Official Positioning",
+      "value": "Industrial applications and high-end building installations"
+    }
+  ],
+  "notes": [
+    {
+      "title": "Checked-source limitation",
+      "body": "Checked Eaton FAZ SKU pages explicitly state Ics 7.5kA, while some catalog variants only expose operational switching capacity values.",
+      "tone": "coverage"
+    },
+    {
+      "title": "Do not merge standard families",
+      "body": "FAZ combines IEC/EN 60898-1 and IEC/EN 60947-2 coverage. Keep the variant-level standard split when exact specification comparison matters.",
+      "tone": "caution"
+    }
+  ]
+}
